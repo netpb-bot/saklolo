@@ -1,0 +1,10 @@
+[
+  {"q": "Can you get out?", "a": "siguro, hindi ko alam", "expect": "UNSURE"},
+  {"q": "Is the person breathing?", "a": "parang oo, parang hindi", "expect": "UNSURE"},
+  {"q": "Is blood soaking through the cloth?", "a": "I can't really tell, it's dark", "expect": "UNSURE"},
+  {"q": "Do you smell gas or smoke?", "a": "medyo may amoy yata", "expect": "UNSURE"},
+  {"q": "Is the water still rising?", "a": "mukhang tumitigil na pero baka hindi", "expect": "UNSURE"},
+  {"q": "Can you get out?", "a": "hindi, nakaharang ang pader", "expect": "NO"},
+  {"q": "Is the person breathing?", "a": "no, he's not moving at all", "expect": "NO"},
+  {"q": "Do you smell gas or smoke?", "a": "wala, walang amoy", "expect": "NO"}
+]

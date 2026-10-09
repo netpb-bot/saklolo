@@ -1,0 +1,12 @@
+[
+  {"protocol": "COLLAPSE", "q": "May lighter ako, sisindihan ko ba para makakita?", "expect": "lighter"},
+  {"protocol": "COLLAPSE", "q": "Should I yell nonstop until someone hears me?", "expect": "shout"},
+  {"protocol": "COLLAPSE", "q": "Lumilindol ulit, tatakbo na ba ako palabas?", "expect": "run_outside"},
+  {"protocol": "COLLAPSE", "q": "Can I try to push the concrete off my legs?", "expect": "dig_out"},
+  {"protocol": "BLEEDING", "q": "Lalagyan ko ba ng kape para tumigil ang dugo?", "expect": "coffee"},
+  {"protocol": "BLEEDING", "q": "Should I check under the cloth if it stopped?", "expect": "peek"},
+  {"protocol": "ROOF", "q": "Kaya ko bang languyin papunta sa kapitbahay?", "expect": "swim"},
+  {"protocol": "ROOF", "q": "Can we hide up in the attic?", "expect": "ceiling"},
+  {"protocol": "BLEEDING", "q": "Can I put garlic on it?", "expect": "NONE"},
+  {"protocol": "COLLAPSE", "q": "Should I take my blood pressure medicine?", "expect": "NONE"}
+]

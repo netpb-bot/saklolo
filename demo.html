@@ -1,0 +1,1208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saklolo Prototype</title>
+<style>
+:root{
+  --stage:#0e151d; --panel:#16212c; --panel2:#1c2a37; --line:#2a3a4a; --ink:#e8eef4; --mute:#93a4b5;
+  --paper:#f6f3ec; --pink:#1d2733; --pmute:#6b7480; --pline:#e2ddd2;
+  --red:#d7263d; --yellow:#e8a317; --green:#2e9e5b; --blue:#1f5f99; --accent:#ffb347;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#16222e,var(--stage) 60%);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+button,input{font:inherit}
+code,.mono{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
+header.top{padding:18px 24px 6px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline}
+header.top h1{margin:0;font-size:22px;letter-spacing:.3px}
+header.top h1 span{color:var(--accent)}
+header.top p{margin:0;color:var(--mute);flex:1 1 400px}
+.label-demo{background:#3a1d22;color:#ffb3bd;border:1px solid #6b2a35;border-radius:999px;padding:2px 10px;font-size:12px}
+
+/* script bar */
+.script{margin:10px 24px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}
+.script .steps{display:flex;flex-wrap:wrap;gap:6px}
+.script button{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.script button:hover{border-color:var(--accent)}
+.script button.done{background:#1d3a2b;border-color:#2e6b49;color:#bfe9cf}
+.script button.play{background:var(--accent);color:#2a1a00;border-color:var(--accent);font-weight:600}
+.script button .beat{opacity:.6;font-size:11px}
+.script .cap{margin-top:10px;color:var(--mute);min-height:20px;font-style:italic}
+.script .cap b{color:var(--ink);font-style:normal}
+
+/* stage */
+.stage{display:grid;grid-template-columns:360px minmax(300px,1fr) 360px;gap:20px;padding:10px 24px 24px;align-items:start}
+@media (max-width:1150px){.bytes{grid-template-columns:repeat(10,1fr)}.stage{grid-template-columns:1fr;justify-items:center;padding:10px 16px 24px}.air{width:100%;max-width:560px}}
+.phone-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.phone-wrap h3{margin:0;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute)}
+.phone{width:340px;max-width:calc(100vw - 32px);height:740px;background:#05080b;border-radius:40px;padding:10px;box-shadow:0 20px 50px #0008,inset 0 0 0 2px #2b3540}
+.screen{height:100%;border-radius:31px;background:var(--paper);color:var(--pink);overflow:hidden;display:flex;flex-direction:column}
+.sbar{display:flex;justify-content:space-between;padding:8px 20px 4px;font-size:12px;font-weight:600}
+.apphead{display:flex;align-items:center;gap:8px;padding:4px 14px 8px;border-bottom:1px solid var(--pline)}
+.apphead b{font-size:17px;flex:1}
+.apphead .seg{display:flex;border:1px solid var(--pline);border-radius:999px;overflow:hidden}
+.apphead .seg button{border:0;background:none;padding:2px 8px;font-size:12px;cursor:pointer;color:var(--pmute)}
+.apphead .seg button.on{background:var(--pink);color:#fff}
+.iconbtn{border:0;background:none;cursor:pointer;font-size:16px;padding:2px 4px}
+.call911{display:block;margin:8px 12px 0;padding:8px;border:0;border-radius:10px;background:var(--red);color:#fff;font-weight:700;cursor:pointer;text-align:center}
+.body{flex:1;overflow-y:auto;padding:10px 12px 12px}
+.foot{border-top:1px solid var(--pline);padding:6px 12px 10px;font-size:11px;color:var(--pmute)}
+.foot .row{display:flex;justify-content:space-between;gap:6px}
+
+/* phone content */
+h2.ask{font-size:20px;margin:2px 0 8px}
+.sub{color:var(--pmute);font-size:12px;margin:10px 0 6px}
+.row{display:flex;gap:6px;align-items:center}
+.grow{flex:1}
+.field{display:flex;gap:6px;margin-top:6px}
+.field input{flex:1;min-width:0;border:1px solid #cfc8ba;border-radius:10px;padding:8px 10px;background:#fff}
+.btn{border:0;border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:600;background:#e7e1d4;color:var(--pink)}
+.btn.primary{background:var(--pink);color:#fff}
+.btn.big{width:100%;padding:12px;font-size:15px}
+.btn.ghost{background:none;color:var(--pmute);padding:4px 6px;font-weight:500}
+.mic{border:0;border-radius:10px;width:40px;cursor:pointer;background:#e7e1d4;font-size:16px}
+.mic.rec{background:var(--red);color:#fff;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.5}}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tile{border:1px solid #d9d2c3;background:#fff;border-radius:12px;padding:8px;cursor:pointer;text-align:left;font-weight:600;font-size:12px}
+.tile span{font-size:16px;margin-right:4px}
+.tile:hover{border-color:var(--pink)}
+.card{background:#fff;border:1px solid var(--pline);border-radius:14px;padding:10px;margin-bottom:10px}
+.card h4{margin:0 0 6px;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--pmute);display:flex;gap:6px;align-items:center}
+.card h4 .grow{flex:1}
+.msg{background:#fff4d6;border:1px solid #f0d78c;border-radius:10px;padding:8px;font-size:13px}
+.busy{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--pmute);padding:4px 0 8px}
+.spin{width:14px;height:14px;border:2px solid #cfc8ba;border-top-color:var(--pink);border-radius:50%;animation:spin .8s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.chip{display:inline-block;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:800;color:#fff;letter-spacing:.5px}
+.chip.RED{background:var(--red)}.chip.YELLOW{background:var(--yellow);color:#2a1d00}.chip.GREEN{background:var(--green)}
+.rec{border-left:6px solid var(--pmute)}
+.rec.RED{border-left-color:var(--red)}.rec.YELLOW{border-left-color:var(--yellow)}.rec.GREEN{border-left-color:var(--green)}
+.rec-top{display:flex;gap:8px;align-items:center}
+.rec-top b{flex:1}
+.rev{font-size:11px;color:var(--pmute)}
+.facts{margin-top:6px;font-size:13px}
+.facts .unk{color:#b07400}
+.heard{margin-top:6px;font-size:12px;color:var(--pmute);font-style:italic}
+.pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 0 #1f5f9988;animation:ring 1.6s infinite;vertical-align:middle;margin-right:4px}
+.pulse.fast{animation-duration:.5s;background:var(--green)}
+@keyframes ring{70%{box-shadow:0 0 0 8px #1f5f9900}100%{box-shadow:0 0 0 0 #1f5f9900}}
+
+/* SOS home */
+.home{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding-top:6px}
+.home p{margin:0;font-size:13px;color:var(--pmute)}
+.sos{width:190px;height:190px;border-radius:50%;border:0;background:radial-gradient(circle at 35% 30%,#ff5a6e,var(--red) 60%,#9c1426);color:#fff;font-size:44px;font-weight:900;letter-spacing:2px;cursor:pointer;box-shadow:0 10px 30px #d7263d66,inset 0 -6px 0 #0003;position:relative;touch-action:none;user-select:none}
+.sos small{display:block;font-size:12px;font-weight:600;letter-spacing:0;opacity:.9}
+.sos::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:6px solid transparent}
+.sos.holding::after{border-color:#ffb347;animation:holdring .7s linear forwards;clip-path:inset(0 0 0 0)}
+@keyframes holdring{from{opacity:.2;transform:scale(1.08)}to{opacity:1;transform:scale(1)}}
+.count{font-size:64px;font-weight:900;color:var(--red);line-height:1}
+.modelline{font-size:12px;color:var(--pmute);display:flex;gap:6px;align-items:center;justify-content:center}
+
+/* comparison */
+table.cmp{width:100%;border-collapse:collapse;font-size:12px}
+table.cmp th{font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:var(--pmute);text-align:left;padding:2px 4px;font-weight:700}
+table.cmp td{padding:3px 4px;border-top:1px solid var(--pline);vertical-align:top}
+table.cmp td:first-child{color:var(--pmute);width:26%}
+table.cmp tr.diff td{background:#fff1f2}
+table.cmp tr.diff td:nth-child(2){color:#a1192b;text-decoration:line-through;text-decoration-color:#a1192b80}
+table.cmp tr.diff td:nth-child(3){color:#16613a;font-weight:700}
+.cmpnote{font-size:11px;color:var(--pmute);margin-top:6px}
+
+/* protocol + follow-up */
+.trail{list-style:none;margin:0 0 8px;padding:0;font-size:12px;color:var(--pmute)}
+.trail li{padding:3px 0 3px 10px;border-left:2px solid var(--pline)}
+.ans{font-style:normal;font-weight:700}
+.ans.YES{color:var(--green)}.ans.NO{color:var(--red)}.ans.UNSURE{color:#b07400}
+.node{font-size:16px;font-weight:600;margin:4px 0 10px}
+.node.q{font-size:18px}
+.yn{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.yn .btn{padding:12px 4px}
+.yn .y{background:var(--green);color:#fff}.yn .n{background:var(--red);color:#fff}.yn .u{background:#f1c75b;color:#2a1d00}
+.understood{margin-top:8px;padding:8px;border-radius:10px;background:#fff7e0;border:1px solid #f0d78c;font-size:13px}
+.understood .btn{padding:3px 8px;font-size:12px;margin-left:4px}
+.entry{font-size:12px;background:#eef4fb;border:1px solid #c8daf0;color:#1f4a78;border-radius:8px;padding:6px 8px;margin-bottom:8px}
+.fu{border:2px solid var(--blue)}
+.fu .node{font-size:17px}
+.cprfirst{font-size:12px;color:#a1192b;font-weight:600;margin-bottom:4px}
+.answer{margin-top:8px;padding:10px;border-radius:10px;background:#eaf6ee;border:1px solid #b8e0c6;font-size:14px}
+.answer.none{background:#fdecee;border-color:#f3b9c1}
+.answer small{display:block;color:var(--pmute);margin-top:4px;font-size:11px}
+details.faqs{margin-top:8px;font-size:12px;color:var(--pmute)}
+details.faqs li{margin:2px 0}
+.banner{margin:8px 12px 0;padding:12px;border-radius:14px;background:var(--green);color:#fff;text-align:center;animation:pop .4s}
+.banner b{display:block;font-size:19px}
+.banner.blue{background:var(--blue)}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.chk{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--pmute);margin-top:8px}
+
+/* rescuer */
+.ritem{display:flex;gap:8px;background:#fff;border:1px solid var(--pline);border-radius:12px;padding:8px 10px;margin-bottom:6px;cursor:pointer;border-left-width:6px;width:100%;text-align:left;color:inherit}
+.ritem:hover{border-color:var(--pink)}
+.ritem.RED{border-left-color:var(--red)}.ritem.YELLOW{border-left-color:var(--yellow)}.ritem.GREEN{border-left-color:var(--green)}
+.ritem .main{flex:1;min-width:0}
+.ritem .t{display:flex;gap:6px;align-items:center;font-weight:700}
+.ritem .m{font-size:12px;color:var(--pmute)}
+.ritem .side{text-align:right;font-size:11px;color:var(--pmute);white-space:nowrap}
+.ritem .side .stale{color:#a1192b;font-weight:700}
+.ritem .rank{font-weight:800;color:var(--pmute);width:16px}
+.badge{display:inline-block;border-radius:6px;padding:0 6px;font-size:10px;font-weight:800;letter-spacing:.4px}
+.badge.worse{background:#5b0d18;color:#fff;animation:blink 1.2s infinite}
+.badge.ack{background:var(--blue);color:#fff}
+.badge.dead{background:#eee;color:#a1192b}
+.brief{font-size:14px;font-weight:600;line-height:1.35}
+.compass{display:flex;gap:12px;align-items:center}
+.compass svg{flex:none}
+.dist{font-size:28px;font-weight:800}
+.meter{height:16px;border-radius:8px;background:linear-gradient(90deg,#4a90d9,#9ad0ec,#f5d06f,#f08a4b,#d7263d);position:relative;margin:6px 0}
+.meter i{position:absolute;top:-4px;width:6px;height:24px;border-radius:3px;background:#111;transition:left .4s}
+.hc{display:flex;justify-content:space-between;font-size:12px;font-weight:700}
+.pad{display:grid;grid-template-columns:repeat(3,40px);gap:4px;justify-content:center}
+.pad .btn{padding:6px 0}
+.back{border:0;background:none;color:var(--blue);cursor:pointer;padding:0;margin-bottom:6px;font-weight:600}
+
+/* middle */
+.air{display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;min-width:0}
+.panel h3{margin:0 0 8px;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mute);display:flex;justify-content:space-between;gap:8px}
+.panel h3 small{letter-spacing:0;text-transform:none;font-weight:400}
+.modelbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.pill{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:2px 9px;font-size:12px}
+.pill.ok{border-color:#2e6b49;color:#9fe3bb}.pill.wait{border-color:#6b5a2e;color:#f5d06f}
+.sim{font-size:11px;color:#f5d06f;margin:0 0 8px}
+.bytes{display:grid;grid-template-columns:repeat(20,1fr);gap:3px;margin:6px 0}
+.bytes div{border-radius:4px;padding:5px 0;text-align:center;font:600 11px ui-monospace,Consolas,monospace;color:#0b0f14}
+.bytes div.flash{outline:2px solid #fff;animation:pop .5s}
+.legend{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11px;color:var(--mute)}
+.legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--c);margin-right:4px;vertical-align:-1px}
+table.dec{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+table.dec td{padding:2px 4px;border-bottom:1px solid var(--line)}
+table.dec td:first-child{color:var(--mute);width:40%}
+.feed{list-style:none;margin:0;padding:0;font-size:12px;max-height:220px;overflow:auto}
+.feed li{padding:5px 0;border-bottom:1px solid var(--line)}
+.feed .h{color:var(--mute);font-size:11px;word-break:break-all}
+.feed .dir{font-weight:700}
+.ai{list-style:none;margin:0;padding:0;font-size:12px;max-height:260px;overflow:auto}
+.ai li{padding:6px 0;border-bottom:1px solid var(--line)}
+.ai .fn{font-weight:700;color:var(--accent)}
+.ai .ok{color:#7ee2a6}.ai .bad{color:#ff8a99}
+.ai pre{margin:2px 0 0;white-space:pre-wrap;word-break:break-word;color:var(--mute);font:11px ui-monospace,Consolas,monospace}
+table.ev{width:100%;border-collapse:collapse;font-size:12px}
+table.ev th{text-align:left;color:var(--mute);font-weight:600;font-size:11px;padding:3px 4px}
+table.ev td{padding:4px;border-top:1px solid var(--line)}
+table.ev .pass{color:#7ee2a6;font-weight:700}.ev .fail{color:#ff8a99;font-weight:700}
+details.evd{margin-top:8px;font-size:11px;color:var(--mute)}
+details.evd summary{cursor:pointer;color:var(--ink)}
+details.evd li{margin:3px 0}
+.where{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px}
+.where div{background:var(--panel2);border-radius:10px;padding:8px}
+.where b{display:block;margin-bottom:2px}
+.where ul{margin:0;padding-left:16px;color:var(--mute)}
+.mini{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:3px 8px;cursor:pointer;font-size:12px}
+.notes{margin:0 24px 30px;color:var(--mute);font-size:13px}
+.notes summary{cursor:pointer;color:var(--ink)}
+.notes li{margin:4px 0}
+.notes h4{color:var(--ink);margin:12px 0 4px}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#000c;color:#fff;padding:8px 14px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Saklolo <span>·</span> the offline 911 dispatcher</h1>
+  <p>When the towers fall, no one answers 911. Saklolo answers, offline: a local model understands a panicked Taglish report, asks for what's missing, guides first aid, and compresses the emergency into a 20-byte Bluetooth beacon that rescuers can rank, hear and follow.</p>
+  <span class="label-demo">Prototype · demo, not medically reviewed</span>
+</header>
+
+<section class="script">
+  <div class="steps" id="steps"></div>
+  <div class="cap" id="cap">Run the demo script step by step (the numbers in brackets are the PRD §11 beats), or use both phones yourself. Everything is clickable.</div>
+</section>
+
+<main class="stage">
+  <!-- VICTIM -->
+  <div class="phone-wrap">
+    <h3>Victim phone</h3>
+    <div class="phone"><div class="screen">
+      <div class="sbar"><span>9:41</span><span>✈ No service · ᛒ on</span></div>
+      <div class="apphead">
+        <b>🆘 Saklolo</b>
+        <div class="seg"><button data-act="lang" data-arg="fil" id="lang-fil">FIL</button><button data-act="lang" data-arg="en" id="lang-en">EN</button></div>
+        <button class="iconbtn" data-act="tts" id="tts" title="Read aloud">🔊</button>
+      </div>
+      <button class="call911" data-act="call911" id="v-call">📞 Tumawag sa 911</button>
+      <div id="v-banner"></div>
+      <div class="body" id="v-body"></div>
+      <div class="foot" id="v-foot"></div>
+    </div></div>
+  </div>
+
+  <!-- MIDDLE -->
+  <div class="air">
+    <div class="panel">
+      <h3>On-device model <small>closed lists only · runs only when someone speaks</small></h3>
+      <div class="modelbar" id="modelbar"></div>
+      <p class="sim">Prototype: the model is simulated by rule-based stand-ins that return the same closed-list outputs and go through the same validator. Real accuracy and latency come from the hour-0 tests and the Eval screen on the phone.</p>
+      <ul class="ai" id="ai"></ul>
+      <div style="margin-top:8px"><button class="mini" data-act="badAI">Inject invalid model output → watch the validator reject it</button></div>
+    </div>
+
+    <div class="panel" id="bytes-panel">
+      <h3>The whole emergency in 20 bytes <small id="bytes-rev"></small></h3>
+      <div id="bytes"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Eval screen (D11) <small>dictionary vs. model, same test sets</small></h3>
+      <div id="eval"><button class="mini" data-act="eval">▶ Run all three test sets</button></div>
+    </div>
+
+    <div class="panel">
+      <h3>Packets on air <small id="dups"></small></h3>
+      <p style="margin:0 0 6px;font-size:12px;color:var(--mute)" id="range"></p>
+      <ul class="feed" id="feed"></ul>
+    </div>
+
+    <div class="panel">
+      <h3>Where AI is and isn't</h3>
+      <div class="where">
+        <div><b>🧠 Local AI (picks from closed lists)</b><ul><li><code>extract()</code> speech → facts</li><li><code>answer()</code> → YES / NO / UNSURE</li><li><code>matchFaq()</code> → approved answer id or NONE</li></ul></div>
+        <div><b>⚙️ Deterministic, no AI</b><ul><li>Triage colour (rule)</li><li>Which follow-up to ask</li><li>First-aid steps (protocols.json)</li><li>Ranking, briefing (template)</li><li>20-byte codec, ACK, RESC</li><li>Dictionary baseline / fallback</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESCUER -->
+  <div class="phone-wrap">
+    <h3>Rescuer phone · dispatch board</h3>
+    <div class="phone"><div class="screen">
+      <div class="sbar"><span>9:41</span><span>✈ No service · ᛒ on</span></div>
+      <div class="apphead"><b>🛟 Saklolo · Rescuer</b></div>
+      <button class="call911" data-act="call911">📞 Tumawag sa 911</button>
+      <div class="body" id="r-body"></div>
+      <div class="foot" id="r-foot"></div>
+    </div></div>
+  </div>
+</main>
+
+<details class="notes">
+  <summary>How this prototype works, and the decisions it made where the PRD is silent or inconsistent</summary>
+  <h4>Simulated vs. real</h4>
+  <ul>
+    <li><b>Simulated:</b> the Gemma calls (rule-based stand-ins with the same output schema and validator), Bluetooth between the two mockups, GPS (a fixed demo location in General Luna, Siargao), and the rescuer's walk. Voice uses the browser's speech API where it exists (Chrome), otherwise type.</li>
+    <li><b>Real logic, the same as planned for the app:</b> the 20-byte codec (exact byte layout), the triage rule, follow-up selection, the "getting worse" rule, the protocol engine with safer branches and entry steps, ranking, bearing and distance, RSSI smoothing, the validator and the dictionary baseline.</li>
+    <li><b>The Eval panel's "model" column is the stand-in, so its score proves nothing.</b> It only shows what the Eval screen will look like. The dictionary column is a fair baseline: it knows the same keywords and number words, but not negation, corrections or context.</li>
+  </ul>
+  <h4>Proposed PRD/SPEC changes found while building this</h4>
+  <ul>
+    <li><b>Demo sentence.</b> The PRD sentence had no drowning word, so no model could honestly output DRN, and its "hindi humihinga" is an exact phrase that a fair dictionary would catch. This prototype uses <i>"Tatlo kami, ay hindi, apat pala, kasama si lola. Nalunod yung bata, hindi na humihinga!"</i>: "nalunod" gives DRN, and "hindi <u>na</u> humihinga" is a negation the dictionary's phrase list honestly misses.</li>
+    <li><b>"Getting worse" is decided on the victim phone and sent as 1 bit</b> (the spare bit in byte 13). The rescuer can't tell new information from a worsening situation: comparing records, the first report after a bare SOS (YELLOW → RED) and the answer "nasa bubong kami" (trapped 0 → 1) would both look "worse", and the flag would be on all the time. The victim phone knows which facts were unknown, so filling in an unknown fact never counts as worse.</li>
+    <li><b>An SOS with no facts yet is YELLOW</b> (the PRD rule would make it GREEN, ranking a silent SOS below "we're fine").</li>
+    <li><b>CPR never waits for a follow-up question.</b> When a life threat is heard (not breathing, heavy bleeding), the protocol card goes first and the follow-up question sits below it, marked "answer when you can".</li>
+    <li><b>Children get a flag</b> (the spare bit in the flags byte). Drowning is the leading cause of death for Filipino children, but "child" wasn't in the vulnerable list.</li>
+    <li><b>"Kasama" counting rule:</b> "apat kami, kasama si lola" means 4 including grandma; "tatlo kami at si lola" means 4. A real model must be tested on both.</li>
+    <li><b>People unknown is 0</b> in the people byte, and "no GPS fix" is <code>Int.MIN_VALUE</code> in lat/lon.</li>
+    <li><b>Dead phones stay on the board</b> with their last location and a red "last heard 40 min ago". One seeded record shows this.</li>
+  </ul>
+  <h4>Out of this prototype (P1)</h4>
+  <ul><li>Relay, "Ligtas ako" and the SMS gateway. Beyond ~50 m the rescuer simply hears nothing here.</li></ul>
+  <p id="selftest"></p>
+</details>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* ============================== constants ============================== */
+const CODES = ['DRN','BITE','FLD','TRAP','MED','SAFE','ACK','RESC'];        // 4 bits
+const TRIAGE = ['GREEN','YELLOW','RED'];                                     // 2 bits, index = severity
+const VULN = ['infant','elderly','pregnant','pwd','child'];
+const DANGER = ['water_rising','not_breathing','heavy_bleeding'];
+const FLAG_BITS = ['infant','elderly','pregnant','pwd','water_rising','not_breathing','heavy_bleeding','child'];   // bit i of byte 15
+const PROTOS = ['DRN','BITE','FLD'];
+const REQUIRED = ['protocol','people','trapped'];
+const NO_FIX = -2147483648;                // Int.MIN_VALUE = no GPS fix
+const VLAT = 9.78670, VLON = 126.15650;   // General Luna, Siargao (fixed demo location)
+const BLE_RANGE = 50;                      // metres, direct range
+const EMPTY = () => ({protocol:null, people:null, trapped:null, vuln:[], danger:[]});
+
+const CODE_NAME = {
+  fil:{DRN:'Nalunod',BITE:'Kinagat ng hayop',FLD:'Lumusong sa baha',TRAP:'Naiipit',MED:'Humihingi ng tulong',SAFE:'Ligtas',ACK:'Papunta na',RESC:'Nasagip'},
+  en:{DRN:'Drowning',BITE:'Animal bite',FLD:'Waded in floodwater',TRAP:'Trapped',MED:'Needs help',SAFE:'Safe',ACK:'On the way',RESC:'Rescued'}
+};
+const ICON = {DRN:'🌊',BITE:'🐕',FLD:'🦶',TRAP:'🏚',MED:'🆘'};
+const FLAG_NAME = {
+  fil:{infant:'sanggol',elderly:'matanda',pregnant:'buntis',pwd:'PWD',child:'bata',water_rising:'tumataas ang tubig',not_breathing:'hindi humihinga',heavy_bleeding:'malakas na pagdurugo'},
+  en:{infant:'infant',elderly:'elderly',pregnant:'pregnant',pwd:'PWD',child:'child',water_rising:'water rising',not_breathing:'not breathing',heavy_bleeding:'heavy bleeding'}
+};
+const ANS = {fil:{YES:'OO',NO:'HINDI',UNSURE:'DI SIGURADO'},en:{YES:'YES',NO:'NO',UNSURE:'UNSURE'}};
+
+/* Follow-up questions: fixed text, chosen by a rule (first missing required fact). */
+const FU = {
+  protocol:{task:'extract', fil:'Ano ang nangyari? Nalunod, kinagat ng hayop, o lumusong sa baha?', en:'What happened? Drowning, an animal bite, or wading in floodwater?'},
+  people:{task:'extract', fil:'Ilan kayo lahat?', en:'How many of you are there?'},
+  trapped:{task:'answer', fil:"Kaya n'yo bang lumikas?", en:'Can you get out?', map:{YES:false, NO:true, UNSURE:true}}   // UNSURE → safer: treat as trapped
+};
+
+const T = {
+  fil:{home:'Walang signal? Pindutin nang matagal ang SOS. Magsisimula agad ang beacon, kahit hindi pa handa ang AI.',hold:'pindutin nang matagal',
+    sending:'Magpapadala ng SOS sa',cancel:'Kanselahin',gps:'May GPS fix (demo location)',record:'Ang iyong SOS',beaconLP:'Nagbe-beacon · low power',beaconLL:'Nagbe-beacon · mabilis (malapit na ang rescuer)',
+    stopped:'Huminto ang beacon',what:'Ano ang nangyari?',talkHint:'Magsalita o i-type…',upd:'May bago? Sabihin',updHint:'Hal: Tumataas ang tubig!',tilesT:'O pumili:',
+    fuT:'Tanong ni Saklolo',skip:'Laktawan',cprFirst:'Ituloy ang CPR. Sagutin kapag kaya.',understood:'Naintindihan ko',saferTrapped:'itinuring na naiipit (mas ligtas)',
+    firstAid:'Pangunang lunas',entry:'Nagsimula rito dahil narinig ko',next:'Susunod ▶',done:'Tapos na ang mga hakbang.',restart:'Ulitin',freeAns:'O sagutin sa sariling salita:',ansHint:'Hal: parang… mahina',
+    saferNote:'kaya ang mas ligtas na hakbang ang sinunod',fix:'Mali? Itama:',askT:'Magtanong (myth-buster)',askHint:'Hal: Dapat ko bang baligtarin?',approved:'Aprubadong sagot',
+    none:'Hindi ko masagot nang ligtas. Pumunta sa health center o tumawag sa 911.',list:'Mga aprubadong sagot',help:'May paparating na tulong',helpSub:'Natanggap ng rescuer ang beacon mo. Manatili kung nasaan ka.',
+    rescued:'Nasagip na kayo',rescuedSub:'Huminto na ang beacon.',people:'katao',trapped:'naiipit',notTrapped:'hindi naiipit',thinking:'Nag-iisip, sa phone lang',
+    badAns:'Hindi ko naintindihan. Pindutin ang OO, HINDI o DI SIGURADO.',badRep:'Hindi sigurado ang AI. Pumili sa ibaba.',call:'📞 Tumawag sa 911',
+    cmpT:'Ang narinig ko',dict:'Diksiyonaryo',model:'Gemma (sa phone)',usedAI:'Ginamit: Gemma · pumasa sa validator',usedDict:'Naglo-load pa ang Gemma → diksiyonaryo ang ginamit',usedRej:'Tinanggihan ng validator → diksiyonaryo ang ginamit',
+    unknown:'?',noFaq:'Walang myth-buster para sa protocol na ito sa MVP.'},
+  en:{home:'No signal? Press and hold SOS. The beacon starts right away, even before the AI is ready.',hold:'press and hold',
+    sending:'Sending SOS in',cancel:'Cancel',gps:'GPS fix (demo location)',record:'Your SOS',beaconLP:'Beaconing · low power',beaconLL:'Beaconing · fast (rescuer is near)',
+    stopped:'Beacon stopped',what:'What happened?',talkHint:'Speak or type…',upd:'Something changed? Say it',updHint:'e.g. The water is rising!',tilesT:'Or pick:',
+    fuT:'Saklolo asks',skip:'Skip',cprFirst:'Keep doing CPR. Answer when you can.',understood:'I understood',saferTrapped:'treated as trapped (safer)',
+    firstAid:'First aid',entry:'Started here because I heard',next:'Next ▶',done:'Steps complete.',restart:'Restart',freeAns:'Or answer in your own words:',ansHint:'e.g. sort of… weakly',
+    saferNote:'so the safer step was taken',fix:'Wrong? Correct it:',askT:'Ask a question (myth-buster)',askHint:'e.g. Should I turn him upside down?',approved:'Approved answer',
+    none:"I can't answer that safely. Go to the health center or call 911.",list:'Approved answers',help:'Help is on the way',helpSub:'A rescuer received your beacon. Stay where you are.',
+    rescued:'You have been rescued',rescuedSub:'The beacon has stopped.',people:'people',trapped:'trapped',notTrapped:'not trapped',thinking:'Thinking, on the phone only',
+    badAns:"I didn't understand. Tap YES, NO or UNSURE.",badRep:'The AI was not sure. Pick below.',call:'📞 Call 911',
+    cmpT:'What I heard',dict:'Dictionary',model:'Gemma (on phone)',usedAI:'Used: Gemma · passed the validator',usedDict:'Gemma still loading → dictionary used',usedRej:'Validator rejected the model → dictionary used',
+    unknown:'?',noFaq:'No myth-buster for this protocol in the MVP.'}
+};
+
+/* ============================== protocols.json (MVP: DRN, BITE, FLD) ============================== */
+// Every question node has `safer` (must equal its yes or no branch); UNSURE always goes there.
+// `entry` maps an extracted danger fact to the step the protocol should start at.
+const P = {
+DRN:{start:'d1', entry:{not_breathing:'d3'}, nodes:{
+  d1:{t:'step',next:'d2',fil:'Ilabas siya sa tubig nang ligtas. Huwag lumusong kung hindi ka marunong lumangoy. Mag-abot ng kahoy, lubid o galon. Ihiga nang patihaya sa matigas na lugar.',en:"Get them out of the water safely. Don't go in if you can't swim. Reach with a stick, rope or floating jug. Lay them on their back on a firm surface."},
+  d2:{t:'q',yes:'d6',no:'d3',safer:'d3',fil:'Humihinga ba siya nang normal?',en:'Are they breathing normally?'},
+  d3:{t:'step',next:'d4',fil:'Itingala ang ulo at iangat ang baba. Bigyan ng 5 rescue breaths: takpan ang ilong, ihipan ang bibig hanggang umangat ang dibdib.',en:'Tilt the head back and lift the chin. Give 5 rescue breaths: pinch the nose and blow into the mouth until the chest rises.'},
+  d4:{t:'step',next:'d5',fil:'Simulan ang CPR: 30 mabilis at malalim na diin sa gitna ng dibdib, saka 2 hininga. Ulitin.',en:'Start CPR: 30 fast, deep pushes in the centre of the chest, then 2 breaths. Repeat.'},
+  d5:{t:'q',yes:'d6',no:'d4b',safer:'d4b',fil:'Humihinga na ba siya?',en:'Are they breathing now?'},
+  d4b:{t:'step',next:'d5',fil:"Ituloy ang 30 diin at 2 hininga. Huwag tumigil hangga't hindi siya humihinga nang normal, may dumating na tulong, o hindi mo na kaya.",en:"Keep going: 30 pushes, 2 breaths. Don't stop until they breathe normally, help arrives, or you can't continue."},
+  d6:{t:'end',fil:'Ihiga nang patagilid (recovery position) at balutin para mainit. Bantayan ang paghinga. Dalhin sa ospital kahit mukhang okay na.',en:'Roll them onto their side (recovery position) and keep them warm. Watch their breathing. Take them to hospital even if they seem fine.'}},
+ faqs:[
+  {id:'drn_upside',kw:['baligt','patiwarik','ibitin','alugin','upside','shake','hang'],q:{fil:'Dapat ko bang baligtarin para lumabas ang tubig?',en:'Should I turn them upside down to drain water?'},a:{fil:'HINDI. Huwag baligtarin o alugin para lumabas ang tubig. Sayang ang oras. Simulan agad ang rescue breaths at CPR.',en:"NO. Don't turn them upside down or shake them to drain water. It wastes time. Start rescue breaths and CPR right away."}},
+  {id:'drn_stomach',kw:['tiyan','sikmura','stomach','belly'],q:{fil:'Diinan ko ba ang tiyan?',en:'Should I press the stomach?'},a:{fil:'HINDI. Huwag diinan ang tiyan. Baka sumuka siya at mapunta ito sa baga. Sa dibdib ang diin (CPR).',en:"NO. Don't press the stomach. They may vomit into the lungs. Push on the chest (CPR)."}},
+  {id:'drn_infant',kw:['sanggol','baby','infant'],q:{fil:'Paano kung sanggol?',en:'What if it is a baby?'},a:{fil:'Sa sanggol: takpan ng bibig mo ang bibig at ilong niya at bigyan ng 5 hininga, saka 30 diin gamit ang 2 daliri sa gitna ng dibdib (mga 4 cm).',en:'For a baby: cover their mouth and nose with your mouth and give 5 breaths, then 30 pushes with 2 fingers in the centre of the chest (about 4 cm).'}},
+  {id:'drn_stop',kw:['titigil','tumigil','hanggang kailan','gaano katagal','stop','how long'],q:{fil:'Hanggang kailan ako magsi-CPR?',en:'How long do I keep doing CPR?'},a:{fil:'Ituloy hanggang huminga siya nang normal, may dumating na tulong, o hindi mo na kaya. Kung may kasama ka, magpalitan bawat 2 minuto.',en:"Keep going until they breathe normally, help arrives, or you can't continue. If someone is with you, swap every 2 minutes."}},
+  {id:'drn_hospital',kw:['ospital','hospital','doktor','doctor','okay na','ok na'],q:{fil:'Dadalhin pa ba sa ospital kung okay na?',en:'Hospital even if they seem okay?'},a:{fil:'OO. Dalhin sa ospital kahit mukhang okay na. Maaaring may tubig sa baga na lumalala pagkalipas ng ilang oras.',en:'YES. Take them to hospital even if they seem fine. Water in the lungs can get worse hours later.'}},
+  {id:'drn_drink',kw:['inum','painum','pakain','drink','eat'],q:{fil:'Painumin ko ba siya?',en:'Should I give them something to drink?'},a:{fil:"Huwag painumin o pakainin hangga't hindi siya lubos na gising at nakakalunok nang maayos.",en:"Don't give food or drink until they are fully awake and can swallow properly."}},
+  {id:'drn_hilot',kw:['hilot','albularyo','tandok','healer','alcohol','alkohol','kuskos'],q:{fil:'Dadalhin ko ba sa hilot o albularyo?',en:'Should I take them to a folk healer?'},a:{fil:'HINDI. Walang hilot o pagkuskos ng alcohol na nakakapagpabalik ng paghinga. CPR at ospital ang kailangan.',en:'NO. No hilot or alcohol rub restores breathing. CPR and a hospital are what they need.'}},
+  {id:'drn_vomit',kw:['suka','sumuka','nagsuka','vomit'],q:{fil:'Paano kung sumuka siya?',en:'What if they vomit?'},a:{fil:'Itagilid agad ang ulo at katawan para lumabas ang suka, punasan ang bibig, saka ituloy ang CPR.',en:'Turn the head and body to the side right away so it drains, wipe the mouth, then continue CPR.'}}]},
+BITE:{start:'k1', entry:{}, nodes:{
+  k1:{t:'step',next:'k2',fil:'Hugasan agad ang sugat ng sabon at umaagos na tubig nang buong 15 minuto.',en:'Wash the wound right away with soap and running water for a full 15 minutes.'},
+  k2:{t:'q',yes:'k3',no:'k4',safer:'k3',fil:'May sugat, kalmot, o dugo ba sa balat?',en:'Is the skin broken, scratched, or bleeding?'},
+  k3:{t:'end',fil:'Pumunta sa Animal Bite Treatment Center NGAYONG ARAW para sa anti-rabies vaccine. Huwag sa tandok o tawak. Hindi nila napipigilan ang rabies.',en:'Go to an Animal Bite Treatment Center TODAY for the anti-rabies vaccine. Not a tandok or tawak healer. They cannot stop rabies.'},
+  k4:{t:'end',fil:'Kung dinilaan lang ang buong balat, mababa ang panganib. Magpatingin pa rin sa Animal Bite Treatment Center para makasiguro, at bantayan ang hayop nang 14 araw.',en:'If it only licked unbroken skin, the risk is low. Still check with an Animal Bite Treatment Center to be sure, and watch the animal for 14 days.'}},
+ faqs:[
+  {id:'bite_tandok',kw:['tandok','tawak','albularyo','healer','manggagamot','bato'],q:{fil:'Dadalhin ko ba sa tandok?',en:'Should I go to a tandok healer?'},a:{fil:'HINDI. Hindi napipigilan ng tandok o tawak ang rabies, at halos laging nakamamatay ito kapag may sintomas na. Pumunta sa Animal Bite Treatment Center ngayong araw.',en:'NO. A tandok or tawak cannot stop rabies, and it is almost always fatal once symptoms start. Go to an Animal Bite Treatment Center today.'}},
+  {id:'bite_home',kw:['bawang','garlic','toothpaste','kape','coffee','langis','oil','dahon'],q:{fil:'Pwede bang lagyan ng toothpaste o bawang?',en:'Can I put toothpaste or garlic on it?'},a:{fil:'HINDI. Sabon at umaagos na tubig nang 15 minuto lang. Hindi pumapatay ng rabies ang bawang, toothpaste o kape.',en:"NO. Only soap and running water for 15 minutes. Garlic, toothpaste or coffee don't kill rabies."}},
+  {id:'bite_wait',kw:['obserbahan','hintayin','bantayan muna','wait','observe'],q:{fil:'Pwede bang bantayan muna ang aso bago magpabakuna?',en:'Can I watch the dog first before getting the vaccine?'},a:{fil:'Huwag maghintay. Simulan ang bakuna ngayon. Bantayan ang hayop nang 14 araw nang sabay.',en:"Don't wait. Start the vaccine now and watch the animal for 14 days at the same time."}},
+  {id:'bite_vaxpet',kw:['bakunado','may bakuna ang','vaccinated'],q:{fil:'Bakunado naman ang aso, okay na ba?',en:'The dog is vaccinated, am I fine?'},a:{fil:'Magpatingin pa rin. Ang doktor ang magpapasya. Huwag umasa lang sa bakuna ng hayop.',en:"Still get checked. Let the doctor decide. Don't rely only on the animal's vaccine."}},
+  {id:'bite_pregnant',kw:['buntis','pregnant'],q:{fil:'Paano kung buntis?',en:'What if she is pregnant?'},a:{fil:'Ligtas ang anti-rabies vaccine sa buntis. Huwag itong ipagpaliban.',en:"The anti-rabies vaccine is safe in pregnancy. Don't delay it."}},
+  {id:'bite_kill',kw:['patayin','kill'],q:{fil:'Papatayin ko ba ang aso?',en:'Should I kill the dog?'},a:{fil:'Huwag patayin. Itali o ikulong at bantayan nang 14 araw. Mahalagang malaman kung magkakasakit ito.',en:"Don't kill it. Tie it up or cage it and watch it for 14 days. It matters whether it gets sick."}},
+  {id:'bite_cat',kw:['pusa','cat'],q:{fil:'Pusa lang naman, kailangan pa ba?',en:'It was only a cat, does it matter?'},a:{fil:'OO. Pareho ang panganib sa rabies. Hugasan at pumunta sa Animal Bite Treatment Center.',en:'YES. The rabies risk is the same. Wash it and go to an Animal Bite Treatment Center.'}},
+  {id:'bite_antiseptic',kw:['betadine','povidone','alcohol','alkohol'],q:{fil:'Pwede bang lagyan ng alcohol o betadine?',en:'Can I use alcohol or betadine?'},a:{fil:'Oo, pero pagkatapos lang ng 15 minutong paghuhugas ng sabon at tubig. Hindi nito pinapalitan ang paghuhugas o ang bakuna.',en:"Yes, but only after the 15 minutes of washing with soap and water. It doesn't replace the washing or the vaccine."}}]},
+FLD:{start:'f1', entry:{}, nodes:{
+  f1:{t:'step',next:'f2',fil:'Hugasan ang paa at binti ng sabon at malinis na tubig, patuyuin, at takpan ang anumang sugat.',en:'Wash your feet and legs with soap and clean water, dry them, and cover any wounds.'},
+  f2:{t:'q',yes:'f5',no:'f3',safer:'f5',fil:'May lagnat, pananakit ng binti, pamumula ng mata, o paninilaw ba?',en:'Is there fever, calf pain, red eyes, or yellowing skin?'},
+  f3:{t:'q',yes:'f4',no:'f6',safer:'f4',fil:'May sugat o gasgas ba sa balat na nalubog sa baha?',en:'Did any cut or scrape touch the floodwater?'},
+  f4:{t:'end',fil:'Mataas ang panganib sa leptospirosis. Pumunta sa health center sa loob ng 24–72 oras para sa gamot pang-iwas (prophylaxis). Huwag mag-self-medicate.',en:"High leptospirosis risk. Go to a health center within 24–72 hours for preventive medicine (prophylaxis). Don't self-medicate."},
+  f5:{t:'end',fil:'Maaaring leptospirosis na ito. Pumunta agad sa ospital. Huwag maghintay.',en:"This may already be leptospirosis. Go to a hospital now. Don't wait."},
+  f6:{t:'end',fil:'Pumunta pa rin sa health center sa loob ng 24–72 oras. Maaaring kailangan mo ng prophylaxis. Iwasang lumusong ulit.',en:'Still visit a health center within 24–72 hours. You may need prophylaxis. Avoid wading again.'}},
+ faqs:[]}
+};
+
+/* ============================== codec (PRD §8, 20 bytes) ============================== */
+// ver1 id4 lat4 lon4 kind1[code4|triage2|trapped1|worse1] people1 flags1 hops1 rev1 age2
+const FIELDS = [['ver',0,1,'#9aa8b6'],['id',1,4,'#c9b6ff'],['lat',5,4,'#7fd3c3'],['lon',9,4,'#8ec9f2'],['kind',13,1,'#ffb3a7'],
+                ['people',14,1,'#ffd27f'],['flags',15,1,'#f6a6d0'],['hops',16,1,'#b5e48c'],['rev',17,1,'#ff8a5c'],['age',18,2,'#d5d0c4']];
+function encode(r){
+  const b = new Uint8Array(20), d = new DataView(b.buffer);
+  d.setUint8(0, r.ver); d.setUint32(1, r.id >>> 0);
+  d.setInt32(5, r.lat == null ? NO_FIX : Math.round(r.lat * 1e5)); d.setInt32(9, r.lon == null ? NO_FIX : Math.round(r.lon * 1e5));
+  d.setUint8(13, (CODES.indexOf(r.code) << 4) | (TRIAGE.indexOf(r.triage) << 2) | (r.trapped ? 2 : 0) | (r.worse ? 1 : 0));
+  d.setUint8(14, Math.min(255, r.people));
+  d.setUint8(15, r.flags.reduce((m, f) => m | (1 << FLAG_BITS.indexOf(f)), 0));
+  d.setUint8(16, r.hops); d.setUint8(17, r.rev & 255); d.setUint16(18, Math.min(65535, r.ageMin));
+  return b;
+}
+function decode(b){
+  const d = new DataView(b.buffer, b.byteOffset, b.byteLength), k = d.getUint8(13), fm = d.getUint8(15), lat = d.getInt32(5), lon = d.getInt32(9);
+  return {ver:d.getUint8(0), id:d.getUint32(1), lat:lat === NO_FIX ? null : lat / 1e5, lon:lon === NO_FIX ? null : lon / 1e5,
+    code:CODES[k >> 4], triage:TRIAGE[(k >> 2) & 3], trapped:!!(k & 2), worse:!!(k & 1),
+    people:d.getUint8(14), flags:FLAG_BITS.filter((_, i) => fm & (1 << i)), hops:d.getUint8(16), rev:d.getUint8(17), ageMin:d.getUint16(18)};
+}
+const hex = b => [...b].map(x => x.toString(16).padStart(2, '0').toUpperCase()).join(' ');
+
+/* ============================== rules (deterministic, no AI) ============================== */
+const hasAnyFact = f => !!(f.protocol || f.people != null || f.trapped != null || f.vuln.length || f.danger.length);
+function triageRule(f){
+  const d = x => f.danger.includes(x);
+  if (d('not_breathing') || d('heavy_bleeding') || (f.trapped && d('water_rising'))) return 'RED';
+  if (f.trapped || f.vuln.length || f.protocol || f.danger.length || !hasAnyFact(f)) return 'YELLOW';   // SOS with no facts yet = YELLOW
+  return 'GREEN';
+}
+const codeOf = f => f.protocol || (f.trapped ? 'TRAP' : 'MED');
+const union = (a, b) => [...new Set([...a, ...b])];
+// Unmentioned facts (null) keep their old value; a correction ("apat pala") replaces people.
+const mergeFacts = (p, o) => ({protocol:p.protocol || o.protocol, people:o.people ?? p.people, trapped:o.trapped ?? p.trapped,
+                               vuln:union(p.vuln, o.vuln), danger:union(p.danger, o.danger)});
+// Worse = a KNOWN fact got worse. Filling in an unknown fact is new information, not worsening.
+function worseFacts(p, n){
+  if (!hasAnyFact(p)) return false;
+  return n.danger.some(x => !p.danger.includes(x)) || (p.people != null && n.people > p.people) || (p.trapped === false && n.trapped === true);
+}
+function nextFollowupKey(f, asked, skipped, current){
+  const k = REQUIRED.find(k => f[k] == null && !skipped.includes(k));
+  if (!k) return null;
+  if (k === current) return k;
+  return asked >= 2 ? null : k;   // at most 2 questions, then the interview ends
+}
+
+/* ============================== "local AI" stand-ins + dictionary baseline ============================== */
+// ponytail: regex stand-ins for Gemma with the same closed-list schema + validator; swapping in the real model changes nothing downstream.
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+const NUM_DICT = {isa:1,isang:1,dalawa:2,dalawang:2,tatlo:3,tatlong:3,apat:4,lima:5,limang:5,anim:6,pito:7,pitong:7,walo:8,walong:8,siyam:9,sampu:10,sampung:10,
+                  one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10};
+const NUM_AI = {...NUM_DICT, 'mag-isa':1};
+const numOf = (w, tbl) => /^\d{1,3}$/.test(w) ? +w : (tbl[w] || null);
+const KW = {
+  DRN:/\b(nalunod|nalulunod|lunod|drown\w*)\b/, BITE:/\b(kagat|kinagat|nakagat|kumagat|bite|bitten)\b/, FLD:/\b(lumusong|lusong|nilusong|lumulusong|wade|waded|wading)\b/,
+  elderly:/\b(lola|lolo|matanda|senior|elderly|grandma|grandpa)\b/, infant:/\b(sanggol|baby|infant)\b/, pregnant:/\b(buntis|pregnant)\b/,
+  pwd:/\b(pwd|may kapansanan|wheelchair|bulag)\b/, child:/\b(bata|batang|child|kid)\b/,
+  adds:/\b(at|pati|and) (si |ang |ni |ang aming |my |our |yung )?(lola|lolo|nanay|tatay|anak|baby|sanggol|bata|kapatid|asawa|mama|papa|grandma|grandpa|tita|tito|kapitbahay)\b/g
+};
+const protoOf = s => PROTOS.find(c => KW[c].test(s)) || null;
+const vulnOf = s => VULN.filter(v => KW[v].test(s));
+
+function aiExtract(text){   // stands in for Gemma extract(): {protocol, people, trapped, vuln[], danger[]}
+  const s = norm(text), w = s.split(' ');
+  let people = null;
+  const pala = w.findIndex((x, i) => x === 'pala' && i > 0 && numOf(w[i - 1], NUM_AI));            // "apat pala" = the corrected number
+  if (pala > 0) people = numOf(w[pala - 1], NUM_AI);
+  else {
+    const neg = new Set(w.flatMap((x, i) => i >= 2 && w[i - 2] === 'hindi' && w[i - 1] === 'pala' && numOf(x, NUM_AI) ? [i] : []));   // "hindi pala tatlo" = not three
+    const c = w.map((x, i) => neg.has(i) ? null : numOf(x, NUM_AI)).filter(Boolean), adds = (s.match(KW.adds) || []).length;
+    people = neg.size && c.length ? c[c.length - 1] : c.length ? c[0] + adds : adds ? 1 + adds : null;
+  }
+  const trapped = /\b(hindi|di) (kami |ako )?(naiipit|naipit|nakulong|stuck|trapped)\b|\b(nakalabas|nakalikas) na\b/.test(s) ? false
+    : /\b(bubong|naiipit|naipit|nakulong|trapped|stuck|roof|kisame|gumuho|palapag)\b|\b(hindi|di) (kami |ako )?(makalabas|makababa|makaalis|makalikas)\b/.test(s) ? true : null;
+  const danger = [];
+  if (/\b(tumataas|abot na|nasa leeg|nasa dibdib|lumalalim|rising)\b/.test(s)) danger.push('water_rising');
+  if (/\b(hindi|di) (na |pa |pa rin )?(siya )?(humihinga|makahinga)\b|\bwala(ng)? (nang )?(malay|hininga)\b|\bnot breathing\b|\bunconscious\b/.test(s)) danger.push('not_breathing');
+  if (!/\b(hindi|di) (naman )?(masyadong )?(dumudugo|bumubulwak)\b/.test(s) && /\b(bumubulwak|maraming dugo|dumudugo nang malakas|heavy bleeding)\b/.test(s)) danger.push('heavy_bleeding');
+  return {protocol:protoOf(s), people, trapped, vuln:vulnOf(s), danger};
+}
+function dictExtract(text){  // the honest baseline: same keywords and number words, exact phrases, no negation/correction/context
+  const s = norm(text), first = s.split(' ').map(x => numOf(x, NUM_DICT)).find(Boolean) || null;
+  const danger = [];
+  if (/\b(tumataas ang tubig|nasa leeg)\b/.test(s)) danger.push('water_rising');
+  if (/\b(hindi humihinga|walang malay|not breathing)\b/.test(s)) danger.push('not_breathing');
+  if (/\b(bumubulwak|maraming dugo|dumudugo nang malakas)\b/.test(s)) danger.push('heavy_bleeding');
+  return {protocol:protoOf(s), people:first, trapped:/\b(bubong|naiipit|naipit|nakulong|trapped|stuck|roof)\b|hindi makalabas/.test(s) ? true : null, vuln:vulnOf(s), danger};
+}
+function validateExtract(o){
+  const e = [];
+  if (o.protocol !== null && !PROTOS.includes(o.protocol)) e.push(`protocol "${o.protocol}" not in list`);
+  if (o.people !== null && !(Number.isInteger(o.people) && o.people >= 1 && o.people <= 255)) e.push(`people ${o.people} out of range`);
+  if (o.trapped !== null && typeof o.trapped !== 'boolean') e.push('trapped not boolean');
+  if (!Array.isArray(o.vuln) || o.vuln.some(v => !VULN.includes(v))) e.push('vuln has unknown id');
+  if (!Array.isArray(o.danger) || o.danger.some(v => !DANGER.includes(v))) e.push('danger has unknown id');
+  return e;
+}
+// answer(): YES / NO / UNSURE. Hedges are checked first, so "parang humihinga" never becomes YES.
+function aiClassify(text){
+  const s = norm(text);
+  if (/\b(hindi|di) ko alam\b|\bewan\b|\bparang\b|\byata\b|\bata\b|\bsiguro\b|\bmahina\b|\bbaka\b|\bmedyo\b|\bmaybe\b|\bnot sure\b|\bi think\b|\bdon t know\b|\bunsure\b|\bweak\w*\b/.test(s)) return 'UNSURE';
+  if (/\b(hindi|di|hinde|wala|walang|no|not|nope|ayaw)\b/.test(s)) return 'NO';
+  if (/\b(oo|opo|oho|yes|yeah|yup|meron|mayroon|humihinga|tumigil|sige|tama|kaya)\b/.test(s)) return 'YES';
+  return 'NONE';
+}
+function dictClassify(text){
+  const s = norm(text);
+  if (/\b(hindi|di|wala)\b/.test(s)) return 'NO';
+  if (/\b(oo|opo|humihinga|yes|meron|kaya)\b/.test(s)) return 'YES';
+  return 'UNSURE';
+}
+// matchFaq(): one approved id from THIS protocol, or NONE. Ties → NONE (prefer NONE when unsure).
+function aiMatchFaq(q, proto){
+  const s = norm(q);
+  const sc = P[proto].faqs.map(f => ({id:f.id, n:f.kw.filter(k => new RegExp('\\b' + norm(k)).test(s)).length})).filter(x => x.n).sort((a, b) => b.n - a.n);
+  if (!sc.length || (sc[1] && sc[1].n === sc[0].n)) return 'NONE';
+  return sc[0].id;
+}
+function dictMatchFaq(q, proto){   // baseline: most shared words with an example question; never says NONE
+  const w = new Set(norm(q).split(' '));
+  const sc = P[proto].faqs.map(f => ({id:f.id, n:norm(f.q.fil).split(' ').filter(x => w.has(x)).length})).sort((a, b) => b.n - a.n);
+  return sc[0] && sc[0].n ? sc[0].id : 'NONE';
+}
+
+/* ============================== eval sets (assets/eval/) ============================== */
+// TODO before the hackathon: replace at least 3 extraction reports with ones written by other people.
+const EVAL_X = [
+  ['Tulong! Tatlo kami, ay hindi, apat pala, kasama si lola. Nalunod yung bata, hindi na humihinga!', {protocol:'DRN',people:4,trapped:null,vuln:['elderly','child'],danger:['not_breathing']}, 'self-correction + negation'],
+  ['Kinagat ng aso yung anak ko, dalawa kami dito sa bahay', {protocol:'BITE',people:2,trapped:null,vuln:[],danger:[]}, 'simple'],
+  ['Lima kami sa bubong, may buntis, tumataas ang tubig', {protocol:null,people:5,trapped:true,vuln:['pregnant'],danger:['water_rising']}, 'several facts'],
+  ['Hindi kami naiipit, nakalabas na kami, pero lumusong kami sa baha kahapon, tatlo kami', {protocol:'FLD',people:3,trapped:false,vuln:[],danger:[]}, 'negated "naiipit"'],
+  ['Si lolo walang malay, nalunod siya, kaming dalawa lang', {protocol:'DRN',people:2,trapped:null,vuln:['elderly'],danger:['not_breathing']}, 'simple'],
+  ['Kinagat ng pusa ang kamay ko, hindi naman dumudugo nang malakas', {protocol:'BITE',people:null,trapped:null,vuln:[],danger:[]}, 'negated bleeding'],
+  ['Anim kami, isang sanggol at isang PWD, nasa ikalawang palapag, di kami makababa', {protocol:null,people:6,trapped:true,vuln:['infant','pwd'],danger:[]}, 'trapped without a keyword'],
+  ['Ay mali, hindi pala tatlo, pito kami lahat', {protocol:null,people:7,trapped:null,vuln:[],danger:[]}, 'correction'],
+  ['Lumusong ako sa baha papunta dito, may sugat ako sa paa, mag-isa lang ako', {protocol:'FLD',people:1,trapped:null,vuln:[],danger:[]}, '"mag-isa" = 1'],
+  ['Nalunod yung kapatid ko pero humihinga na siya ngayon, apat kami', {protocol:'DRN',people:4,trapped:null,vuln:[],danger:[]}, 'breathing again']
+];
+const EVAL_A = [['oo yata','UNSURE'],['di ko alam','UNSURE'],['parang humihinga pero mahina','UNSURE'],['ewan ko','UNSURE'],['siguro','UNSURE'],
+                ['hindi','NO'],['hindi pa rin','NO'],['wala pa','NO']];   // first 5 unclear, last 3 clear "no"
+const EVAL_F = [['DRN','Dapat ko bang baligtarin para lumabas ang tubig?','drn_upside'],['DRN','Diinan ko ba ang tiyan niya?','drn_stomach'],['DRN','Sanggol siya, paano?','drn_infant'],
+                ['DRN','Gaano katagal ako mag-CPR?','drn_stop'],['DRN','Dadalhin pa ba sa ospital kahit okay na siya?','drn_hospital'],['DRN','Ano ang presyo ng ambulansya?','NONE'],
+                ['BITE','Dadalhin ko ba sa tandok?','bite_tandok'],['BITE','Lagyan ko ba ng bawang?','bite_home'],['BITE','Pusa lang naman ang kumagat, kailangan pa ba?','bite_cat'],
+                ['BITE','Ilang turok ng bakuna ang kailangan?','NONE']];
+const sameFacts = (a, b) => a.protocol === b.protocol && a.people === b.people && a.trapped === b.trapped &&
+  [...a.vuln].sort().join() === [...b.vuln].sort().join() && [...a.danger].sort().join() === [...b.danger].sort().join();
+function runEvalSets(){
+  const x = EVAL_X.map(([s, exp, why]) => ({s, why, d:sameFacts(dictExtract(s), exp), m:sameFacts(aiExtract(s), exp)}));
+  const a = EVAL_A.map(([s, exp], i) => ({s, exp, unclear:i < 5, d:dictClassify(s), m:aiClassify(s)}));
+  const f = EVAL_F.map(([p, s, exp]) => ({p, s, exp, d:dictMatchFaq(s, p), m:aiMatchFaq(s, p)}));
+  const ok = (r, k) => r[k] === r.exp, wrong = (r, k) => r[k] !== r.exp && r[k] !== 'NONE';
+  return {x, a, f,
+    xs:{d:x.filter(r => r.d).length, m:x.filter(r => r.m).length},
+    as:{d:a.filter(r => r.unclear && ok(r, 'd')).length, m:a.filter(r => r.unclear && ok(r, 'm')).length,
+        dYes:a.filter(r => !r.unclear && r.d === 'YES').length, mYes:a.filter(r => !r.unclear && r.m === 'YES').length},
+    fs:{d:f.filter(r => ok(r, 'd')).length, m:f.filter(r => ok(r, 'm')).length, dW:f.filter(r => wrong(r, 'd')).length, mW:f.filter(r => wrong(r, 'm')).length}};
+}
+
+/* ============================== briefing template (rescuer, no AI) ============================== */
+const FIL_NUM = ['', 'isa', 'dalawa', 'tatlo', 'apat', 'lima', 'anim', 'pito', 'walo', 'siyam', 'sampu'];
+const linker = w => /[aeiou]$/.test(w) ? w + 'ng' : w + ' na';   // isa → isang, apat → apat na
+function peopleFil(n){ return !n ? 'Hindi alam kung ilan' : n <= 10 ? (n === 1 ? 'Isang tao' : cap(linker(FIL_NUM[n])) + ' tao') : n + ' katao'; }
+const cap = s => s[0].toUpperCase() + s.slice(1);
+function briefing(r, distM){
+  const v = r.flags.filter(f => VULN.includes(f)).map(f => FLAG_NAME.fil[f]);
+  return [r.triage + '.', CODE_NAME.fil[r.code] + '.', peopleFil(r.people) + (v.length ? ', may ' + v.join(' at ') : '') + '.',
+    r.trapped && 'Naiipit.', r.flags.includes('not_breathing') && 'May hindi humihinga.', r.flags.includes('heavy_bleeding') && 'Malakas ang pagdurugo.',
+    r.flags.includes('water_rising') && 'Tumataas ang tubig.', r.worse && 'Lumalala.', distM != null ? Math.round(distM) + ' metro.' : 'Walang GPS, sundan ang init.'].filter(Boolean).join(' ');
+}
+
+/* ============================== self-test (the planned JVM tests, in miniature) ============================== */
+function selfTest(){
+  const t = [], ok = (name, c) => t.push([name, !!c]);
+  const r = {ver:1, id:0xDEADBEEF, lat:VLAT, lon:VLON, code:'DRN', triage:'RED', trapped:true, worse:true, people:4, flags:['elderly','child','not_breathing'], hops:2, rev:7, ageMin:300};
+  const b = encode(r), d = decode(b);
+  ok('codec is 20 bytes', b.length === 20);
+  ok('codec round-trip', d.id === r.id && d.code === 'DRN' && d.triage === 'RED' && d.trapped && d.worse && d.people === 4 && d.flags.length === 3 && d.rev === 7 && d.ageMin === 300 && Math.abs(d.lat - VLAT) < 1e-5);
+  ok('no-fix sentinel round-trip', decode(encode({...r, lat:null, lon:null})).lat === null);
+  ok('every question node: safer ∈ {yes, no}, links exist', Object.values(P).every(p => Object.values(p.nodes).every(n =>
+    (n.t !== 'q' || ((n.safer === n.yes || n.safer === n.no) && p.nodes[n.yes] && p.nodes[n.no])) && (n.t !== 'step' || p.nodes[n.next])) && Object.values(p.entry).every(e => p.nodes[e])));
+  ok('triage rule: not breathing → RED; bare SOS → YELLOW; known-fine → GREEN',
+    triageRule({...EMPTY(), danger:['not_breathing']}) === 'RED' && triageRule(EMPTY()) === 'YELLOW' && triageRule({...EMPTY(), people:3, trapped:false}) === 'GREEN');
+  const f1 = {...EMPTY(), protocol:'DRN', people:4};
+  ok('worse: unknown → known is NOT worse; new danger IS', !worseFacts(EMPTY(), f1) && !worseFacts(f1, {...f1, trapped:true}) && worseFacts(f1, {...f1, danger:['water_rising']}));
+  ok('follow-up: first missing fact, max 2', nextFollowupKey(f1, 0, [], null) === 'trapped' && nextFollowupKey(EMPTY(), 2, [], null) === null);
+  ok('validator rejects unknown ids', validateExtract({protocol:'SNAKE', people:null, trapped:null, vuln:[], danger:[]}).length === 1);
+  const e = runEvalSets();
+  ok('stand-in meets eval targets (≥8/10, gap ≥3, 5/5, 0 no→yes, ≥8/10 FAQ, 0 wrong)', e.xs.m >= 8 && e.xs.m - e.xs.d >= 3 && e.as.m === 5 && e.as.mYes === 0 && e.fs.m >= 8 && e.fs.mW === 0);
+  ok('briefing: "Apat na tao"', briefing({...r, people:4}, 30).includes('Apat na tao, may matanda at bata'));
+  return t;
+}
+/* ============================== UI ============================== */
+let V, R, AILOG, FEED, tickN = 0, scriptDone = -1, scriptBusy = false, modelTimer = null, holdTimer = null, cdTimer = null;
+const T0 = Date.now();
+const SEEDS = [   // heard earlier on the boat's route; the TRAP phone has gone silent (dead battery?)
+  {id:0x5A1F0C22, code:'TRAP', triage:'RED',    trapped:true,  people:2, flags:['water_rising'], dLat: 0.0031, dLon:-0.0042, ageMin:55, silentMin:40},
+  {id:0x7C3E9A10, code:'FLD',  triage:'YELLOW', trapped:false, people:3, flags:['pregnant'],     dLat:-0.0024, dLon: 0.0018, ageMin:58, silentMin:6},
+  {id:0x19B4D7E3, code:'BITE', triage:'YELLOW', trapped:false, people:1, flags:['child'],        dLat: 0.0012, dLon: 0.0035, ageMin:12, silentMin:3},
+  {id:0x2E8812AF, code:'MED',  triage:'YELLOW', trapped:false, people:0, flags:[],               dLat:-0.0040, dLon:-0.0015, ageMin:9,  silentMin:2},
+].map(s => ({ver:1, rev:1, hops:0, worse:false, lat:VLAT + s.dLat, lon:VLON + s.dLon, ...s}));
+
+function initState(){
+  V = {lang:'fil', tts:V ? V.tts : true, gps:true, model:'loading', phase:'home', cd:0, id:crypto.getRandomValues(new Uint32Array(1))[0],
+       facts:EMPTY(), rec:null, createdAt:0, started:false, fu:null, fuAsked:0, fuSkip:[], fuMsg:'', cmp:null,
+       proto:null, node:null, trail:[], lastQ:null, understood:null, entryNote:'', faq:null,
+       ack:false, rescued:false, lowLatency:false, adverts:0, busy:'', lastCheck:0};
+  R = {records:new Map(), seen:new Set(), done:new Set(), rescued:0, dups:0, view:'list', openId:null, pos:{x:-25, y:-25}, adverts:[]};
+  AILOG = []; FEED = [];
+  SEEDS.forEach(s => { R.records.set(s.id, {rec:{...s, ageMin:s.ageMin + minsSince(T0)}, rxAt:Date.now(), lastHeard:Date.now() - s.silentMin * 60000, status:'active', rssiHist:[]}); R.seen.add(s.id + ':1'); });
+  clearTimeout(modelTimer); modelTimer = setTimeout(() => { V.model = 'ready'; renderModel(); renderVictim(); }, 2500);   // model loads at app start
+}
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const L = () => T[V.lang];
+function minsSince(t){ return Math.floor((Date.now() - t) / 60000); }
+function toast(m){ const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2600); }
+function speak(text, lang){
+  if (!V.tts || !('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const lg = lang || V.lang, u = new SpeechSynthesisUtterance(text), want = lg === 'fil' ? /^(fil|tl)/i : /^en/i;
+  u.lang = lg === 'fil' ? 'fil-PH' : 'en-US';
+  const voice = speechSynthesis.getVoices().find(v => want.test(v.lang)); if (voice) u.voice = voice;
+  speechSynthesis.speak(u);
+}
+function logAI(fn, input, output, errs, ms){ AILOG.unshift({fn, input, output, errs, ms}); AILOG = AILOG.slice(0, 8); renderAI(); }
+function feed(dir, label, bytes, note){
+  FEED.unshift({t:new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'}), dir, label, hex:bytes ? hex(bytes) : '', note});
+  FEED = FEED.slice(0, 30); renderFeed();
+}
+const M_PER_DEG = 111320;
+const rescuerLatLon = () => ({lat: VLAT + R.pos.y / M_PER_DEG, lon: VLON + R.pos.x / (M_PER_DEG * Math.cos(VLAT * Math.PI / 180))});
+function haversine(a, b){
+  const r = Math.PI / 180, dLat = (b.lat - a.lat) * r, dLon = (b.lon - a.lon) * r;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLon / 2) ** 2;
+  return 2 * 6371000 * Math.asin(Math.sqrt(h));
+}
+function bearing(a, b){
+  const r = Math.PI / 180, y = Math.sin((b.lon - a.lon) * r) * Math.cos(b.lat * r);
+  const x = Math.cos(a.lat * r) * Math.sin(b.lat * r) - Math.sin(a.lat * r) * Math.cos(b.lat * r) * Math.cos((b.lon - a.lon) * r);
+  return (Math.atan2(y, x) / r + 360) % 360;
+}
+const victimDist = () => Math.hypot(R.pos.x, R.pos.y);   // true distance, used for radio range
+const fmtM = m => m >= 1000 ? (m / 1000).toFixed(1) + ' km' : Math.round(m) + ' m';
+const rssiAt = d => Math.round(-59 - 25 * Math.log10(Math.max(d, 0.5)) + (Math.random() * 8 - 4));   // log-distance path loss + noise
+const lifeThreat = () => V.facts.danger.includes('not_breathing') || V.facts.danger.includes('heavy_bleeding');
+
+/* ---------- victim: SOS ---------- */
+function beginCountdown(){
+  if (V.phase !== 'home') return;
+  V.phase = 'countdown'; V.cd = 3; renderVictim();
+  clearInterval(cdTimer);
+  cdTimer = setInterval(() => { if (--V.cd <= 0) { clearInterval(cdTimer); startSOS(); } else renderVictim(); }, 1000);
+}
+function cancelSOS(){ clearInterval(cdTimer); V.phase = 'home'; renderVictim(); }
+function buildRecord(f, rev, worse){
+  return {ver:1, id:V.id, lat:V.gps ? VLAT : null, lon:V.gps ? VLON : null, code:codeOf(f), triage:triageRule(f), trapped:!!f.trapped,
+          people:f.people || 0, flags:[...f.vuln, ...f.danger], worse:!!worse, hops:0, rev, ageMin:0};
+}
+function startSOS(){
+  clearInterval(cdTimer);
+  V.phase = 'active'; V.createdAt = Date.now(); V.facts = EMPTY(); V.rec = buildRecord(V.facts, 1, false);
+  feed('victim', '📡 SOS: beacon started with location only (rev 1)', encode(V.rec), 'the beacon never waits for the AI');
+  renderAll();
+}
+const recKey = r => [r.code, r.triage, r.trapped, r.people, [...r.flags].sort().join(), r.lat, r.worse].join('|');
+function applyFacts(next, why, worse){
+  const prev = V.rec; V.facts = next;
+  const nr = buildRecord(next, prev.rev, prev.worse || worse);
+  if (recKey(nr) === recKey(prev)) return false;
+  nr.rev = (prev.rev + 1) & 255; V.rec = nr; flashRev = true;
+  feed('victim', `📡 rev ${prev.rev} → ${nr.rev} · ${why}${worse ? ' · ⚠ getting worse' : ''}`, encode(nr), 'relays and rescuers treat (id, rev) as new');
+  return true;
+}
+function ingest(out, why){
+  const prev = V.facts, next = mergeFacts(prev, out);
+  applyFacts(next, why, worseFacts(prev, next));
+  if (next.protocol && !V.proto) openProtocol(next.protocol);
+  V.fu = askNext();
+}
+function askNext(){
+  if (!V.started) return null;
+  const k = nextFollowupKey(V.facts, V.fuAsked, V.fuSkip, V.fu);
+  if (k && k !== V.fu) { V.fuAsked++; speakLater(FU[k][V.lang]); }
+  return k;
+}
+function speakLater(text){ if (!V.proto || lifeThreat()) return; speak(text); }   // never talk over CPR instructions
+
+/* ---------- victim: the dispatcher interview ---------- */
+async function victimTalk(text){
+  if (!text.trim() || V.busy || V.phase !== 'active' || V.rescued) return;
+  V.busy = 'extract()'; renderVictim();
+  const t0 = performance.now(), dict = dictExtract(text);
+  let ai = null, errs = [];
+  if (V.model === 'ready') {
+    await sleep(700 + Math.random() * 500); ai = aiExtract(text); errs = validateExtract(ai);
+    logAI('extract()', text, ai, errs, performance.now() - t0);
+  }
+  V.busy = ''; V.started = true;
+  V.cmp = {text, dict, ai, note:!ai ? 'dict' : errs.length ? 'rej' : 'ai'};
+  ingest(ai && !errs.length ? ai : dict, 'voice report');
+  renderAll();
+}
+async function fuAnswer(text, choice){
+  const k = V.fu; if (!k || V.busy) return;
+  if (FU[k].task === 'extract') { if (text) await victimTalk(text); return; }
+  let out = choice;
+  if (!out) {
+    if (!text.trim()) return;
+    V.busy = 'answer()'; renderVictim();
+    const t0 = performance.now(); await sleep(350 + Math.random() * 300);
+    out = V.model === 'ready' ? aiClassify(text) : dictClassify(text);
+    const errs = ['YES','NO','UNSURE'].includes(out) ? [] : [`"${out}" not in [YES, NO, UNSURE]`];
+    V.busy = ''; logAI('answer()', `Q: ${FU[k].fil}\nA: ${text}`, out, errs, performance.now() - t0);
+    if (errs.length) { V.fuMsg = L().badAns; renderVictim(); return; }
+  }
+  const trapped = FU[k].map[out];
+  V.fuMsg = `${L().understood}: ${ANS[V.lang][out]} → ${trapped ? L().trapped : L().notTrapped}${out === 'UNSURE' ? ' · ' + L().saferTrapped : ''}`;
+  V.fu = null; ingest({...EMPTY(), trapped}, 'follow-up answer');
+  renderAll();
+}
+function fuSkip(){ V.fuSkip.push(V.fu); V.fu = null; V.fu = askNext(); renderVictim(); }
+function pickTile(c){
+  if (V.phase !== 'active') return;
+  V.started = true;
+  if (c === 'TRAP') ingest({...EMPTY(), trapped:true}, 'tile');
+  else { applyFacts({...V.facts, protocol:c}, 'tile', false); if (V.proto !== c) openProtocol(c); V.fu = askNext(); }
+  renderAll();
+}
+
+/* ---------- victim: instructions ---------- */
+function openProtocol(code){
+  const p = P[code], hit = Object.keys(p.entry).find(d => V.facts.danger.includes(d));
+  V.proto = code; V.node = hit ? p.entry[hit] : p.start; V.entryNote = hit || ''; V.trail = []; V.understood = null; V.faq = null; speakNode();
+}
+const nodeOf = () => P[V.proto].nodes[V.node];
+function speakNode(){ speak(nodeOf()[V.lang]); }
+function answer(choice){
+  const n = nodeOf(); if (n.t !== 'q') return;
+  V.trail.push({id:V.node, ans:choice}); V.lastQ = V.node;
+  V.node = choice === 'YES' ? n.yes : choice === 'NO' ? n.no : n.safer;
+  V.faq = null; speakNode(); renderVictim();
+}
+async function victimAnswerText(text){
+  if (!text.trim() || V.busy) return;
+  V.busy = 'answer()'; renderVictim();
+  const t0 = performance.now(); await sleep(350 + Math.random() * 300);
+  const out = V.model === 'ready' ? aiClassify(text) : dictClassify(text), errs = ['YES','NO','UNSURE'].includes(out) ? [] : [`"${out}" not in [YES, NO, UNSURE]`];
+  V.busy = ''; logAI('answer()', `Q: ${nodeOf().fil}\nA: ${text}`, out, errs, performance.now() - t0);
+  if (errs.length) { V.understood = {text, out:null}; renderVictim(); return; }
+  answer(out); V.understood = {text, out}; renderVictim();
+}
+function correct(choice){
+  const i = V.trail.map(x => x.id).lastIndexOf(V.lastQ); if (i < 0) return;
+  V.trail = V.trail.slice(0, i); V.node = V.lastQ; V.understood = null; answer(choice);
+}
+async function victimAsk(q){
+  if (!q.trim() || !V.proto || !P[V.proto].faqs.length || V.busy) return;
+  V.busy = 'matchFaq()'; renderVictim();
+  const t0 = performance.now(); await sleep(400 + Math.random() * 300);
+  const id = aiMatchFaq(q, V.proto), ids = P[V.proto].faqs.map(f => f.id);
+  const errs = id === 'NONE' || ids.includes(id) ? [] : [`"${id}" not in approved list`];
+  V.busy = ''; logAI('matchFaq()', `[${V.proto}: ${ids.length} approved ids]\n${q}`, errs.length ? 'NONE' : id, errs, performance.now() - t0);
+  V.faq = {q, id:errs.length ? 'NONE' : id};
+  const f = P[V.proto].faqs.find(f => f.id === V.faq.id);
+  speak(f ? f.a[V.lang] : L().none); renderVictim();
+}
+function victimCheck(){   // short scan window every 3 s for ACK / RESC addressed to our id
+  if (!V.rec || V.rescued) return;
+  V.lastCheck = Date.now();
+  for (const b of R.adverts) {
+    const a = decode(b); if (a.id !== V.rec.id) continue;
+    if (a.code === 'ACK' && !V.ack) { V.ack = true; V.lowLatency = true; feed('rescuer', '✅ Victim picked up the ACK → switches to low-latency advertising', b, 'help is near, so spend battery to be found'); speak(L().help); renderVictim(); }
+    if (a.code === 'RESC') { V.rescued = true; feed('rescuer', '🛟 Victim picked up RESC → beacon stops', b); speak(L().rescued); renderVictim(); }
+  }
+  renderVictimBanner();
+}
+
+/* ---------- rescuer ---------- */
+function rescuerHear(bytes, rssi){
+  const r = decode(bytes);
+  if (r.code === 'ACK' || r.code === 'RESC' || R.done.has(r.id)) return;
+  const prev = R.records.get(r.id), key = r.id + ':' + r.rev;
+  if (prev) { prev.lastHeard = Date.now(); if (rssi != null) prev.rssiHist = [...prev.rssiHist, rssi].slice(-5); }
+  if (R.seen.has(key)) { R.dups++; return; }   // ponytail: rev wraps at 255; compare mod 256 if a record ever gets that many updates
+  R.seen.add(key);
+  R.records.set(r.id, {rec:r, rxAt:Date.now(), lastHeard:Date.now(), status:prev ? prev.status : 'active', prevRev:prev ? prev.rec.rev : null,
+                       rssiHist:prev ? prev.rssiHist : rssi != null ? [rssi] : [], firstAt:prev ? prev.firstAt : Date.now()});
+  const mine = V.rec && r.id === V.rec.id;
+  let note = 'direct';
+  if (mine && !prev) note += ` · first heard ${((Date.now() - V.createdAt) / 1000).toFixed(1)} s after SOS (target < 10 s)`;
+  if (r.worse && prev && !prev.rec.worse) note += ' · ⚠ GETTING WORSE (bit set by the victim phone)';
+  feed(mine ? 'victim' : 'other', `${prev ? '🔁 Updated' : '🆕 Heard'} ${r.code} ${r.triage} · id ${r.id.toString(16).toUpperCase()} · rev ${r.rev}`, bytes, note);
+  renderRescuer();
+}
+const vulnOfRec = r => r.flags.filter(f => VULN.includes(f));
+function ranked(){
+  const age = e => e.rec.ageMin + minsSince(e.rxAt);
+  return [...R.records.values()].sort((a, b) =>
+    TRIAGE.indexOf(b.rec.triage) - TRIAGE.indexOf(a.rec.triage) || (vulnOfRec(b.rec).length > 0) - (vulnOfRec(a.rec).length > 0) || age(b) - age(a));
+}
+function rescuerAdvertise(code, id){
+  const me = rescuerLatLon();
+  const b = encode({ver:1, id, lat:me.lat, lon:me.lon, code, triage:'GREEN', trapped:false, worse:false, people:0, flags:[], hops:0, rev:1, ageMin:0});
+  R.adverts = R.adverts.filter(x => decode(x).id !== id || decode(x).code !== code).concat([b]);   // one advertiser rotates through these
+  feed('rescuer', `📣 Rescuer advertises ${code} for id ${id.toString(16).toUpperCase()}`, b, 'same 20-byte format, code = ' + code);
+}
+function rescuerAck(id){ const e = R.records.get(id); if (!e) return; e.status = 'ack'; rescuerAdvertise('ACK', id); renderRescuer(); }
+function markRescued(id){
+  if (!R.records.has(id)) return;
+  R.records.delete(id); R.done.add(id); R.rescued++; rescuerAdvertise('RESC', id);
+  R.view = 'list'; renderRescuer(); renderFoot();
+}
+function stepToward(m){ const d = victimDist(); if (d < 0.5) return; R.pos.x -= R.pos.x / d * Math.min(m, d); R.pos.y -= R.pos.y / d * Math.min(m, d); }
+async function autoWalk(target){ while (victimDist() > target + 0.5) { stepToward(Math.min(4, victimDist() - target)); renderLive(); renderRange(); await sleep(300); } }
+function openRecord(id){
+  R.openId = id; R.view = 'detail'; $('#r-body').innerHTML = ''; renderRescuer();
+  const e = R.records.get(id); if (e) speak(briefing(e.rec, e.rec.lat != null ? haversine(rescuerLatLon(), e.rec) : null), 'fil');
+}
+
+/* ---------- tick: one advertising interval (compressed) ---------- */
+setInterval(() => {
+  tickN++;
+  const d = victimDist();
+  if (V.phase === 'active' && V.rec && !V.rescued && (V.lowLatency || tickN % 2 === 0)) {   // low power = half as often
+    V.adverts++;
+    if (d <= BLE_RANGE) rescuerHear(encode({...V.rec, ageMin:minsSince(V.createdAt)}), rssiAt(d));
+  }
+  renderFoot(); renderLive(); renderRange();
+}, 800);
+setInterval(victimCheck, 3000);
+
+/* ============================== render: victim ============================== */
+const busyHtml = () => V.busy ? `<div class="busy"><span class="spin"></span>${L().thinking} · <code>${V.busy}</code></div>` : '';
+function field(form, hint, btn){
+  return `<form class="field" data-form="${form}"><input name="t" placeholder="${esc(hint)}" autocomplete="off" aria-label="${esc(hint)}"><button type="button" class="mic" data-act="mic" data-arg="${form}" title="Speak" aria-label="Speak">🎙</button><button class="btn primary">${btn}</button></form>`;
+}
+const flagList = (fl, lang) => fl.map(f => FLAG_NAME[lang][f]).join(', ');
+function factsLine(){
+  const f = V.facts, l = L(), u = x => `<span class="unk">${x}</span>`;
+  return [`👥 ${f.people ?? u(l.unknown)} ${l.people}`, `🏚 ${f.trapped == null ? u(l.unknown) : f.trapped ? l.trapped : l.notTrapped}`,
+    f.vuln.length && `⚠ ${flagList(f.vuln, V.lang)}`, f.danger.length && `🚨 ${flagList(f.danger, V.lang)}`].filter(Boolean).join(' · ');
+}
+function recCard(){
+  const r = V.rec, l = L();
+  return `<div class="card rec ${r.triage}"><h4>${l.record}<span class="grow"></span><span class="rev">rev ${r.rev}</span></h4>
+    <div class="rec-top"><span class="chip ${r.triage}">${r.triage}</span><b>${ICON[r.code] || ''} ${CODE_NAME[V.lang][r.code]}</b>${r.worse ? '<span class="badge worse">⚠</span>' : ''}</div>
+    <div class="facts">${factsLine()}</div>
+    ${V.fuMsg ? `<div class="heard" style="font-style:normal">💬 ${esc(V.fuMsg)}</div>` : ''}
+    <div class="heard" style="font-style:normal">${V.rescued ? '⏹ ' + l.stopped : `<span class="pulse${V.lowLatency ? ' fast' : ''}"></span>${V.lowLatency ? l.beaconLL : l.beaconLP} · 20 B · <code>${hex(encode(r)).slice(0, 23)}…</code>`}</div>
+  </div>`;
+}
+function cmpCard(){
+  const c = V.cmp, l = L(), lang = V.lang, show = o => o ? o : null;
+  const cell = (o, k) => {
+    if (!o) return '—';
+    if (k === 'protocol') return o.protocol ? CODE_NAME[lang][o.protocol] : '?';
+    if (k === 'people') return o.people ?? '?';
+    if (k === 'trapped') return o.trapped == null ? '?' : o.trapped ? l.trapped : l.notTrapped;
+    if (k === 'triage') return triageRule(mergeFacts(EMPTY(), o));
+    return flagList([...o.vuln, ...o.danger], lang) || '—';
+  };
+  const rows = [['protocol', lang === 'fil' ? 'Nangyari' : 'What'], ['people', lang === 'fil' ? 'Ilan' : 'People'], ['trapped', lang === 'fil' ? 'Naiipit' : 'Trapped'],
+                ['flags', lang === 'fil' ? 'Panganib' : 'Flags'], ['triage', 'Triage']];
+  return `<div class="card"><h4>🎙 ${l.cmpT}</h4><div class="heard" style="margin:0 0 6px">“${esc(c.text)}”</div>
+    <table class="cmp"><tr><th></th><th>${l.dict}</th><th>${l.model}</th></tr>
+    ${rows.map(([k, name]) => { const a = cell(show(c.dict), k), b = cell(show(c.ai), k); return `<tr class="${c.ai && String(a) !== String(b) ? 'diff' : ''}"><td>${name}</td><td>${a}</td><td>${b}</td></tr>`; }).join('')}</table>
+    <div class="cmpnote">${c.note === 'ai' ? '✓ ' + l.usedAI : c.note === 'rej' ? '✗ ' + l.usedRej : '⏳ ' + l.usedDict}</div></div>`;
+}
+function fuCard(){
+  if (!V.fu) return '';
+  const q = FU[V.fu], l = L();
+  const ctl = q.task === 'answer'
+    ? `<div class="yn"><button class="btn y" data-act="fuans" data-arg="YES">${ANS[V.lang].YES}</button><button class="btn n" data-act="fuans" data-arg="NO">${ANS[V.lang].NO}</button><button class="btn u" data-act="fuans" data-arg="UNSURE">${ANS[V.lang].UNSURE}</button></div>${field('fu', l.ansHint, '➤')}`
+    : field('fu', l.talkHint, '➤');
+  return `<div class="card fu"><h4>🗣 ${l.fuT} (${V.fuAsked}/2)<span class="grow"></span><button class="btn ghost" data-act="fuskip">${l.skip}</button></h4>
+    ${lifeThreat() && V.proto ? `<div class="cprfirst">${l.cprFirst}</div>` : ''}<div class="node q">${esc(q[V.lang])}</div>${ctl}</div>`;
+}
+function protoCard(){
+  const l = L(), p = P[V.proto], n = nodeOf();
+  const trail = V.trail.map(x => `<li>${esc(p.nodes[x.id][V.lang])}${x.ans ? ` <em class="ans ${x.ans}">→ ${ANS[V.lang][x.ans]}${x.ans === 'UNSURE' ? ' ⇒ safer branch' : ''}</em>` : ''}</li>`).join('');
+  let cur;
+  if (n.t === 'q') cur = `<div class="node q">❓ ${esc(n[V.lang])}</div>
+      <div class="yn"><button class="btn y" data-act="ans" data-arg="YES">${ANS[V.lang].YES}</button><button class="btn n" data-act="ans" data-arg="NO">${ANS[V.lang].NO}</button><button class="btn u" data-act="ans" data-arg="UNSURE">${ANS[V.lang].UNSURE}</button></div>
+      <div class="sub">${l.freeAns}</div>${field('answer', l.ansHint, '➤')}`;
+  else if (n.t === 'step') cur = `<div class="node">${esc(n[V.lang])}</div><button class="btn primary big" data-act="next">${l.next}</button>`;
+  else cur = `<div class="node">✅ ${esc(n[V.lang])}</div><div class="row"><span class="sub grow">${l.done}</span><button class="btn" data-act="restart">${l.restart}</button></div>`;
+  let und = '';
+  if (V.understood) {
+    const u = V.understood;
+    und = u.out ? `<div class="understood">${l.understood}: <b>${ANS[V.lang][u.out]}</b>${u.out === 'UNSURE' ? ` · ${l.saferNote}` : ''}<br>${l.fix}
+                   ${['YES','NO'].filter(x => x !== u.out).map(x => `<button class="btn" data-act="fix" data-arg="${x}">${ANS[V.lang][x]}</button>`).join('')}</div>`
+                : `<div class="understood">${l.badAns}</div>`;
+  }
+  const entry = V.entryNote && !V.trail.length ? `<div class="entry">⏩ ${l.entry}: “${FLAG_NAME[V.lang][V.entryNote]}”</div>` : '';
+  return `<div class="card"><h4>${ICON[V.proto]} ${l.firstAid}: ${CODE_NAME[V.lang][V.proto]}<span class="grow"></span><button class="iconbtn" data-act="say" title="Read aloud" aria-label="Read aloud">🔈</button></h4>
+    ${entry}${trail ? `<ul class="trail">${trail}</ul>` : ''}${und}${cur}</div>`;
+}
+function askCard(){
+  if (!V.proto) return '';
+  const l = L(), p = P[V.proto];
+  if (!p.faqs.length) return `<p class="sub">💬 ${l.noFaq}</p>`;
+  let res = '';
+  if (V.faq) {
+    const f = p.faqs.find(f => f.id === V.faq.id);
+    res = f ? `<div class="answer">${esc(f.a[V.lang])}<small>${l.approved} · <code>${f.id}</code> · matched by the AI, not written by it</small></div>`
+            : `<div class="answer none">${l.none}<small><code>NONE</code> · no approved answer fits this question</small></div>`;
+  }
+  return `<div class="card"><h4>💬 ${l.askT}</h4>${V.faq ? `<div class="heard">“${esc(V.faq.q)}”</div>` : ''}${res}${field('ask', l.askHint, '?')}
+    <details class="faqs"><summary>${l.list} (${p.faqs.length})</summary><ul>${p.faqs.map(f => `<li><code>${f.id}</code> ${esc(f.q[V.lang])}</li>`).join('')}</ul></details></div>`;
+}
+function talkCard(){
+  const l = L(), tiles = [...PROTOS, 'TRAP'].map(c => `<button class="tile" data-act="tile" data-arg="${c}"><span>${ICON[c]}</span>${CODE_NAME[V.lang][c]}</button>`).join('');
+  const head = V.started ? `<h4>🔁 ${l.upd}</h4>${field('talk', l.updHint, '➤')}` : `<h2 class="ask">${l.what}</h2>${field('talk', l.talkHint, '➤')}`;
+  return `<div class="card">${head}${busyHtml()}<div class="sub">${l.tilesT}</div><div class="tiles">${tiles}</div>
+    <label class="chk"><input type="checkbox" data-act="gps" ${V.gps ? 'checked' : ''}> 📍 ${l.gps}</label></div>`;
+}
+function modelLine(){ return V.model === 'ready' ? '🧠 Gemma · on-device · ready' : '<span class="spin"></span> 🧠 Gemma loading… (SOS works now)'; }
+function renderVictim(){
+  const l = L(); let h = '';
+  $('#lang-fil').classList.toggle('on', V.lang === 'fil'); $('#lang-en').classList.toggle('on', V.lang === 'en');
+  $('#tts').textContent = V.tts ? '🔊' : '🔇'; $('#v-call').textContent = l.call;
+  if (V.phase === 'home') {
+    h = `<div class="home"><p>${l.home}</p><button class="sos" id="sos" aria-label="SOS, ${l.hold}">SOS<small>${l.hold}</small></button>
+         <label class="chk"><input type="checkbox" data-act="gps" ${V.gps ? 'checked' : ''}> 📍 ${l.gps}</label><div class="modelline">${modelLine()}</div></div>`;
+  } else if (V.phase === 'countdown') {
+    h = `<div class="home"><p>${l.sending}</p><div class="count">${V.cd}</div><button class="btn big primary" data-act="cancel">✕ ${l.cancel}</button></div>`;
+  } else {
+    h = recCard();
+    if (!V.rescued) {
+      if (V.cmp) h += cmpCard();
+      const pr = V.proto ? protoCard() : '', fu = fuCard();
+      h += lifeThreat() ? pr + fu : fu + pr;   // CPR never waits for a follow-up question
+      h += askCard() + talkCard();
+    }
+  }
+  $('#v-body').innerHTML = h;
+  renderVictimBanner(); renderBytes();
+}
+function renderVictimBanner(){
+  const l = L();
+  const html = V.rescued ? `<div class="banner blue"><b>🛟 ${l.rescued}</b>${l.rescuedSub}</div>` : V.ack ? `<div class="banner"><b>🚤 ${l.help}</b>${l.helpSub}</div>` : '';
+  if ($('#v-banner').innerHTML !== html) $('#v-banner').innerHTML = html;   // don't restart the pop animation every check
+}
+function renderFoot(){
+  const s = V.phase === 'active' && !V.rescued ? Math.floor((Date.now() - V.createdAt) / 1000) : 0;
+  $('#v-foot').innerHTML = V.phase === 'active'
+    ? `<div class="row"><span>📡 ${V.rescued ? 'stopped' : `${V.lowLatency ? 'low latency' : 'low power'} · ${V.adverts} adverts · ${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`}</span><span>👂 ACK scan ${V.lastCheck ? Math.round((Date.now() - V.lastCheck) / 1000) + ' s ago' : 'pending'}</span></div>
+       <div class="row"><span>🔋 Drain: measured on device (S12)</span><span>${V.model === 'ready' ? '🧠 ready' : '🧠 loading'}</span></div>`
+    : `<div class="row"><span>Offline · nothing is sent until SOS</span><span>Not medically reviewed</span></div>`;
+  $('#r-foot').innerHTML = `<div class="row"><span>🔎 1 filtered scan · ${R.records.size} need help · ${R.rescued} rescued</span><span>${R.dups} dups dropped</span></div>`;
+  $('#dups').textContent = `${R.dups} duplicate adverts dropped by (id, rev)`;
+}
+
+/* ============================== render: rescuer ============================== */
+function renderRescuer(){
+  const el = $('#r-body');
+  if (R.view === 'list') {
+    const items = ranked();
+    el.innerHTML = !items.length ? `<p class="sub">🔎 Scanning… nothing heard yet.</p>`
+      : `<p class="sub" style="margin-top:0">Ranked by rule: RED › YELLOW › GREEN › vulnerable › oldest report</p>` + items.map(ritem).join('');
+  } else if (!el.querySelector('#r-live')) {
+    const id = R.openId;
+    el.innerHTML = `<button class="back" data-act="rback">‹ All beacons</button><div id="r-live"></div>
+      <div class="card"><h4>🚶 Walk (simulated)</h4>
+        <div class="pad"><span></span><button class="btn" data-act="walk" data-arg="N" aria-label="North">↑</button><span></span>
+        <button class="btn" data-act="walk" data-arg="W" aria-label="West">←</button><button class="btn" data-act="walk" data-arg="T" title="Step toward the victim" aria-label="Step toward the victim">🎯</button><button class="btn" data-act="walk" data-arg="E" aria-label="East">→</button>
+        <span></span><button class="btn" data-act="walk" data-arg="S" aria-label="South">↓</button><span></span></div></div>
+      <div class="card"><h4>Actions</h4>
+        <button class="btn primary big" data-act="ack" data-arg="${id}">🚤 Papunta na (on my way) → ACK</button>
+        <div style="height:6px"></div>
+        <button class="btn big" data-act="resc" data-arg="${id}">🛟 Nakuha na (rescued) → RESC</button></div>`;
+    renderLive();
+  } else renderLive();
+}
+function ritem(e, i){
+  const r = e.rec, me = rescuerLatLon(), heardAgo = minsSince(e.lastHeard);
+  const where = r.lat != null ? `${fmtM(haversine(me, r))} · ${Math.round(bearing(me, r))}°` : 'no GPS · hot/cold';
+  const badges = [r.worse && '<span class="badge worse">GETTING WORSE</span>', e.status === 'ack' && '<span class="badge ack">ON THE WAY</span>',
+                  heardAgo >= 10 && '<span class="badge dead">SILENT · LAST LOCATION KEPT</span>'].filter(Boolean).join(' ');
+  const fl = [r.trapped && 'trapped', ...r.flags.map(f => FLAG_NAME.en[f])].filter(Boolean).join(' · ');
+  return `<button class="ritem ${r.triage}" data-act="open" data-arg="${r.id}">
+    <span class="rank">${i + 1}</span>
+    <span class="main"><span class="t"><span class="chip ${r.triage}">${r.triage}</span> ${ICON[r.code] || ''} ${CODE_NAME.en[r.code]}</span>
+      <span class="m" style="display:block">👥 ${r.people || '?'}${fl ? ' · ' + fl : ''}</span><span style="display:block">${badges}</span></span>
+    <span class="side">${where}<br>report ${r.ageMin + minsSince(e.rxAt)} min old<br><span class="${heardAgo >= 10 ? 'stale' : ''}">heard ${heardAgo ? heardAgo + ' min ago' : 'just now'}</span> · rev ${r.rev}</span></button>`;
+}
+function renderLive(){
+  const box = $('#r-live'); if (!box || R.view !== 'detail') return;
+  const e = R.records.get(R.openId); if (!e) return;
+  const r = e.rec, me = rescuerLatLon(), fresh = e.rssiHist.length && Date.now() - e.lastHeard < 2500;
+  const d = r.lat != null ? haversine(me, r) : null;
+  let nav;
+  if (d != null) {
+    const b = bearing(me, r);
+    nav = `<div class="compass"><svg width="96" height="96" viewBox="0 0 120 120" role="img" aria-label="Arrow to victim, ${Math.round(b)} degrees">
+      <circle cx="60" cy="60" r="54" fill="#fff" stroke="#d9d2c3" stroke-width="2"/><text x="60" y="18" text-anchor="middle" font-size="12" fill="#6b7480">N</text>
+      <g transform="rotate(${b.toFixed(1)} 60 60)"><path d="M60 18 L76 70 L60 60 L44 70 Z" fill="${d < 5 ? '#2e9e5b' : '#1d2733'}"/></g></svg>
+      <div><div class="dist">${fmtM(d)}</div><div class="sub" style="margin:0">bearing ${Math.round(b)}° · GPS from beacon</div></div></div>`;
+  } else nav = `<p class="msg" style="margin:0">📍 Victim has no GPS fix. Follow the hot/cold meter.</p>`;
+  let hc;
+  if (fresh) {
+    const sm = e.rssiHist.reduce((a, b) => a + b, 0) / e.rssiHist.length;   // moving average over the last 5 samples
+    const pct = Math.max(0, Math.min(100, (sm + 100) / 45 * 100));
+    const word = pct > 85 ? '🔥 Nandito na! (right here)' : pct > 60 ? 'Mainit (hot)' : pct > 30 ? 'Maligamgam (warm)' : 'Malamig (cold)';
+    hc = `<div class="hc"><span>${word}</span><span>${Math.round(sm)} dBm avg of ${e.rssiHist.length}</span></div>
+          <div class="meter"><i style="left:calc(${pct}% - 3px)"></i></div><div class="hc" style="font-weight:400;color:var(--pmute)"><span>cold</span><span>${V.lowLatency && e.rec.id === V.rec?.id ? 'fast updates after ACK' : 'slow updates (low power)'}</span><span>hot</span></div>`;
+  } else hc = `<p class="sub" style="margin:0">Not heard directly right now (BLE range ~${BLE_RANGE} m). Last heard ${minsSince(e.lastHeard)} min ago. Walk toward the arrow.</p>`;
+  const text = briefing(r, d);
+  box.innerHTML = `<div class="card rec ${r.triage}"><h4>🔊 Briefing (template, read aloud)<span class="grow"></span><button class="iconbtn" data-act="brief" aria-label="Read briefing aloud">🔈</button></h4>
+      <div class="brief">${esc(text)}</div>
+      <div style="margin-top:6px">${r.worse ? `<span class="badge worse">GETTING WORSE · rev ${r.rev}</span> ` : ''}${e.status === 'ack' ? '<span class="badge ack">ON THE WAY · ACK broadcasting</span>' : ''}</div></div>
+    <div class="card"><h4>🧭 Direction</h4>${nav}</div>
+    <div class="card"><h4>📶 Hot / cold (RSSI)</h4>${hc}</div>`;
+}
+function renderRange(){
+  const d = victimDist();
+  $('#range').textContent = V.phase !== 'active' ? 'Victim has not sent an SOS yet.' : V.rescued ? 'Victim beacon stopped (rescued).'
+    : `Rescuer ↔ victim: ${fmtM(d)} · ${d <= BLE_RANGE ? 'inside direct BLE range' : `out of range (~${BLE_RANGE} m), nothing is heard (relay is P1)`} · victim advertising: ${V.lowLatency ? 'low latency' : 'low power'}`;
+}
+
+/* ============================== render: middle ============================== */
+let flashRev = false, lastBytesKey = '';
+function renderBytes(){
+  if (!V.rec) { $('#bytes').innerHTML = '<p style="color:var(--mute);margin:0">Waiting for SOS…</p>'; $('#bytes-rev').textContent = ''; lastBytesKey = ''; return; }
+  const b = encode({...V.rec, ageMin:minsSince(V.createdAt)}), d = decode(b), key = hex(b);
+  if (key === lastBytesKey) return; lastBytesKey = key;
+  const cells = []; FIELDS.forEach(([name, off, len, c]) => { for (let i = 0; i < len; i++) cells.push(`<div style="background:${c}" title="${name}" class="${flashRev && name === 'rev' ? 'flash' : ''}">${b[off + i].toString(16).padStart(2, '0').toUpperCase()}</div>`); });
+  flashRev = false;
+  $('#bytes-rev').textContent = `${b.length} bytes · rev ${d.rev}`;
+  $('#bytes').innerHTML = `<div class="bytes">${cells.join('')}</div>
+    <div class="legend">${FIELDS.map(([n, , l, c]) => `<span style="--c:${c}">${n} ${l}B</span>`).join('')}</div>
+    <table class="dec">
+      <tr><td>lat, lon (×1e5)</td><td class="mono">${d.lat != null ? d.lat.toFixed(5) + ', ' + d.lon.toFixed(5) : 'no fix (Int.MIN_VALUE)'}</td></tr>
+      <tr><td>kind: code | triage | trapped | worse</td><td class="mono">${d.code} | ${d.triage} | ${+d.trapped} | ${+d.worse}</td></tr>
+      <tr><td>people</td><td class="mono">${d.people || '0 (unknown)'}</td></tr>
+      <tr><td>flags</td><td class="mono">${d.flags.join(', ') || 'none'}</td></tr>
+      <tr><td>hops · rev · age</td><td class="mono">${d.hops} · ${d.rev} · ${d.ageMin} min</td></tr>
+    </table>
+    <p style="margin:6px 0 0;font-size:11px;color:var(--mute)">Decoded from the bytes above. A ~200-word spoken report, compressed by the model into facts that fit here.</p>`;
+}
+function renderModel(){
+  $('#modelbar').innerHTML = `<span class="pill">Gemma (path A: 3n E2B audio · path B: 3 1B int4 text)</span><span class="pill">✈ airplane mode</span>
+    <span class="pill ${V.model === 'ready' ? 'ok' : 'wait'}">${V.model === 'ready' ? '● loaded at app start' : '◌ loading… (beacon and tiles already work)'}</span>`;
+}
+function renderAI(){
+  $('#ai').innerHTML = !AILOG.length ? '<li style="color:var(--mute)">No calls yet. The model only runs when someone speaks.</li>' : AILOG.map(a => `<li><span class="fn">${a.fn}</span> · ${Math.round(a.ms)} ms (simulated) · ${a.errs.length ? `<span class="bad">✗ validator rejected: ${esc(a.errs.join('; '))} → fallback</span>` : '<span class="ok">✓ validator passed</span>'}
+    <pre>in:  ${esc(a.input)}\nout: ${esc(typeof a.output === 'string' ? a.output : JSON.stringify(a.output))}</pre></li>`).join('');
+}
+function renderFeed(){
+  const col = {victim:'#ffb347', rescuer:'#7ec8ff', other:'#93a4b5'};
+  $('#feed').innerHTML = FEED.map(f => `<li><span class="dir" style="color:${col[f.dir]}">${esc(f.label)}</span> <span class="h">${f.t}</span>
+    ${f.note ? `<div class="h">${esc(f.note)}</div>` : ''}${f.hex ? `<div class="h mono">${f.hex}</div>` : ''}</li>`).join('');
+}
+function renderEval(){
+  const e = runEvalSets(), pf = c => `<span class="${c ? 'pass' : 'fail'}">${c ? '✓' : '✗'}</span>`, yn = b => b ? '✓' : '✗';
+  $('#eval').innerHTML = `<table class="ev"><tr><th>Test set</th><th>Dictionary</th><th>Model (stand-in)</th><th>Target</th></tr>
+    <tr><td>Extraction (10)</td><td>${e.xs.d}/10</td><td>${e.xs.m}/10 ${pf(e.xs.m >= 8 && e.xs.m - e.xs.d >= 3)}</td><td>≥ 8, beat dictionary by ≥ 3</td></tr>
+    <tr><td>Unclear answers (5 + 3)</td><td>${e.as.d}/5 · ${e.as.dYes} no→yes</td><td>${e.as.m}/5 · ${e.as.mYes} no→yes ${pf(e.as.m === 5 && e.as.mYes === 0)}</td><td>5/5 safer, 0 no→yes</td></tr>
+    <tr><td>Myth-buster (10)</td><td>${e.fs.d}/10 · ${e.fs.dW} wrong</td><td>${e.fs.m}/10 · ${e.fs.mW} wrong ${pf(e.fs.m >= 8 && e.fs.mW === 0)}</td><td>≥ 8, 0 wrong</td></tr>
+    <tr><td>Median latency</td><td colspan="2">measured on the phone only</td><td>&lt; 5 s / &lt; 2 s</td></tr></table>
+    <p class="sim" style="margin:8px 0 0">The model column runs the prototype's stand-ins, which were written against these sentences, so it proves nothing about Gemma. On the phone this table is the evidence.</p>
+    <details class="evd"><summary>Per case: where the dictionary fails</summary><ul>
+      ${e.x.map(r => `<li>${yn(r.d)} dict · ${yn(r.m)} model · <i>${esc(r.why)}</i> · “${esc(r.s)}”</li>`).join('')}
+      ${e.a.map(r => `<li>“${esc(r.s)}” → dict ${r.d}, model ${r.m} (expected ${r.exp})</li>`).join('')}
+      ${e.f.map(r => `<li>[${r.p}] “${esc(r.s)}” → dict ${r.d}, model ${r.m} (expected ${r.exp})</li>`).join('')}
+    </ul></details>
+    <button class="mini" data-act="eval" style="margin-top:8px">↻ Run again</button>`;
+}
+function renderAll(){ renderVictim(); renderRescuer(); renderFoot(); renderRange(); }
+
+/* ============================== voice input ============================== */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+function listen(form, btn){
+  if (!SR) return toast('This browser has no speech recognition. Type instead.');
+  const input = document.querySelector(`form[data-form="${form}"] input`), rec = new SR();
+  rec.lang = V.lang === 'fil' ? 'fil-PH' : 'en-US'; rec.interimResults = true;
+  rec.onresult = ev => { const t = [...ev.results].map(x => x[0].transcript).join(''); input.value = t; if (ev.results[ev.results.length - 1].isFinal) FORMS[form](t); };
+  rec.onerror = ev => toast('Mic: ' + ev.error);
+  rec.onend = () => btn.classList.remove('rec');
+  btn.classList.add('rec'); rec.start();
+}
+
+/* ============================== events ============================== */
+const FORMS = {talk:victimTalk, fu:t => fuAnswer(t), answer:victimAnswerText, ask:victimAsk};
+const ACT = {
+  lang: a => { V.lang = a; renderVictim(); if (V.proto) speakNode(); },
+  tts: () => { V.tts = !V.tts; if (!V.tts && 'speechSynthesis' in window) speechSynthesis.cancel(); renderVictim(); },
+  call911: () => toast('Would dial 911. It sometimes connects through another carrier when your own has no signal.'),
+  cancel: () => cancelSOS(),
+  mic: (a, el) => listen(a, el),
+  tile: a => pickTile(a),
+  gps: (a, el) => { V.gps = el.checked; if (V.rec) applyFacts(V.facts, 'GPS changed', false); renderAll(); },
+  fuans: a => fuAnswer('', a),
+  fuskip: () => fuSkip(),
+  next: () => { V.trail.push({id:V.node}); V.node = nodeOf().next; V.understood = null; speakNode(); renderVictim(); },
+  ans: a => { V.understood = null; answer(a); },
+  fix: a => correct(a),
+  restart: () => { openProtocol(V.proto); renderVictim(); },
+  say: () => speakNode(),
+  badAI: () => {
+    const bad = {protocol:'SNAKEBITE', people:-1, trapped:'maybe', vuln:['teen'], danger:['fire']};
+    logAI('extract()', '(injected malformed model output)', bad, validateExtract(bad), 5);
+    toast('The validator rejected it. Nothing invented reaches the screen or the beacon; the dictionary and tiles take over.');
+  },
+  eval: () => renderEval(),
+  open: a => openRecord(+a),
+  rback: () => { R.view = 'list'; renderRescuer(); },
+  brief: () => { const e = R.records.get(R.openId); if (e) speak(briefing(e.rec, e.rec.lat != null ? haversine(rescuerLatLon(), e.rec) : null), 'fil'); },
+  walk: a => { const s = victimDist() < 20 ? 3 : 10;
+    if (a === 'T') stepToward(s); else { R.pos.x += a === 'E' ? s : a === 'W' ? -s : 0; R.pos.y += a === 'N' ? s : a === 'S' ? -s : 0; }
+    renderLive(); renderRange(); },
+  ack: a => rescuerAck(+a),
+  resc: a => markRescued(+a),
+  script: a => runScript(+a),
+  play: () => runScript(SCRIPT.length - 1),
+  reset: () => { if ('speechSynthesis' in window) speechSynthesis.cancel(); clearInterval(cdTimer); initState(); scriptDone = -1; renderModel(); renderAI(); renderFeed(); renderSteps(); renderAll();
+    $('#cap').textContent = 'Reset. Run the demo script step by step, or use both phones yourself.'; }
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  if (el.tagName !== 'INPUT') e.preventDefault();
+  ACT[el.dataset.act](el.dataset.arg, el);
+});
+document.addEventListener('submit', e => {
+  e.preventDefault(); const f = e.target, t = f.elements.t.value; f.elements.t.value = '';
+  FORMS[f.dataset.form](t);
+});
+// Hold-to-send: 0.7 s hold, then a 3-second cancel window.
+document.addEventListener('pointerdown', e => {
+  const b = e.target.closest('#sos'); if (!b) return;
+  b.classList.add('holding'); holdTimer = setTimeout(beginCountdown, 700);
+});
+['pointerup', 'pointerleave', 'pointercancel'].forEach(t => document.addEventListener(t, () => { clearTimeout(holdTimer); const b = $('#sos'); if (b) b.classList.remove('holding'); }, true));
+document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.id === 'sos') { e.preventDefault(); beginCountdown(); } });
+
+/* ============================== demo script (PRD §11 beats in brackets) ============================== */
+const waitFor = async (fn, ms = 8000) => { const t = Date.now(); while (!fn() && Date.now() - t < ms) await sleep(150); };
+const SENTENCE = 'Tulong! Tatlo kami, ay hindi, apat pala, kasama si lola. Nalunod yung bata, hindi na humihinga!';
+const SCRIPT = [
+  {beat:2, label:'Hold SOS', cap:'Victim holds <b>SOS</b>. After the 3-second cancel window the beacon starts with only the location (rev 1, YELLOW). The beacon never waits for the AI.',
+   run: async () => { startSOS(); await waitFor(() => R.records.has(V.rec.id)); }},
+  {beat:2, label:'Taglish report', cap:'<b>Victim:</b> “' + SENTENCE + '” The dictionary hears 3 people and misses “hindi <u>na</u> humihinga”. Gemma hears the correction and the negation: 4 people, elderly, child, not breathing → the rule makes it RED. <b>“That\'s why it has to be AI, and why it has to be local.”</b>',
+   run: async () => { V.lang = 'fil'; await waitFor(() => V.model === 'ready'); await victimTalk(SENTENCE); }},
+  {beat:2, label:'Follow-up', cap:'“Trapped” is the only missing fact, so Saklolo asks the fixed question <b>“Kaya n\'yo bang lumikas?”</b> → “Hindi, nasa bubong kami” → NO → trapped. CPR stays on top: the question never blocks it. Filling in an unknown fact is <i>not</i> “getting worse”.',
+   run: async () => { await fuAnswer('Hindi, nasa bubong kami'); }},
+  {beat:3, label:'“parang… mahina”', cap:'The drowning protocol started at rescue breaths because Saklolo already heard “not breathing”. “Humihinga na ba siya?” → <b>“parang… mahina”</b> → UNSURE → safer branch: keep doing CPR.',
+   run: async () => { while (V.proto && nodeOf().t === 'step') { ACT.next(); await sleep(600); } await victimAnswerText('parang... mahina'); }},
+  {beat:3, label:'20 bytes', cap:'“The whole emergency, compressed by AI, small enough for a beacon that sips battery.” Every coloured cell is one field of the PRD layout.',
+   run: async () => { $('#bytes-panel').scrollIntoView({behavior:'smooth', block:'center'}); $('#bytes-panel').animate([{outline:'2px solid #ffb347'}, {outline:'2px solid transparent'}], {duration:1800}); await sleep(1500); }},
+  {beat:4, label:'Dispatch board', cap:'<b>Rescuer phone:</b> RED with vulnerable people is #1. Opening it reads the briefing aloud in Filipino for a crew with busy hands. Note #2: a silent phone keeps its last location.',
+   run: async () => { await waitFor(() => R.records.get(V.rec.id)?.rec.trapped); openRecord(V.rec.id); await sleep(1200); await autoWalk(20); }},
+  {beat:4, label:'“abot na sa bubong!”', cap:'<b>Victim:</b> “Tumataas ang tubig, abot na sa bubong!” A new danger on a known situation → the victim phone sets the <b>worse</b> bit, the revision goes up, and the board flags <b>GETTING WORSE</b>.',
+   run: async () => { const rev = V.rec.rev; await victimTalk('Tumataas ang tubig, abot na sa bubong!'); await waitFor(() => (R.records.get(V.rec.id) || {rec:{}}).rec.rev > rev); }},
+  {beat:5, label:'Papunta na → ACK', cap:'Rescuer taps <b>Papunta na</b>. The victim phone, still in airplane mode, shows <b>“May paparating na tulong”</b> and switches to low-latency advertising so the hot/cold meter speeds up.',
+   run: async () => { rescuerAck(V.rec.id); await waitFor(() => V.ack); await autoWalk(6); }},
+  {beat:'Q&A', label:'Myth-buster', cap:'For Q&A: “Dapat ko bang baligtarin para lumabas ang tubig?” → approved answer <b>NO</b>. “The AI didn\'t write that. It matched the question to an answer we approved.”',
+   run: async () => { await victimAsk('Dapat ko bang baligtarin para lumabas ang tubig?'); }},
+  {beat:5, label:'Nakuha na → RESC', cap:'Rescuer taps <b>Nakuha na</b>. RESC goes out, the victim\'s beacon stops, and the record leaves the board. “The same 20 bytes fit LoRa, an SMS, a satellite text.”',
+   run: async () => { await autoWalk(1); markRescued(V.rec.id); await waitFor(() => V.rescued); }}
+];
+async function runScript(k){
+  if (scriptBusy) return; scriptBusy = true;
+  try {
+    if (k <= scriptDone || (scriptDone < 0 && V.phase !== 'home')) { ACT.reset(); await sleep(300); }
+    for (let i = scriptDone + 1; i <= k; i++) {
+      $('#cap').innerHTML = `<b>${i + 1}.</b> ` + SCRIPT[i].cap; renderSteps(i);
+      await SCRIPT[i].run(); scriptDone = i; renderSteps(); await sleep(i < k ? 1800 : 0);
+    }
+  } finally { scriptBusy = false; renderSteps(); }
+}
+function renderSteps(active){
+  $('#steps').innerHTML = `<button class="play" data-act="play">▶ Play all</button>` +
+    SCRIPT.map((s, i) => `<button data-act="script" data-arg="${i}" class="${i <= scriptDone ? 'done' : ''}" ${i === active ? 'style="border-color:var(--accent)"' : ''}>${i + 1}. ${s.label} <span class="beat">[${s.beat}]</span></button>`).join('') +
+    `<button data-act="reset">↺ Reset</button>`;
+}
+
+/* ============================== boot ============================== */
+initState();
+const tests = selfTest(), fails = tests.filter(([, p]) => !p);
+fails.forEach(([n]) => console.error('SELF-TEST FAIL:', n));
+$('#selftest').innerHTML = `Self-test: ${tests.length - fails.length}/${tests.length} passed${fails.length ? ' ✗ ' + fails.map(f => esc(f[0])).join(', ') : ' ✓'}`;
+renderModel(); renderSteps(); renderAll(); renderAI(); renderFeed();
+if ('speechSynthesis' in window) speechSynthesis.getVoices();
+</script>
+</body>
+</html>

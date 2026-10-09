@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saklolo UX Review</title>
+<style>
+:root{
+  --page:#0d1014; --panel:#151a20; --panel2:#1c2229; --ink:#e9edf2; --ink2:#a9b3bf; --line:#2a323c;
+  --accent:#9CC2FF;
+  /* victim tokens (from MainActivity VictimDark) */
+  --v-bg:#000; --v-c:#12161B; --v-ch:#1C2128; --v-on:#F1F3F6; --v-on2:#B9C1CC; --v-out:#5B6573; --v-outv:#2E353E;
+  --v-pri:#9CC2FF; --v-onpri:#002E69; --v-pc:#12407F; --v-onpc:#D9E6FF; --v-err:#FF7A73;
+  --red:#C9252C; --yellow:#FFC53D; --green:#2FB36A;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){ --page:#eef1f4; --panel:#ffffff; --panel2:#f4f6f8; --ink:#11161c; --ink2:#4a5562; --line:#d5dbe2; --accent:#12407F; }
+}
+:root[data-theme="light"]{ --page:#eef1f4; --panel:#ffffff; --panel2:#f4f6f8; --ink:#11161c; --ink2:#4a5562; --line:#d5dbe2; --accent:#12407F; }
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--page);color:var(--ink);font:15px/1.45 Roboto,"Segoe UI",system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:1480px;margin:0 auto;padding:20px 16px 48px}
+header h1{margin:0;font-size:24px;letter-spacing:-.01em}
+header p{margin:4px 0 0;color:var(--ink2);max-width:900px}
+.grid{display:grid;grid-template-columns:minmax(300px,1fr) 392px 392px;gap:20px;margin-top:18px;align-items:start}
+@media (max-width:1240px){.grid{grid-template-columns:1fr 1fr}.findings{grid-column:1/-1;order:3}}
+@media (max-width:820px){.grid{grid-template-columns:1fr}.phonecol{justify-self:center;width:100%;max-width:392px}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.sim{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:14px}
+.sim label{display:flex;gap:8px;align-items:center;color:var(--ink2);font-size:14px}
+.sim input[type=range]{width:140px}
+.chipbtn{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:6px 12px;font-size:13px}
+.chipbtn.on{border-color:var(--accent);color:var(--accent);font-weight:700}
+.findings h2,.phonecol h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin:0 0 10px}
+.f{border-top:1px solid var(--line);padding:12px 0}
+.f:first-of-type{border-top:0;padding-top:0}
+.f .top{display:flex;gap:8px;align-items:baseline}
+.pri{font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;border:1.5px solid currentColor;flex:none}
+.p0{color:#ff8f87}.p1{color:#e8b84a}.p2{color:var(--ink2)}
+.f h3{margin:0;font-size:15px}
+.f .who{font-size:11px;color:var(--ink2);font-weight:700;letter-spacing:.06em;margin-left:auto;flex:none}
+.f p{margin:6px 0 0;color:var(--ink2);font-size:14px}
+.f p b{color:var(--ink)}
+.f code{font-size:12.5px;background:var(--panel2);padding:1px 5px;border-radius:5px}
+.f .show{margin-top:8px;font-size:13px;border:1px solid var(--accent);color:var(--accent);background:transparent;border-radius:8px;padding:4px 10px}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.principles{margin:0;padding-left:18px;color:var(--ink2);font-size:14px}
+.principles b{color:var(--ink)}
+/* ---------- phones ---------- */
+.phone{width:376px;max-width:100%;height:780px;border-radius:38px;padding:10px;background:#050607;border:1px solid #2a2f36;box-shadow:0 20px 50px rgba(0,0,0,.35);position:relative}
+.screen{width:100%;height:100%;border-radius:30px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.sbar{height:26px;display:flex;justify-content:space-between;align-items:center;padding:0 18px;font-size:12px;font-weight:600;flex:none}
+.vscreen{background:var(--v-bg);color:var(--v-on)}
+.body{flex:1;display:flex;flex-direction:column;gap:12px;padding:6px 16px 14px;min-height:0}
+.hdr{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--v-on2)}
+.hdr .demo{flex:1;user-select:none}
+.lang{border:1.5px solid var(--v-out);background:transparent;border-radius:8px;padding:4px 10px;font-weight:800;font-size:12px;color:var(--v-on)}
+.v911{border:2px solid var(--v-err);color:var(--v-err);background:transparent;border-radius:14px;min-height:52px;font-weight:800;font-size:16px;width:100%;flex:none}
+.v911 small{font-weight:500;font-size:13px;opacity:.9;margin-left:6px}
+.vbtn{min-height:68px;border-radius:16px;font-weight:800;font-size:19px;width:100%;border:2px solid var(--v-out);background:var(--v-ch);color:var(--v-on);display:flex;align-items:center;justify-content:center;gap:8px;padding:6px 10px;text-align:center;line-height:1.15}
+.vbtn.on{border:3px solid var(--v-pri);background:#000;color:var(--v-pri)}
+.vbtn.main{background:var(--v-pc);border-color:var(--v-pc);color:var(--v-onpc)}
+.vbtn.main:disabled{opacity:.45}
+.vbtn.quiet{background:transparent}
+.tlink{background:none;border:0;color:var(--v-pri);font-weight:700;font-size:15px;padding:8px 4px;min-height:44px}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.grow{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px}
+.center{justify-content:center;align-items:center;text-align:center}
+.sos{width:232px;height:232px;border-radius:50%;position:relative;touch-action:none;user-select:none;-webkit-user-select:none;
+  background:conic-gradient(var(--v-on) calc(var(--p,0)*1turn), var(--v-outv) 0);display:grid;place-items:center;border:0;padding:0}
+.sos .in{width:212px;height:212px;border-radius:50%;background:var(--v-pc);color:var(--v-onpc);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sos .in b{font-size:54px;line-height:1;letter-spacing:.02em}
+.sos .in span{font-size:16px;font-weight:700;margin-top:6px}
+.lead{font-size:19px;font-weight:700;line-height:1.3;margin:0}
+.dim{color:var(--v-on2)}
+.status{background:var(--v-c);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.status .l1{display:flex;align-items:center;gap:10px}
+.tri{display:inline-flex;align-items:center;gap:6px;font-weight:900;font-size:15px;padding:4px 10px;border-radius:8px;flex:none}
+.tri.RED{background:var(--red);color:#fff}.tri.YELLOW{background:var(--yellow);color:#000}.tri.GREEN{background:var(--green);color:#000}
+.haz{font-size:20px;font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--v-outv);background:var(--v-ch);padding:3px 9px;border-radius:8px;font-weight:700;font-size:14px}
+.chip.unk{border:1.5px dashed var(--v-out);background:transparent;color:var(--v-on2)}
+.chip.cond{border:2px solid var(--v-on);background:transparent;font-weight:900}
+.bline{font-size:14px;font-weight:700;color:var(--v-pri);display:flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+.strip{display:flex;align-items:center;gap:8px;background:var(--v-c);border-radius:12px;padding:8px 10px;font-weight:800;font-size:15px;border:0;color:var(--v-on);text-align:left}
+.strip .bl{margin-left:auto;font-size:12px;color:var(--v-pri);display:flex;gap:5px;align-items:center}
+.qlabel{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--v-on2)}
+.qtext{font-size:26px;font-weight:900;line-height:1.15;margin:0}
+.mic{min-height:76px}
+.mic .ic{width:22px;height:22px;border-radius:50%;border:3px solid currentColor;position:relative}
+.mic.listen{border:3px solid var(--v-on);background:#000;color:var(--v-on)}
+.understood{border:2px solid var(--v-on);border-radius:14px;padding:10px 12px;font-weight:800;font-size:17px}
+.understood small{display:block;font-weight:500;font-size:15px;margin-top:2px}
+.typebox{display:flex;gap:8px}
+.typebox input{flex:1;background:#000;border:2px solid var(--v-out);border-radius:12px;color:var(--v-on);padding:10px;font-size:16px;min-width:0}
+.idle{font-size:12px;color:var(--v-on2);text-align:center;flex:none}
+.step{font-size:31px;font-weight:900;line-height:1.15;margin:0}
+.detail{font-size:19px;line-height:1.4;margin:0;color:var(--v-on)}
+.ptitle{display:flex;justify-content:space-between;align-items:baseline;font-weight:800;color:var(--v-pri);font-size:15px}
+.ptitle span{font-size:12px;color:var(--v-on2);font-weight:700}
+.pips{display:flex;gap:4px}.pips i{flex:1;height:5px;border-radius:3px;background:var(--v-outv)}.pips i.d{background:var(--v-pri)}
+.beat{display:flex;align-items:center;gap:10px;border:2px solid var(--v-outv);border-radius:14px;padding:8px 12px;font-size:14px;font-weight:700}
+.beat .b{width:16px;height:16px;border-radius:50%;border:2px solid var(--v-on);flex:none}
+.beat .b.hit{background:var(--v-on)}
+.waitq{border:2px dashed var(--v-out);border-radius:14px;padding:10px 12px}
+.waitq .qtext{font-size:18px}
+.approved{font-size:12px;font-weight:800;color:var(--v-pri);letter-spacing:.06em}
+.survival{position:absolute;inset:0;background:#000;z-index:5;display:flex;flex-direction:column;padding:60px 26px 30px;gap:14px;color:#8d96a3}
+.survival.black,.survival.off{padding:0}
+.survival .big{font-size:30px;font-weight:900;color:#c9d0d9;line-height:1.15}
+.survival .hint{font-size:16px}
+.offlabel{margin:auto;color:#1b1f24;font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-align:center}
+.helpcoming{border:3px solid var(--v-on);border-radius:18px;padding:16px;color:var(--v-on)}
+.helpcoming b{font-size:30px;line-height:1.1;display:block}
+.helpline{font-size:14px;font-weight:800;color:var(--v-on);border:2px solid var(--v-on);border-radius:10px;padding:6px 10px}
+.ring{position:absolute;inset:0;z-index:6;background:#000;display:flex;flex-direction:column;gap:16px;padding:70px 24px 28px;color:#fff}
+.ring.flash{animation:strobe .5s steps(1) infinite}
+@keyframes strobe{0%{box-shadow:inset 0 0 0 10px #fff}50%{box-shadow:inset 0 0 0 10px #000}}
+.ring b{font-size:32px;line-height:1.1}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:7;background:var(--v-c);border-radius:22px 22px 0 0;padding:18px 16px 22px;display:flex;flex-direction:column;gap:12px;border-top:2px solid var(--v-out)}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:6}
+.lowbat{font-size:13px;font-weight:700;border:1.5px solid var(--v-out);border-radius:10px;padding:6px 10px;color:var(--v-on2)}
+/* rescuer */
+.rscreen{--r-bg:#fff;--r-ink:#000;--r-ink2:#1F252C;--r-line:#000;--r-soft:#EDEFF2;--r-pri:#002D72;--r-onpri:#fff;background:var(--r-bg);color:var(--r-ink)}
+.rscreen.night{--r-bg:#000;--r-ink:#F1F3F6;--r-ink2:#B9C1CC;--r-line:#5B6573;--r-soft:#12161B;--r-pri:#9CC2FF;--r-onpri:#002E69}
+.rbody{flex:1;display:flex;flex-direction:column;gap:10px;padding:6px 14px 12px;min-height:0}
+.rhdr{display:flex;align-items:center;gap:8px}
+.rhdr h4{margin:0;font-size:24px;font-weight:900;flex:1;line-height:1.1}
+.rbtn{border:2px solid var(--r-line);background:transparent;color:var(--r-ink);border-radius:10px;padding:5px 10px;font-weight:800;font-size:13px}
+.rmeta{font-size:13px;font-weight:800;color:var(--r-ink2);letter-spacing:.02em}
+.list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:10px;min-height:0;padding-bottom:4px}
+.rrow{display:flex;border:2px solid var(--r-line);border-radius:12px;overflow:hidden;min-height:104px;text-align:left;background:transparent;color:var(--r-ink);padding:0;width:100%}
+.rrow.silent{border-style:dashed;opacity:.8}
+.rtri{width:70px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;font-size:13px;gap:4px}
+.rtri .shape{font-size:20px;line-height:1}
+.rtri.RED{background:var(--red);color:#fff}.rtri.YELLOW{background:var(--yellow);color:#000}.rtri.GREEN{background:var(--green);color:#000}
+.rtri.sil{background:transparent;color:var(--r-ink)}
+.rmain{flex:1;padding:8px 10px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.rmain .h{font-size:17px;font-weight:900;line-height:1.2}
+.rmain .place{font-size:16px;font-weight:800}
+.rmain .fl{font-size:14px;font-weight:600}
+.rmain .m{font-size:13px;font-weight:700;color:var(--r-ink2)}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:900;border:2px solid var(--r-ink);border-radius:6px;padding:0 6px}
+.tag.fill{background:var(--r-ink);color:var(--r-bg)}
+.rdist{width:72px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;font-size:15px;text-align:center;padding:4px}
+.rdist small{font-weight:700;font-size:12px}
+.bands{display:flex;gap:6px;align-items:flex-end;height:118px}
+.bands i{flex:1;border:2px solid var(--r-ink);border-radius:6px}
+.bands i.lit{background:var(--r-pri);border-color:var(--r-pri)}
+.bandname{font-size:32px;font-weight:900;line-height:1}
+.ractions{display:flex;flex-direction:column;gap:8px;flex:none;border-top:2px solid var(--r-line);padding-top:10px}
+.ract{min-height:60px;border-radius:12px;font-weight:900;font-size:18px;border:2px solid var(--r-line);background:transparent;color:var(--r-ink);width:100%;position:relative;overflow:hidden;touch-action:none;user-select:none}
+.ract.pri{background:var(--r-pri);border-color:var(--r-pri);color:var(--r-onpri)}
+.ract .fillbar{position:absolute;inset:0;background:var(--r-ink);opacity:.18;transform-origin:left;transform:scaleX(var(--p,0))}
+.brief{border-left:4px solid var(--r-ink);padding:2px 0 2px 10px;font-size:15px;line-height:1.4}
+.sent{font-size:14px;font-weight:800}
+.tog{display:flex;gap:8px;align-items:center;font-weight:800;font-size:14px}
+.empty{flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px}
+/* power panel */
+.power{margin-top:14px}
+.power table{width:100%;border-collapse:collapse;font-size:13px}
+.power td,.power th{padding:5px 4px;border-bottom:1px solid var(--line);text-align:right}
+.power td:first-child,.power th:first-child{text-align:left;color:var(--ink2)}
+.power th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.power .tot td{font-weight:800;color:var(--ink);border-bottom:0}
+.bar2{height:8px;border-radius:4px;background:var(--panel2);overflow:hidden;margin-top:4px}
+.bar2 i{display:block;height:100%;background:var(--accent)}
+.note{font-size:12px;color:var(--ink2);margin-top:8px}
+.statebadge{font-size:12px;color:var(--ink2);margin-top:8px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Saklolo UX review at S12</h1>
+  <p>A critique of the current build, with an interactive redesign. Both phones are linked: hold SOS on the victim phone and the record appears on the rescuer's board. "On my way", "Ring phone" and "Rescued" reach the victim. Use the review list to jump to each issue. The power numbers are illustrative estimates for comparison, not measurements; replace them with your S12 drain figures.</p>
+  <div class="sim">
+    <label>Victim battery <input id="bat" type="range" min="5" max="100" value="62"> <b id="batv">62%</b></label>
+    <button class="chipbtn" id="ff">⏩ Skip idle timer</button>
+    <button class="chipbtn" id="reset">↺ Reset both phones</button>
+    <span style="color:var(--ink2);font-size:13px">Rescuer:</span>
+    <button class="chipbtn" data-rtype="pro">Pro (power bank)</button>
+    <button class="chipbtn" data-rtype="neighbour">Neighbour (own battery)</button>
+    <label>Rescuer distance <input id="dist" type="range" min="1" max="40" value="30"> <b id="distv">30 m</b></label>
+  </div>
+</header>
+
+<div class="grid">
+  <section class="findings card" id="findings">
+    <h2>Principles</h2>
+    <ol class="principles">
+      <li><b>Black is home.</b> When the user isn't acting, the screen is off. The screen costs ~50× the beacon.</li>
+      <li><b>Outlines, not fills.</b> On OLED, every lit pixel costs power; white costs the most.</li>
+      <li><b>Still frames.</b> No looping animation, so the panel can drop its refresh rate and the GPU can sleep.</li>
+      <li><b>Ears and hands first.</b> Use haptics and sound for ACK, ring, the CPR beat and hot/cold.</li>
+      <li><b>One fix, then stop.</b> GPS, model and scans run in short bursts, not continuously.</li>
+      <li><b>One thing at a time.</b> Each screen shows one prompt; everything else waits.</li>
+    </ol>
+    <div style="height:14px"></div>
+    <h2>What's wrong, ranked</h2>
+    <div class="tabs" id="ftabs">
+      <button class="chipbtn on" data-ft="all">All</button>
+      <button class="chipbtn" data-ft="V">Victim</button>
+      <button class="chipbtn" data-ft="R">Rescuer</button>
+    </div>
+    <div id="flist"></div>
+  </section>
+
+  <section class="phonecol">
+    <h2>Victim · redesigned</h2>
+    <div class="phone"><div class="screen vscreen" id="victim"></div></div>
+    <div class="statebadge" id="vstate"></div>
+    <div class="card power">
+      <h2 style="margin-bottom:6px">Victim power: this moment</h2>
+      <div id="power"></div>
+    </div>
+  </section>
+
+  <section class="phonecol">
+    <h2>Rescuer · redesigned</h2>
+    <div class="phone"><div class="screen rscreen" id="rescuer"></div></div>
+    <div class="statebadge" id="rstate"></div>
+  </section>
+</div>
+</div>
+
+<script>
+const DATA = {"protocols": [{"id": "NOT_BREATHING", "title": {"en": "Not breathing: CPR", "fil": "Hindi humihinga: CPR"}, "nodes": [{"id": "nb_check", "text": {"en": "Is the person breathing?", "fil": "Humihinga ba siya?"}, "detail": {"en": "Watch the chest for 10 seconds.", "fil": "Tingnan ang dibdib nang 10 segundo."}, "yes": "nb_side", "no": "nb_push", "safer": "nb_push"}, {"id": "nb_breaths", "text": {"en": "Give 5 rescue breaths.", "fil": "Magbigay ng 5 hinga."}, "detail": {"en": "Tilt the head back, pinch the nose, and breathe into the mouth until the chest rises. After drowning, air comes first.", "fil": "Itingala ang ulo, ipitin ang ilong, at hingahan ang bibig hanggang umangat ang dibdib. Kapag nalunod, hangin muna."}, "next": "nb_push"}, {"id": "nb_push", "text": {"en": "Push hard and fast on the centre of the chest.", "fil": "Diinan nang malakas at mabilis ang gitna ng dibdib."}, "detail": {"en": "30 pushes, about 2 every second, 5 cm deep.", "fil": "30 diin, mga 2 bawat segundo, 5 cm ang lalim."}, "next": "nb_two"}, {"id": "nb_two", "text": {"en": "Give 2 breaths.", "fil": "Magbigay ng 2 hinga."}, "detail": {"en": "Then go back to 30 pushes.", "fil": "Pagkatapos, bumalik sa 30 diin."}, "next": "nb_keep"}, {"id": "nb_keep", "text": {"en": "Keep going: 30 pushes, 2 breaths.", "fil": "Ituloy: 30 diin, 2 hinga."}, "detail": {"en": "Don't stop until they breathe or help arrives. Swap with someone if you get tired.", "fil": "Huwag tumigil hanggang huminga siya o dumating ang tulong. Makipagpalit kung napapagod ka na."}}, {"id": "nb_side", "text": {"en": "Turn them on their side.", "fil": "Ihiga siya nang patagilid."}, "detail": {"en": "Keep the head tilted back. Check their breathing often.", "fil": "Panatilihing nakatingala ang ulo. Laging tingnan kung humihinga pa."}}], "faqs": [{"id": "upside_down", "q_examples": ["Should I turn them upside down to get the water out?", "Baligtarin ko ba siya para lumabas ang tubig?", "Should I press the stomach to push the water out?", "Didiinan ko ba ang tiyan para lumabas ang tubig?"], "answer": {"en": "No. Don't turn them upside down or press the stomach. It wastes time and can make them choke. Give rescue breaths and CPR now.", "fil": "Hindi. Huwag siyang baligtarin o diinan ang tiyan. Sayang ang oras at baka siya mabulunan. Magbigay agad ng hinga at CPR."}}, {"id": "stop_check", "q_examples": ["Can I stop CPR to check if they're alive?", "Titigil ba ako para tingnan kung buhay pa siya?", "Should I take a break from pushing?"], "answer": {"en": "Don't stop. Keep pushing until they breathe, move, or help arrives. Swap with someone if you get tired.", "fil": "Huwag tumigil. Ituloy ang pagdiin hanggang huminga o gumalaw siya, o dumating ang tulong. Makipagpalit kung napapagod ka na."}}, {"id": "ribs", "q_examples": ["What if I break their ribs?", "Paano kung mabali ang tadyang niya?", "Am I pushing too hard?"], "answer": {"en": "Keep pushing hard. Broken ribs can heal; without CPR they won't survive. Push 5 cm deep, about 2 times a second.", "fil": "Ituloy ang malakas na pagdiin. Gumagaling ang baling tadyang; kung walang CPR, hindi siya mabubuhay. 5 cm ang lalim, mga 2 beses bawat segundo."}}]}, {"id": "BLEEDING", "title": {"en": "Heavy bleeding", "fil": "Malakas na pagdurugo"}, "nodes": [{"id": "bl_press", "text": {"en": "Press hard on the wound with a cloth.", "fil": "Diinan nang malakas ang sugat gamit ang tela."}, "detail": {"en": "Use both hands and your body weight.", "fil": "Gamitin ang dalawang kamay at ang bigat ng katawan mo."}, "next": "bl_hold"}, {"id": "bl_hold", "text": {"en": "Don't lift the cloth to look.", "fil": "Huwag iangat ang tela para tumingin."}, "detail": {"en": "Lifting it starts the bleeding again.", "fil": "Kapag inangat, magdurugo ulit."}, "next": "bl_soak"}, {"id": "bl_soak", "text": {"en": "Is blood soaking through the cloth?", "fil": "Tumatagos ba ang dugo sa tela?"}, "yes": "bl_more", "no": "bl_keep", "safer": "bl_more"}, {"id": "bl_more", "text": {"en": "Put more cloth on top and press harder.", "fil": "Patungan ng isa pang tela at diinan nang mas malakas."}, "detail": {"en": "Leave the first cloth where it is.", "fil": "Iwan ang unang tela sa lugar nito."}, "next": "bl_keep"}, {"id": "bl_keep", "text": {"en": "Keep pressing until help arrives.", "fil": "Ituloy ang pagdiin hanggang dumating ang tulong."}, "detail": {"en": "If you can, keep the person lying down and warm.", "fil": "Kung kaya, panatilihin siyang nakahiga at mainit."}}], "faqs": [{"id": "coffee", "q_examples": ["Can I put coffee on the wound?", "Lalagyan ko ba ng kape ang sugat?", "Can I use toothpaste or sugar on it?", "Pwede bang toothpaste o asukal sa sugat?"], "answer": {"en": "No. Don't put coffee, toothpaste, sugar or anything else on the wound. It doesn't stop bleeding and can cause infection. Just press hard with a cloth.", "fil": "Hindi. Huwag lagyan ng kape, toothpaste, asukal o kahit ano ang sugat. Hindi nito napapahinto ang dugo at puwedeng maimpeksiyon. Diinan lang nang malakas gamit ang tela."}}, {"id": "peek", "q_examples": ["Can I lift the cloth to check if it stopped?", "Pwede ko bang silipin kung tumigil na ang dugo?", "Should I change the bloody cloth for a clean one?"], "answer": {"en": "No. Keep pressing. Lifting the cloth starts the bleeding again. If blood soaks through, put more cloth on top.", "fil": "Hindi. Ituloy ang pagdiin. Kapag inangat ang tela, magdurugo ulit. Kung tumagos ang dugo, patungan ng isa pang tela."}}, {"id": "stuck_object", "q_examples": ["Should I pull out the glass stuck in the wound?", "Bubunutin ko ba ang pakong nakatusok?", "Can I remove the thing stuck in his leg?"], "answer": {"en": "No. Don't pull out anything stuck in the wound. It may be holding the bleeding back. Press around it, not on it.", "fil": "Hindi. Huwag bunutin ang anumang nakatusok sa sugat. Baka ito ang pumipigil sa pagdurugo. Diinan ang paligid nito, hindi mismo ito."}}]}, {"id": "COLLAPSE", "title": {"en": "Trapped in a collapse", "fil": "Naipit sa gumuhong gusali"}, "nodes": [{"id": "co_dust", "text": {"en": "Cover your mouth and nose with cloth.", "fil": "Takpan ng tela ang bibig at ilong."}, "detail": {"en": "Dust can hurt your lungs.", "fil": "Nakakasama sa baga ang alikabok."}, "next": "co_gas"}, {"id": "co_gas", "text": {"en": "Do you smell gas or smoke?", "fil": "May naaamoy ka bang gas o usok?"}, "yes": "co_leak", "no": "co_flame", "safer": "co_leak"}, {"id": "co_leak", "text": {"en": "Don't light anything and don't flip switches.", "fil": "Huwag magsindi ng kahit ano at huwag pindutin ang switch."}, "detail": {"en": "Gas may be leaking. One spark can explode. Use your phone's light.", "fil": "Baka may tagas ng gas. Isang kislap lang, puwedeng sumabog. Gamitin ang ilaw ng phone."}, "next": "co_debris"}, {"id": "co_flame", "text": {"en": "Never light a match or lighter.", "fil": "Huwag kailanman magsindi ng posporo o lighter."}, "detail": {"en": "There may be a gas leak you can't smell. Use your phone's light.", "fil": "Baka may tagas ng gas na hindi mo naaamoy. Gamitin ang ilaw ng phone."}, "next": "co_debris"}, {"id": "co_debris", "text": {"en": "Don't move debris above you.", "fil": "Huwag galawin ang guho sa itaas mo."}, "detail": {"en": "More can fall. Stay as still as you can.", "fil": "Baka may bumagsak pa. Manatiling hindi gumagalaw hangga't kaya."}, "next": "co_tap"}, {"id": "co_tap", "text": {"en": "Tap 3 times on a pipe or wall.", "fil": "Kumatok nang 3 beses sa tubo o pader."}, "detail": {"en": "Rest, then tap again. Tapping carries further than your voice.", "fil": "Magpahinga, tapos kumatok ulit. Mas malayo ang abot ng katok kaysa boses."}, "next": "co_shout"}, {"id": "co_shout", "text": {"en": "Shout only when you hear rescuers.", "fil": "Sumigaw lang kapag may naririnig kang rescuer."}, "detail": {"en": "Shouting uses up air and energy.", "fil": "Nauubos ang hangin at lakas mo sa pagsigaw."}, "next": "co_save"}, {"id": "co_save", "text": {"en": "Save your phone's battery.", "fil": "Tipirin ang baterya ng phone."}, "detail": {"en": "Survival mode keeps your beacon going longer.", "fil": "Mas tatagal ang beacon mo sa survival mode."}}], "faqs": [{"id": "lighter", "q_examples": ["Can I light a lighter to see?", "Pwede bang sindihan ang lighter para makakita?", "Can I use a match or a candle?", "Magsisindi ba ako ng posporo o kandila?"], "answer": {"en": "No. Never light a lighter, match or candle. Gas may be leaking and one spark can explode. Use your phone's light.", "fil": "Hindi. Huwag kailanman magsindi ng lighter, posporo o kandila. Baka may tagas ng gas, at isang kislap lang ay puwedeng sumabog. Gamitin ang ilaw ng phone."}}, {"id": "shout", "q_examples": ["Should I keep shouting for help?", "Sisigaw ba ako nang sisigaw hanggang may makarinig?", "Should I scream so people hear me?"], "answer": {"en": "No. Shouting nonstop uses up your air and energy, and you breathe in dust. Tap 3 times on a pipe or wall instead. Shout only when you hear rescuers.", "fil": "Hindi. Nauubos ang hangin at lakas mo sa tuloy-tuloy na pagsigaw, at nalalanghap mo ang alikabok. Kumatok na lang nang 3 beses sa tubo o pader. Sumigaw lang kapag may naririnig kang rescuer."}}, {"id": "run_outside", "q_examples": ["Should I run outside during an aftershock?", "Tatakbo ba ako palabas kapag may aftershock?", "It's shaking again, should I run?"], "answer": {"en": "No. Don't run while the ground is shaking. People get hit by falling things when they run. Stay where you are and protect your head and neck until it stops.", "fil": "Hindi. Huwag tumakbo habang yumayanig. Natatamaan ng bumabagsak ang mga tumatakbo. Manatili ka riyan at protektahan ang ulo at leeg hanggang tumigil ito."}}, {"id": "triangle", "q_examples": ["Should I lie next to furniture, the triangle of life?", "Tama ba yung triangle of life?", "Hihiga ba ako sa tabi ng kama o mesa?"], "answer": {"en": "The \"triangle of life\" is not recommended. In an aftershock, get under a sturdy table and hold on if you can. If you can't, cover your head and neck with your arms.", "fil": "Hindi inirerekomenda ang \"triangle of life\". Kapag may aftershock, sumilong sa ilalim ng matibay na mesa at kumapit kung kaya. Kung hindi, takpan ng braso ang ulo at leeg."}}, {"id": "dig_out", "q_examples": ["Should I dig my way out?", "Huhukayin ko ba ang guho para makalabas?", "Can I push the rubble off me?"], "answer": {"en": "No. Don't move the debris above or around you. More can fall on you. Stay still, tap to signal, and let rescuers move it.", "fil": "Hindi. Huwag galawin ang guho sa itaas o paligid mo. Baka may bumagsak pa sa iyo. Manatiling hindi gumagalaw, kumatok para sumenyas, at hayaang ang rescuer ang mag-alis nito."}}]}, {"id": "ROOF", "title": {"en": "On a roof, water rising", "fil": "Nasa bubong, tumataas ang tubig"}, "nodes": [{"id": "rf_rising", "text": {"en": "Is the water still rising?", "fil": "Tumataas pa ba ang tubig?"}, "yes": "rf_high", "no": "rf_stay", "safer": "rf_high"}, {"id": "rf_high", "text": {"en": "Go to the highest point that still has a way out.", "fil": "Pumunta sa pinakamataas na lugar na may labasan pa."}, "detail": {"en": "Don't climb into an attic or ceiling with no exit.", "fil": "Huwag umakyat sa kisame o attic na walang labasan."}, "next": "rf_swim"}, {"id": "rf_stay", "text": {"en": "Stay on the roof where rescuers can see you.", "fil": "Manatili sa bubong kung saan ka makikita ng rescuer."}, "detail": {"en": "Watch the water. If it rises, move higher.", "fil": "Bantayan ang tubig. Kapag tumaas, umakyat pa."}, "next": "rf_swim"}, {"id": "rf_swim", "text": {"en": "Never wade or swim in moving water.", "fil": "Huwag lumusong o lumangoy sa umaagos na tubig."}, "detail": {"en": "Even a shallow current can knock you down. Wait for a boat.", "fil": "Kahit mababaw na agos, puwede kang matumba. Hintayin ang bangka."}, "next": "rf_wires"}, {"id": "rf_wires", "text": {"en": "Stay away from power lines.", "fil": "Lumayo sa mga kable ng kuryente."}, "detail": {"en": "Water carries electricity.", "fil": "Dumadaloy ang kuryente sa tubig."}, "next": "rf_drink"}, {"id": "rf_drink", "text": {"en": "Don't drink floodwater.", "fil": "Huwag uminom ng tubig-baha."}, "detail": {"en": "It will make you sick. Catch rainwater if you can.", "fil": "Magkakasakit ka. Sahurin ang tubig-ulan kung kaya."}, "next": "rf_signal"}, {"id": "rf_signal", "text": {"en": "Signal with a light or a bright cloth.", "fil": "Sumenyas gamit ang ilaw o matingkad na tela."}, "detail": {"en": "Wave it when you hear or see a boat.", "fil": "Iwagayway kapag may narinig o nakitang bangka."}}], "faqs": [{"id": "swim", "q_examples": ["Can I swim to the next house?", "Lalanguyin ko na lang ba papunta sa kabila?", "Can we wade through the water to the road?", "Pwede bang lumusong sa baha?"], "answer": {"en": "No. Never wade or swim in moving water. Even shallow water can knock you down and sweep you away. Stay up high and wait for a boat.", "fil": "Hindi. Huwag lumusong o lumangoy sa umaagos na tubig. Kahit mababaw, puwede kang matumba at matangay. Manatili sa mataas at hintayin ang bangka."}}, {"id": "ceiling", "q_examples": ["Should we climb into the ceiling?", "Aakyat ba kami sa kisame?", "Should we hide in the attic?"], "answer": {"en": "Only if there's a way out. People drown trapped in ceilings and attics as the water rises. Go to the highest point that still has an exit, like the roof.", "fil": "Kung may labasan lang. May mga nalulunod na naipit sa kisame at attic habang tumataas ang tubig. Pumunta sa pinakamataas na lugar na may labasan pa, tulad ng bubong."}}, {"id": "drink", "q_examples": ["Can I drink the floodwater?", "Pwede bang inumin ang tubig-baha?", "We're thirsty, can we drink this water?"], "answer": {"en": "No. Floodwater carries sewage and disease. Catch rainwater in a clean container instead.", "fil": "Hindi. May dumi at sakit ang tubig-baha. Sahurin na lang ang tubig-ulan sa malinis na lalagyan."}}, {"id": "surge", "q_examples": ["Is storm surge just a big wave?", "Malaking alon lang ba ang storm surge?", "Aatras din ba ang daluyong?"], "answer": {"en": "No. Storm surge is like a tsunami: the sea rises fast and can cover a house. Get to the highest point with a way out now, and don't go back down until rescuers come.", "fil": "Hindi. Parang tsunami ang daluyong: mabilis tumaas ang dagat at kayang lubugin ang bahay. Pumunta na sa pinakamataas na lugar na may labasan, at huwag bumaba hanggang dumating ang rescuer."}}, {"id": "wires", "q_examples": ["Can I move the fallen wire?", "Pwede bang hawakan ang kable?", "Is the water near the electric post safe?"], "answer": {"en": "No. Stay away from power lines and the water around them. Water carries electricity.", "fil": "Hindi. Lumayo sa mga kable ng kuryente at sa tubig sa paligid nito. Dumadaloy ang kuryente sa tubig."}}]}], "followups": [{"id": "what", "text": {"en": "What happened?", "fil": "Ano ang nangyari?"}}, {"id": "count", "text": {"en": "How many of you are there?", "fil": "Ilan kayo riyan?"}}, {"id": "exit", "text": {"en": "Can you get out?", "fil": "Makakalabas ba kayo?"}}, {"id": "place", "text": {"en": "Which floor, and which part of the building?", "fil": "Anong palapag, at saang bahagi ng gusali?"}}]};
+const P = Object.fromEntries(DATA.protocols.map(p => [p.id, p]));
+const FU = Object.fromEntries(DATA.followups.map(f => [f.id, f.text]));
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// ---------- state ----------
+const IDLE_MS = () => S.battery <= 15 ? 10000 : 20000;
+function fresh() {
+  return {
+    battery: S0 ? S.battery : 62,
+    lang: 'EN', sos: false,
+    v: 'home',          // home | cancel | report | steps | myth | rescued
+    sheet: false,        // "I'm safe" confirm
+    facts: {hazard:null, people:0, trapped:null, floor:0, spot:null, vuln:[], cond:[]},
+    worse: false, asked: [], q: null, heard: null,
+    mic: 'idle',         // idle | listen | think
+    typing: false, spoken: 0,
+    plan: [], pi: 0, node: null, safer: false, stripOpen: false,
+    myth: null,
+    surv: null,          // null | status | black | off
+    lastTouch: Date.now(),
+    acked: false, ringing: false, ringEnd: 0,
+    // rescuer
+    r: { screen:'board', type: S0 ? S.r.type : 'pro', night: S0 ? S.r.night : false, lang:'EN', open:null, ticks:false, sent:'', otw:[], rescued:[], dist: S0 ? S.r.dist : 30 },
+    vHeardAt: 0, vStart: 0,
+  };
+}
+let S0 = false, S = null; S = fresh(); S0 = true;
+
+const tv = (en, fil) => S.lang === 'FIL' ? fil : en;
+const tr = (en, fil) => S.r.lang === 'FIL' ? fil : en;
+const txt = (o, lang) => o ? (lang === 'FIL' ? o.fil : o.en) : '';
+
+// ---------- domain rules (mirror Triage.kt / Protocol.kt) ----------
+function triage(f) {
+  const c = f.cond;
+  if (c.includes('NOT_BREATHING') || c.includes('UNCONSCIOUS') || c.includes('HEAVY_BLEEDING') || (f.trapped && c.includes('WATER_RISING'))) return 'RED';
+  if (f.trapped || c.includes('PINNED') || c.includes('INJURED') || f.vuln.length || f.hazard) return 'YELLOW';
+  if (!f.hazard && !f.people && f.trapped == null && !c.length) return 'YELLOW';
+  return 'GREEN';
+}
+const SHAPE = {RED:'◆', YELLOW:'▲', GREEN:'●'};
+function missing(f) {
+  const m = [];
+  if (!f.hazard) m.push('what');
+  if (!f.people) m.push('count');
+  if (f.trapped == null) m.push('exit');
+  if (f.hazard === 'COLLAPSE' && !f.floor && !f.spot) m.push('place');
+  return m;
+}
+function plan(f) {
+  const out = [];
+  if (f.cond.includes('NOT_BREATHING')) out.push(['NOT_BREATHING', f.hazard === 'FLOOD' ? 'nb_breaths' : 'nb_push']);
+  if (f.cond.includes('HEAVY_BLEEDING')) out.push(['BLEEDING', P.BLEEDING.nodes[0].id]);
+  if (f.hazard === 'COLLAPSE' || f.hazard === 'LANDSLIDE') out.push(['COLLAPSE', P.COLLAPSE.nodes[0].id]);
+  if (f.hazard === 'FLOOD') out.push(['ROOF', P.ROOF.nodes[0].id]);
+  return out;
+}
+const node = () => { const e = S.plan[S.pi]; return e && S.node ? P[e[0]].nodes.find(n => n.id === S.node) : null; };
+const proto = () => S.plan[S.pi] ? P[S.plan[S.pi][0]] : null;
+const lifeHold = () => { const n = node(); return S.v === 'steps' && n && ['nb_push','nb_two','nb_keep','nb_breaths','bl_press','bl_keep'].includes(n.id); };
+
+function nextQ() {
+  S.q = S.asked.length < 2 ? (missing(S.facts).find(id => !S.asked.includes(id)) || null) : null;
+  if (S.q) { S.asked.push(S.q); say(txt(FU[S.q], S.lang)); }
+}
+function update(fn) {
+  const old = JSON.parse(JSON.stringify(S.facts));
+  fn(S.facts);
+  const f = S.facts;
+  const newCond = f.cond.some(c => !old.cond.includes(c));
+  if ((newCond && (old.hazard || old.cond.length)) || (old.people && f.people > old.people) || (old.trapped === false && f.trapped === true)) S.worse = true;
+  const lt = f.cond.filter(c => !old.cond.includes(c)).some(c => c === 'NOT_BREATHING' || c === 'HEAVY_BLEEDING');
+  if (S.q && !missing(f).includes(S.q)) nextQ();
+  if (lt) startSteps();
+  S.vHeardAt = Date.now();
+}
+function startSteps() {
+  S.plan = plan(S.facts); S.pi = 0; S.node = S.plan[0] ? S.plan[0][1] : null; S.safer = false; S.v = 'steps'; S.myth = null;
+  speakNode();
+}
+function go(next, safer) {
+  S.safer = !!safer;
+  if (next) S.node = next; else { S.pi++; S.node = S.plan[S.pi] ? S.plan[S.pi][1] : null; }
+  speakNode();
+}
+function speakNode() { const n = node(); if (n) say(txt(n.text, S.lang) + ' ' + txt(n.detail, S.lang)); }
+
+// ---------- speech (prototype only) ----------
+function say(s, lang) {
+  try { if (!window.speechSynthesis || S.battery <= 15) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(s); u.lang = (lang || S.lang) === 'FIL' ? 'fil-PH' : 'en-US'; speechSynthesis.speak(u); } catch (e) {}
+}
+function buzz(p) { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} }
+
+// The mic is simulated: the first report is the PRD's scripted collapse report, the second is the "lola stopped breathing" update.
+function micTap() {
+  if (S.mic !== 'idle') return;
+  S.mic = 'listen'; render();
+  setTimeout(() => { S.mic = 'think'; render();
+    setTimeout(() => {
+      S.mic = 'idle';
+      if (S.q === 'exit') { S.heard = 'UNSURE'; update(f => f.trapped = true); }
+      else if (S.v === 'steps' && !node()?.yes) { S.myth = 'lighter'; }
+      else if (S.spoken === 0) { S.spoken++; update(f => Object.assign(f, {hazard:'COLLAPSE', people:4, floor:2, spot:'BATHROOM', vuln:['ELDERLY','CHILD'], cond:['PINNED','HEAVY_BLEEDING']})); }
+      else { S.spoken++; update(f => { if (!f.cond.includes('NOT_BREATHING')) f.cond.push('NOT_BREATHING'); }); }
+      touch(); render();
+    }, 1400);
+  }, 1300);
+}
+
+// ---------- labels ----------
+const HAZ = {COLLAPSE:['Collapse','Gumuho'], FLOOD:['Flood','Baha'], LANDSLIDE:['Landslide','Pagguho ng lupa'], OTHER:['Other emergency','Ibang emergency']};
+const VULN = {INFANT:['Baby','Sanggol'], CHILD:['Child','Bata'], ELDERLY:['Elderly','Matanda'], PREGNANT:['Pregnant','Buntis'], PWD:['PWD','PWD']};
+const COND = {NOT_BREATHING:['Not breathing','Hindi humihinga'], UNCONSCIOUS:['Unconscious','Walang malay'], HEAVY_BLEEDING:['Heavy bleeding','Malakas na pagdurugo'], PINNED:['Pinned','Naipit ang katawan'], INJURED:['Injured','Sugatan'], WATER_RISING:['Water rising','Tumataas ang tubig']};
+const SPOT = {BATHROOM:['bathroom','banyo'], STAIRS:['stairs','hagdan'], HALLWAY:['hallway','pasilyo'], ROOM:['room','kuwarto'], KITCHEN:['kitchen','kusina']};
+const L = (pair, lang) => pair ? (lang === 'FIL' ? pair[1] : pair[0]) : '';
+function placeStr(floor, spot, lang) {
+  const a = [];
+  if (floor === 15) a.push(lang === 'FIL' ? 'Bubong' : 'Roof'); else if (floor) a.push((lang === 'FIL' ? 'Palapag ' : 'Floor ') + floor);
+  if (spot) a.push(L(SPOT[spot], lang));
+  return a.join(' · ');
+}
+
+// ---------- victim render ----------
+function render() { renderVictim(); renderRescuer(); renderPower(); }
+
+function sbar(dark) {
+  return `<div class="sbar" style="color:${dark ? '#8d96a3' : 'inherit'}"><span>9:41</span><span>✈ ᛒ ${S.battery}%</span></div>`;
+}
+function hdr() {
+  return `<div class="hdr"><span class="demo">${tv('DEMO · not medically reviewed','DEMO · hindi pa nasuri ng doktor')}</span>
+    <button class="lang" data-a="lang">${S.lang === 'EN' ? 'FIL' : 'EN'}</button></div>`;
+}
+const b911 = () => `<button class="v911" data-a="911">${tv('Call 911','Tumawag sa 911')}<small>${tv("if there's signal","kung may signal")}</small></button>`;
+
+function beaconLine() {
+  if (S.acked) return `<span class="dot"></span>${tv('Answered · help is on the way','May sumagot · paparating ang tulong')}`;
+  return `<span class="dot"></span>${tv('Beacon on · no answer yet','Naka-on ang beacon · wala pang sumasagot')}`;
+}
+
+function statusCard() {
+  const f = S.facts, tri = triage(f);
+  const chips = [];
+  chips.push(f.people ? `<span class="chip">${f.people} ${tv('people','katao')}</span>` : `<span class="chip unk">? ${tv('How many','Ilan')}</span>`);
+  chips.push(f.trapped == null ? `<span class="chip unk">? ${tv('Trapped','Naiipit')}</span>` : `<span class="chip">${f.trapped ? tv('Trapped','Naiipit') : tv('Not trapped','Hindi naiipit')}</span>`);
+  const pl = placeStr(f.floor, f.spot, S.lang);
+  if (pl) chips.push(`<span class="chip">${pl}</span>`); else if (f.hazard === 'COLLAPSE') chips.push(`<span class="chip unk">? ${tv('Which floor','Anong palapag')}</span>`);
+  f.vuln.forEach(v => chips.push(`<span class="chip">${L(VULN[v], S.lang)}</span>`));
+  f.cond.forEach(c => chips.push(`<span class="chip cond">${L(COND[c], S.lang)}</span>`));
+  return `<div class="status">
+    <div class="l1"><span class="tri ${tri}">${SHAPE[tri]} ${tri}</span>
+      <span class="haz" style="${f.hazard ? '' : 'color:var(--v-on2)'}">${f.hazard ? L(HAZ[f.hazard], S.lang) : '? ' + tv('What happened','Ano ang nangyari')}</span></div>
+    <div class="chips">${chips.join('')}</div>
+    <div class="bline">${beaconLine()}</div></div>`;
+}
+function strip() {
+  const f = S.facts, tri = triage(f);
+  return `<button class="strip" data-a="strip"><span class="tri ${tri}" style="font-size:13px;padding:2px 8px">${SHAPE[tri]} ${tri}</span>
+    ${f.hazard ? L(HAZ[f.hazard], S.lang) : tv('Emergency','Emergency')}${f.people ? ' · ' + f.people : ''}
+    <span class="bl"><span class="dot"></span>${S.acked ? tv('Help coming','Paparating') : tv('Beacon on','Beacon on')}</span></button>`;
+}
+function micBtn(label) {
+  if (S.battery <= 15) return `<div class="lowbat">${tv('Battery critical: voice and AI are off to save power. The buttons do everything.','Mahina na ang baterya: patay ang boses at AI para makatipid. Gamitin ang mga button.')}</div>`;
+  const l = S.mic === 'listen' ? tv('Listening… speak now','Nakikinig… magsalita na') : S.mic === 'think' ? tv('Understanding…','Inuunawa…') : label;
+  return `<button class="vbtn mic ${S.mic === 'listen' ? 'listen' : 'main'}" data-a="mic"><span class="ic"></span>${l}</button>`;
+}
+function tile(label, on, act) { return `<button class="vbtn ${on ? 'on' : ''}" data-a="${act}">${on ? '✓ ' : ''}${label}</button>`; }
+function idleLine() { return S.sos !== false && S.v !== 'home' && S.v !== 'cancel' && S.v !== 'rescued' && !lifeHold() ? `<div class="idle" id="idle"></div>` : ''; }
+
+function renderVictim() {
+  const el = $('#victim');
+  if (S.typing && document.activeElement && document.activeElement.id === 'typed') return;
+  let h = sbar() + '<div class="body">' + hdr();
+  const f = S.facts;
+  if (S.v === 'home') {
+    h += `<div class="grow center" style="gap:22px">
+      <button class="sos" id="sos" aria-label="SOS, press and hold"><span class="in"><b>SOS</b><span>${tv('Press and hold','Pindutin nang matagal')}</span></span></button>
+      <p class="lead">${tv('Works with no signal.<br>Rescuers nearby can find you.','Gumagana kahit walang signal.<br>Mahahanap ka ng rescuers sa malapit.')}</p></div>
+      <button class="tlink" data-a="safe" style="align-self:center">${tv("I'm safe · help others →","Ligtas ako · tumulong sa iba →")}</button>`;
+  } else if (S.v === 'cancel') {
+    h += `<div class="grow center" style="gap:14px"><p class="lead dim" style="font-size:20px">${tv('Sending SOS in','Ipapadala ang SOS sa')}</p>
+      <div id="cd" style="font-size:120px;font-weight:900;line-height:1">3</div></div>
+      <button class="vbtn" data-a="cancel" style="min-height:76px;font-size:22px">${tv('Cancel','Kanselahin')}</button>`;
+  } else if (S.v === 'report') {
+    h += statusCard();
+    if (S.heard) h += `<div class="understood">${tv('I understood: ','Naintindihan ko: ')}${S.heard === 'UNSURE' ? tv('NOT SURE','HINDI SIGURADO') : S.heard}
+      ${S.heard === 'UNSURE' ? `<small>${tv("We'll treat it as trapped. That's the safer choice.","Ituturing nating naiipit kayo. Ito ang mas ligtas.")}</small>` : ''}</div>`;
+    h += '<div class="grow">';
+    if (S.q) {
+      h += `<div class="qlabel">${tv('QUESTION','TANONG')} ${S.asked.length} / 2</div><p class="qtext">${txt(FU[S.q], S.lang)}</p>`;
+      if (S.q === 'exit') h += `<div class="row">${tile(tv('YES','OO'), false, 'ans:YES')}${tile(tv('NO','HINDI'), false, 'ans:NO')}</div>${tile(tv('NOT SURE','HINDI SIGURADO'), false, 'ans:UNSURE')}`;
+      h += micBtn(tv('Say your answer','Sabihin ang sagot'));
+      if (S.q === 'what') h += `<div class="row">${tile(tv('Collapse','Gumuho'), f.hazard === 'COLLAPSE', 'haz:COLLAPSE')}${tile(tv('Flood','Baha'), f.hazard === 'FLOOD', 'haz:FLOOD')}</div>`;
+      if (S.q === 'count') h += `<div class="row">${[1,2,3,'4+'].map(n => tile(String(n), false, 'ppl:' + n)).join('')}</div>`;
+      if (S.q === 'place') h += `<div class="row">${tile(tv('Ground','Unang palapag'), false, 'flr:1')}${tile(tv('2nd floor','Ika-2'), false, 'flr:2')}</div>`;
+      h += `<button class="tlink" data-a="skip" style="align-self:flex-start">${tv('Skip question','Laktawan')}</button>`;
+    } else {
+      h += micBtn(tv('Tap and tell me what happened','Pindutin at sabihin ang nangyari'));
+      h += `<div class="row">${tile(tv('Collapse','Gumuho'), f.hazard === 'COLLAPSE', 'haz:COLLAPSE')}${tile(tv('Flood','Baha'), f.hazard === 'FLOOD', 'haz:FLOOD')}</div>
+        <div class="row">${tile(tv('Not breathing','Hindi humihinga'), f.cond.includes('NOT_BREATHING'), 'cond:NOT_BREATHING')}${tile(tv('Bleeding','Dumudugo'), f.cond.includes('HEAVY_BLEEDING'), 'cond:HEAVY_BLEEDING')}</div>
+        ${tile(tv('Trapped','Naiipit'), f.trapped === true, 'trap')}`;
+    }
+    h += S.typing ? `<div class="typebox"><input id="typed" placeholder="${tv('Type what happened','I-type ang nangyari')}"><button class="vbtn quiet" style="width:auto;min-height:48px;font-size:15px" data-a="send">${tv('Send','Ipadala')}</button></div>`
+      : `<button class="tlink" data-a="type" style="align-self:flex-start">${tv('Type instead','I-type na lang')}</button>`;
+    h += '</div>';
+    const can = plan(f).length > 0;
+    h += `<button class="vbtn main" data-a="start" ${can ? '' : 'disabled'}>${can ? tv('Start steps →','Simulan ang mga hakbang →') : tv('Steps start once we know what happened','Magsisimula ang hakbang kapag alam na ang nangyari')}</button>`;
+    h += idleLine();
+  } else if (S.v === 'steps' || S.v === 'myth') {
+    h += S.stripOpen ? statusCard() : strip();
+    const p = proto(), n = node();
+    if (S.acked) h += `<div class="helpline">✓ ${tv('Help is on the way. Keep going.','Paparating na ang tulong. Ituloy lang.')}</div>`;
+    if (S.myth) {
+      const faq = (p && p.faqs.find(x => x.id === S.myth)) || P.COLLAPSE.faqs.find(x => x.id === 'lighter');
+      h += `<div class="grow" style="justify-content:center"><div class="qlabel">${tv('YOU ASKED','TANONG MO')}</div>
+        <p class="detail">“Pwede bang sindihan ang lighter para makakita?”</p>
+        <div class="approved">✓ ${tv('APPROVED ANSWER · written in advance, not by AI','APROBADONG SAGOT · isinulat na noon pa, hindi ng AI')}</div>
+        <p class="step" style="font-size:26px">${txt(faq.answer, S.lang)}</p></div>
+        <button class="vbtn main" data-a="unmyth">${tv('Back to steps','Bumalik sa hakbang')}</button>`;
+    } else if (!p || !n) {
+      h += `<div class="grow" style="justify-content:center"><p class="step">${tv('Stay where you are. Rescuers are coming.','Manatili ka riyan. Paparating ang rescuers.')}</p>
+        <p class="detail dim">${tv('The screen will go dark to save battery. Your beacon keeps sending.','Didilim ang screen para makatipid. Tuloy ang beacon.')}</p></div>
+        <button class="vbtn main" data-a="survive">${tv('Save battery now','Magtipid na ngayon')}</button>`;
+    } else {
+      const i = p.nodes.indexOf(n);
+      h += `<div class="ptitle">${txt(p.title, S.lang)}<span>${tv('STEP','HAKBANG')} ${i + 1} / ${p.nodes.length}</span></div>
+        <div class="pips">${p.nodes.map((_, k) => `<i class="${k <= i ? 'd' : ''}"></i>`).join('')}</div>`;
+      if (S.safer) h += `<div class="understood" style="font-size:15px">${tv("Not sure: we'll take the safer choice.","Hindi sigurado: pipiliin natin ang mas ligtas.")}</div>`;
+      h += `<div class="grow" style="justify-content:center"><p class="step">${txt(n.text, S.lang)}</p>${n.detail ? `<p class="detail">${txt(n.detail, S.lang)}</p>` : ''}</div>`;
+      if (['nb_push','nb_keep'].includes(n.id)) h += `<div class="beat"><span class="b" id="beat"></span>${tv('Push on each beat · 110 a minute · sound + vibration','Diin sa bawat tunog · 110 kada minuto · tunog + vibrate')}</div>`;
+      if (lifeHold()) h += `<div class="idle">${tv('Screen stays on for this step, dimmed to save battery','Bukas ang screen sa hakbang na ito, pinadilim para makatipid')}</div>`;
+      if (n.yes) h += `<div class="row">${tile(tv('YES','OO'), false, 'step:yes')}${tile(tv('NO','HINDI'), false, 'step:no')}</div>${tile(tv('NOT SURE','HINDI SIGURADO'), false, 'step:safer')}`;
+      else h += `<div class="row"><button class="vbtn quiet" style="flex:0 0 96px;font-size:16px" data-a="repeat">${tv('Repeat','Ulitin')}</button><button class="vbtn main" data-a="next" style="font-size:24px">${tv('Next','Susunod')}</button></div>
+        ${S.battery > 15 ? `<button class="tlink" data-a="mic" style="align-self:flex-start">${S.mic === 'idle' ? tv('Ask a question','Magtanong') : S.mic === 'listen' ? tv('Listening…','Nakikinig…') : tv('Finding an approved answer…','Hinahanap…')}</button>` : ''}`;
+      if (S.q && S.q === 'exit') h += `<div class="waitq"><div class="qlabel">${tv('ANSWER WHEN YOU CAN','SAGUTIN KAPAG KAYA MO')}</div><p class="qtext">${txt(FU.exit, S.lang)}</p>
+        <div class="row" style="margin-top:6px">${['YES','NO','UNSURE'].map(a => `<button class="vbtn quiet" style="min-height:56px;font-size:15px" data-a="ans:${a}">${a === 'YES' ? tv('YES','OO') : a === 'NO' ? tv('NO','HINDI') : tv('NOT SURE','DI SIGURADO')}</button>`).join('')}</div></div>`;
+    }
+    h += idleLine();
+  } else if (S.v === 'rescued') {
+    h += `<div class="grow" style="justify-content:center;gap:14px"><div class="qlabel">${tv('BEACON STOPPED','HUMINTO ANG BEACON')}</div>
+      <p class="step">${tv('A rescuer marked you as rescued.','Minarkahan ka ng rescuer na nailigtas na.')}</p>
+      <p class="detail dim">${tv('If you still need help, start a new SOS. Your phone stays quiet until then.','Kung kailangan mo pa ng tulong, mag-SOS ulit. Tahimik ang phone hanggang doon.')}</p></div>
+      <button class="vbtn main" data-a="again">${tv('I still need help: new SOS','Kailangan ko pa ng tulong: SOS ulit')}</button>`;
+  }
+  h += b911() + '</div>';
+
+  // overlays
+  if (S.surv) {
+    const left = hoursLeft();
+    if (S.surv === 'status') {
+      h += `<div class="survival" data-a="wake">${sbar(true)}
+        <div class="qlabel" style="color:#6c7581">${tv('SAVING BATTERY','NAGTITIPID NG BATERYA')}</div>
+        ${S.acked ? `<div class="helpcoming" style="color:#c9d0d9;border-color:#c9d0d9"><b>${tv('Help is on the way','Paparating na ang tulong')}</b>${tv('Stay where you are. Keep the phone with you.','Manatili ka riyan. Hawakan ang phone.')}</div>` : ''}
+        <div class="big">${tv('Beacon on','Naka-on ang beacon')}<br>~${left} ${tv('hours left','oras pa')}</div>
+        <div class="hint">${tv('Rescuers nearby can find this phone.','Mahahanap ng rescuers ang phone na ito.')}</div>
+        ${S.battery <= 30 ? `<div class="hint">${tv('Low battery: a rescuer\'s ring can take up to 1 minute to reach you.','Mahina ang baterya: baka abutin ng 1 minuto bago marinig ang ring.')}</div>` : ''}
+        <div style="flex:1"></div>
+        <div class="hint">${tv('Going dark in a few seconds. Tap to keep it on.','Didilim sa ilang segundo. Pindutin para manatiling bukas.')}</div>
+        <button class="vbtn" data-a="unsurvive" style="background:#000;border-color:#3a414b;color:#c9d0d9">${tv('Back to the app','Bumalik sa app')}</button></div>`;
+    } else {
+      h += `<div class="survival ${S.surv}" data-a="wake"><div class="offlabel">${S.surv === 'black' ? tv('black · brightness 1%<br>tap to wake','itim · 1% liwanag<br>pindutin') : tv('screen off<br>beacon still sending','patay ang screen<br>tuloy ang beacon')}</div></div>`;
+    }
+  }
+  if (S.ringing) {
+    h += `<div class="ring flash">${sbar(true)}<div class="qlabel" style="color:#fff">${tv('A RESCUER IS NEARBY','MAY RESCUER SA MALAPIT')}</div>
+      <b>${tv('A rescuer is ringing this phone','Pinatutunog ng rescuer ang phone na ito')}</b>
+      <p class="detail" style="color:#fff">${tv('They are close. Tap 3 times on a pipe or wall, or shout now.','Malapit na sila. Kumatok nang 3 beses o sumigaw na.')}</p>
+      <div style="flex:1"></div><button class="vbtn" data-a="stopring" style="background:#000;color:#fff;border-color:#fff">${tv('Stop ringing','Ihinto')}</button></div>`;
+  }
+  if (S.sheet) {
+    h += `<div class="scrim" data-a="nosafe"></div><div class="sheet">
+      <p class="qtext" style="font-size:22px">${tv('Tell rescuers you are safe?','Sabihin sa rescuers na ligtas ka?')}</p>
+      <p class="detail dim" style="font-size:16px">${tv('This phone sends "safe" and becomes a rescuer board, so you can help find people nearby.','Magpapadala ang phone ng "ligtas" at magiging rescuer board para makatulong ka.')}</p>
+      <button class="vbtn main" data-a="yessafe">${tv("Yes, I'm safe","Oo, ligtas ako")}</button>
+      <button class="vbtn quiet" data-a="nosafe">${tv('No, go back','Hindi, bumalik')}</button></div>`;
+  }
+  el.innerHTML = h;
+  if (S.v === 'home') bindSos();
+  if (S.v === 'cancel') runCancel();
+  tickIdle();
+  $('#vstate').textContent = vStateLabel();
+}
+
+function vStateLabel() {
+  if (S.ringing) return 'Ringing: chirp + strobe, 30 s';
+  if (S.surv) return {status:'Survival · status (dim, 10 s)', black:'Survival · black (1% brightness, 10 s)', off:'Survival · screen off'}[S.surv];
+  return {home:'Home', cancel:'3-second cancel', report:'Report', steps:'Protocol steps' + (lifeHold() ? ' · life-threat step, screen held on' : ''), myth:'Myth-buster', rescued:'Rescued'}[S.v];
+}
+
+// SOS hold 1.5 s
+function bindSos() {
+  const b = $('#sos'); let t0 = 0, raf = 0;
+  const stop = () => { cancelAnimationFrame(raf); t0 = 0; b.style.setProperty('--p', 0); };
+  b.addEventListener('pointerdown', e => { e.preventDefault(); b.setPointerCapture(e.pointerId); t0 = performance.now();
+    const loop = now => { const p = Math.min(1, (now - t0) / 1500); b.style.setProperty('--p', p);
+      if (p >= 1) { buzz(60); S.v = 'cancel'; render(); return; } raf = requestAnimationFrame(loop); };
+    raf = requestAnimationFrame(loop); });
+  ['pointerup','pointercancel','pointerleave'].forEach(ev => b.addEventListener(ev, stop));
+}
+let cdTimer = 0;
+function runCancel() {
+  clearInterval(cdTimer); let n = 3;
+  cdTimer = setInterval(() => { n--; const c = $('#cd'); if (S.v !== 'cancel') return clearInterval(cdTimer);
+    if (n <= 0) { clearInterval(cdTimer); confirmSos(); } else if (c) c.textContent = n; }, 1000);
+}
+function confirmSos() {
+  buzz([80, 60, 80]); S.sos = true; S.v = 'report'; S.vStart = Date.now(); S.vHeardAt = Date.now(); touch(); nextQ(); render();
+}
+
+// ---------- idle → survival ----------
+function touch() { S.lastTouch = Date.now(); }
+function tickIdle() {
+  const el = $('#idle'); if (!el) return;
+  const left = Math.max(0, Math.ceil((IDLE_MS() - (Date.now() - S.lastTouch)) / 1000));
+  el.textContent = tv(`Screen goes dark in ${left} s to save battery · tap anything to wait`, `Didilim ang screen sa ${left} s para makatipid`);
+}
+let survT = 0;
+function enterSurvival() { S.surv = 'status'; clearTimeout(survT); survT = setTimeout(() => { S.surv = 'black'; render(); survT = setTimeout(() => { S.surv = 'off'; render(); }, 10000); }, 10000); render(); }
+function wake() { S.surv = 'status'; touch(); clearTimeout(survT); survT = setTimeout(() => { S.surv = 'black'; render(); survT = setTimeout(() => { S.surv = 'off'; render(); }, 10000); }, 10000); render(); }
+setInterval(() => {
+  const now = Date.now();
+  if (S.sos && !S.surv && !S.ringing && !S.sheet && ['report','steps','myth'].includes(S.v) && S.mic === 'idle' && !lifeHold() && now - S.lastTouch > IDLE_MS()) enterSurvival();
+  tickIdle();
+  if (S.ringing && now > S.ringEnd) { S.ringing = false; render(); }
+  // CPR metronome visual (the app would use sound + haptics)
+  if (lifeHold()) { const b = $('#beat'); if (b) { b.classList.add('hit'); setTimeout(() => b.classList.remove('hit'), 150); } }
+  if (S.r.screen === 'board' || S.r.screen === 'detail') refreshRescuerMeta();
+}, 545);
+
+function hoursLeft() {
+  // ponytail: illustrative projection from the proposed screen-off draw; the app shows the measured S12 number
+  const mAh = 4000 * S.battery / 100; return Math.round(mAh / drawProposed('off').total);
+}
+
+// ---------- victim events ----------
+$('#victim').addEventListener('pointerdown', () => { if (!S.surv) touch(); }, true);
+$('#victim').addEventListener('click', e => {
+  const t = e.target.closest('[data-a]'); if (!t) return;
+  const a = t.dataset.a, [k, v] = a.split(':');
+  touch();
+  if (a === 'wake' && e.target.closest('[data-a="unsurvive"]')) return;
+  switch (k) {
+    case 'lang': S.lang = S.lang === 'EN' ? 'FIL' : 'EN'; break;
+    case '911': alert('Opens the phone dialer with 911 (ACTION_DIAL). Emergency calls can go through even in airplane mode.'); return;
+    case 'safe': S.sheet = true; break;
+    case 'nosafe': S.sheet = false; break;
+    case 'yessafe': S.sheet = false; alert('Sends a SAFE record, then this phone opens the rescuer board (bayanihan mode). Use the right-hand phone to try the rescuer side.'); break;
+    case 'cancel': clearInterval(cdTimer); S.v = 'home'; break;
+    case 'mic': micTap(); return;
+    case 'haz': update(f => f.hazard = f.hazard === v ? null : v); break;
+    case 'cond': update(f => { f.cond = f.cond.includes(v) ? f.cond.filter(x => x !== v) : [...f.cond, v]; }); break;
+    case 'trap': update(f => f.trapped = f.trapped === true ? null : true); break;
+    case 'ppl': update(f => f.people = v === '4+' ? 4 : +v); break;
+    case 'flr': update(f => f.floor = +v); break;
+    case 'ans': S.heard = null; update(f => f.trapped = v === 'NO' ? false : true); if (v === 'UNSURE') S.heard = 'UNSURE'; break;
+    case 'skip': nextQ(); break;
+    case 'type': S.typing = true; render(); setTimeout(() => $('#typed') && $('#typed').focus(), 0); return;
+    case 'send': S.typing = false; if (S.spoken === 0) { S.spoken++; update(f => Object.assign(f, {hazard:'COLLAPSE', people:4, floor:2, spot:'BATHROOM', vuln:['ELDERLY','CHILD'], cond:['PINNED','HEAVY_BLEEDING']})); } break;
+    case 'start': startSteps(); break;
+    case 'next': go(node().next); break;
+    case 'repeat': speakNode(); break;
+    case 'step': go(node()[v], v === 'safer'); break;
+    case 'unmyth': S.myth = null; break;
+    case 'strip': S.stripOpen = !S.stripOpen; break;
+    case 'survive': enterSurvival(); return;
+    case 'wake': wake(); return;
+    case 'unsurvive': S.surv = null; clearTimeout(survT); break;
+    case 'stopring': S.ringing = false; break;
+    case 'again': Object.assign(S, {v:'home', sos:false, acked:false, worse:false, asked:[], q:null, heard:null, spoken:0,
+      facts:{hazard:null, people:0, trapped:null, floor:0, spot:null, vuln:[], cond:[]}}); S.r.rescued = S.r.rescued.filter(x => x !== 'v1'); break;
+  }
+  render();
+});
+
+// ---------- rescuer ----------
+const SAMPLES = [
+  {id:'r2', code:'FLOOD', people:2, trapped:false, floor:15, spot:null, vuln:['ELDERLY'], cond:[], battery:12, gps:{m:1200, dir:'NE'}, heard:40, reported:52, rev:4},
+  {id:'r3', code:'COLLAPSE', people:1, trapped:true, floor:1, spot:'HALLWAY', vuln:[], cond:['PINNED'], battery:54, gps:null, heard:7*60, reported:95, rev:2},
+];
+function victimRec() {
+  if (!S.sos || S.v === 'rescued' || S.r.rescued.includes('v1')) return null;
+  const f = S.facts;
+  return {id:'v1', code:f.hazard || 'OTHER', people:f.people, trapped:!!f.trapped, floor:f.floor, spot:f.spot, vuln:f.vuln, cond:f.cond,
+    battery:S.battery, gps:null, heard:Math.round((Date.now() - S.vHeardAt) / 1000) % (S.battery <= 30 ? 60 : 2), reported:Math.round((Date.now() - S.vStart) / 60000), worse:S.worse, live:true};
+}
+function recs() {
+  const all = [victimRec(), ...SAMPLES].filter(r => r && !S.r.rescued.includes(r.id));
+  all.forEach(r => r.tri = triage({hazard:r.code === 'OTHER' ? null : r.code, people:r.people, trapped:r.trapped, vuln:r.vuln, cond:r.cond}));
+  const o = {RED:2, YELLOW:1, GREEN:0};
+  return all.sort((a, b) => o[b.tri] - o[a.tri] || (b.battery <= 15) - (a.battery <= 15) || (b.vuln.length > 0) - (a.vuln.length > 0) || b.reported - a.reported);
+}
+const ago = s => s < 60 ? `${s} s` : `${Math.round(s / 60)} min`;
+const silent = r => r.heard > 120;
+function bandOf(d) { return d < 4 ? 3 : d < 12 ? 2 : d < 25 ? 1 : 0; }
+
+function rhdr(title, back) {
+  return `<div class="rhdr">${back ? `<button class="rbtn" data-r="back">←</button>` : ''}<h4>${title}</h4>
+    <button class="rbtn" data-r="night">${S.r.night ? '☀' : '☾'}</button><button class="rbtn" data-r="lang">${S.r.lang === 'EN' ? 'FIL' : 'EN'}</button></div>`;
+}
+function renderRescuer() {
+  const el = $('#rescuer');
+  el.classList.toggle('night', S.r.night);
+  let h = `<div class="sbar"><span>9:41</span><span>✈ ᛒ ${S.r.type === 'pro' ? '⚡ 88%' : '47%'}</span></div><div class="rbody">`;
+  const rs = recs();
+  if (S.r.screen === 'board') {
+    h += rhdr(tr('Calls for help','Humihingi ng tulong'));
+    h += `<div class="rmeta" id="rmeta"></div>`;
+    if (!rs.length) h += `<div class="empty"><b style="font-size:22px">${tr('Listening for beacons…','Nakikinig…')}</b><span>${tr("Bluetooth reaches about 30–100 m. Silence doesn't mean nobody needs help: move closer.","Mga 30–100 m lang ang abot. Lumapit pa.")}</span></div>`;
+    else h += `<div class="list">${rs.map(rowHtml).join('')}</div>`;
+  } else {
+    const r = rs.find(x => x.id === S.r.open);
+    if (!r) { S.r.screen = 'board'; return renderRescuer(); }
+    const band = r.live ? bandOf(S.r.dist) : (silent(r) ? -1 : 1);
+    const names = [tr('Cold','Malamig'), tr('Warm','Maligamgam'), tr('Hot','Mainit'), tr('Right here','Nandito na')];
+    const lng = S.r.lang;
+    const head = `${L(HAZ[r.code] || ['Emergency','Emergency'], lng)} · ${r.people || '?'} ${tr('people','katao')}${r.trapped ? tr(' · trapped',' · naiipit') : ''}`;
+    h += rhdr(`<span class="tri ${r.tri}" style="font-size:13px;vertical-align:3px">${SHAPE[r.tri]} ${r.tri}</span>`, true);
+    h += `<div style="font-size:20px;font-weight:900;line-height:1.2">${head}</div>`;
+    const pl = placeStr(r.floor, r.spot, lng);
+    if (pl) h += `<div style="font-size:24px;font-weight:900">📍 ${pl}</div>`;
+    h += `<div class="tags">${r.worse ? `<span class="tag fill">${tr('GETTING WORSE','LUMALALA')}</span>` : ''}${S.r.otw.includes(r.id) ? `<span class="tag">${tr('ON THE WAY','PAPUNTA NA')}</span>` : ''}${r.battery <= 15 ? `<span class="tag">🔋 ${tr('MAY STOP SOON','BAKA MAMATAY')}</span>` : ''}</div>`;
+    h += `<div class="brief">${esc(brief(r))} <button class="rbtn" data-r="speak" style="padding:1px 8px;margin-left:4px">▶ ${tr('Replay','Ulitin')}</button></div>`;
+    if (r.gps) h += `<div style="display:flex;gap:14px;align-items:center"><span style="font-size:64px;font-weight:900;color:var(--r-pri);line-height:1">↗</span><div><b style="font-size:28px">${(r.gps.m/1000).toFixed(1)} km</b><br>${r.gps.dir}</div></div>`;
+    else h += `<div class="rmeta">${tr('NO GPS · follow the signal','WALANG GPS · sundan ang signal')}</div>`;
+    h += `<div class="bands">${names.map((_, i) => `<i class="${i <= band ? 'lit' : ''}" style="height:${25 * (i + 1)}%"></i>`).join('')}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between"><span class="bandname">${band < 0 ? tr('No signal','Walang signal') : names[band]}</span>
+      <label class="tog"><input type="checkbox" data-r="ticks" ${S.r.ticks ? 'checked' : ''}> ${tr('Sound ticks','Tunog')}</label></div>`;
+    h += `<div style="flex:1"></div>`;
+    if (S.r.sent) h += `<div class="sent">${S.r.sent}</div>`;
+    const ring = `<button class="ract ${r.gps ? '' : 'pri'}" data-r="ring">🔔 ${tr('Ring phone','Patunugin')}</button>`;
+    const otw = `<button class="ract ${r.gps ? 'pri' : ''}" data-r="otw">${S.r.otw.includes(r.id) ? tr('On my way ✓ · send again','Papunta na ✓') : tr('On my way','Papunta na ako')}</button>`;
+    h += `<div class="ractions">${r.gps ? otw + ring : ring + otw}
+      <button class="ract" id="resc"><span class="fillbar"></span><span style="position:relative">${tr('Hold 1 s: Rescued','Diinan 1 s: Nailigtas')}</span></button></div>`;
+  }
+  h += '</div>';
+  el.innerHTML = h;
+  refreshRescuerMeta();
+  if (S.r.screen === 'detail') bindResc();
+  $('#rstate').textContent = (S.r.type === 'pro' ? 'Pro rescuer · sunlight theme · low-latency scan' : 'Neighbour · dark theme · balanced scan · GPS only on a record') + (S.r.screen === 'detail' ? ' · detail' : ' · board');
+}
+function rowHtml(r) {
+  const sil = silent(r), lng = S.r.lang;
+  const pl = placeStr(r.floor, r.spot, lng);
+  const flags = [...r.vuln.map(v => L(VULN[v], lng)), ...r.cond.map(c => L(COND[c], lng))].join(' · ');
+  return `<button class="rrow ${sil ? 'silent' : ''}" data-r="open:${r.id}">
+    <div class="rtri ${sil ? 'sil' : r.tri}"><span class="shape">${SHAPE[r.tri]}</span>${r.tri}</div>
+    <div class="rmain">
+      <div class="tags">${r.worse ? `<span class="tag fill">${tr('WORSE','LUMALALA')}</span>` : ''}${S.r.otw.includes(r.id) ? `<span class="tag">${tr('ON THE WAY','PAPUNTA')}</span>` : ''}${sil ? `<span class="tag">${tr('SILENT','TAHIMIK')} · ${ago(r.heard)}</span>` : ''}</div>
+      <div class="h">${r.people || '?'} ${tr('people','katao')}${r.trapped ? tr(' · trapped',' · naiipit') : ''} · ${L(HAZ[r.code] || ['Emergency','Emergency'], lng)}</div>
+      ${pl ? `<div class="place">📍 ${pl}</div>` : ''}
+      ${flags ? `<div class="fl">${flags}</div>` : ''}
+      <div class="m" data-meta="${r.id}"></div>
+    </div>
+    <div class="rdist">${r.gps ? `${r.gps.m < 1000 ? r.gps.m + ' m' : (r.gps.m / 1000).toFixed(1) + ' km'}<small>${r.gps.dir}${sil ? ' · last' : ''}</small>` : `<small>${tr('No GPS','Walang GPS')}</small>`}</div></button>`;
+}
+function refreshRescuerMeta() {
+  const rs = recs();
+  const m = $('#rmeta');
+  if (m) m.textContent = `${rs.length} ${tr('NEED HELP','NANGANGAILANGAN')} · ${tr('SAFE','LIGTAS')} 2 · ${S.r.type === 'pro' ? tr('SCANNING · FAST','NAG-I-SCAN') : tr('SCANNING · SAVING BATTERY','NAG-I-SCAN · TIPID')}`;
+  rs.forEach(r => { const e = document.querySelector(`[data-meta="${r.id}"]`); if (e) e.textContent = `${tr('Heard','Narinig')} ${ago(r.heard)} · ${tr('reported','iniulat')} ${r.reported} min · 🔋 ${r.battery}%${r.battery <= 15 ? tr(' · may stop soon',' · baka mamatay') : ''}`; });
+}
+function brief(r) {
+  const fil = S.r.lang === 'FIL';
+  const t = (a, b) => fil ? b : a;
+  const parts = [r.tri === 'RED' ? t('Red','Pula') : r.tri === 'YELLOW' ? t('Yellow','Dilaw') : t('Green','Berde'), L(HAZ[r.code] || ['Emergency','Emergency'], S.r.lang),
+    (r.people ? `${r.people} ${t('people','katao')}` : t('Number unknown','Hindi alam kung ilan')) + (r.vuln.length ? t(', including ',', kasama ang ') + r.vuln.map(v => L(VULN[v], S.r.lang).toLowerCase()).join(t(' and ',' at ')) : ''),
+    placeStr(r.floor, r.spot, S.r.lang), ...r.cond.map(c => L(COND[c], S.r.lang)), t(`Battery ${r.battery} percent`, `Baterya ${r.battery} porsiyento`)];
+  return parts.filter(Boolean).join('. ') + '.';
+}
+function bindResc() {
+  const b = $('#resc'); if (!b) return; let t0 = 0, raf = 0;
+  const stop = () => { cancelAnimationFrame(raf); b.style.setProperty('--p', 0); };
+  b.addEventListener('pointerdown', e => { e.preventDefault(); b.setPointerCapture(e.pointerId); t0 = performance.now();
+    const loop = now => { const p = Math.min(1, (now - t0) / 1000); b.style.setProperty('--p', p);
+      if (p >= 1) { const id = S.r.open; S.r.rescued.push(id); S.r.screen = 'board'; S.r.sent = '';
+        if (id === 'v1') { S.v = 'rescued'; S.sos = false; S.surv = null; S.acked = false; S.ringing = false; }
+        render(); return; } raf = requestAnimationFrame(loop); };
+    raf = requestAnimationFrame(loop); });
+  ['pointerup','pointercancel','pointerleave'].forEach(ev => b.addEventListener(ev, stop));
+}
+$('#rescuer').addEventListener('click', e => {
+  const t = e.target.closest('[data-r]'); if (!t) return;
+  const [k, v] = t.dataset.r.split(':');
+  if (k === 'ticks') { S.r.ticks = t.checked; geiger(); return; }
+  switch (k) {
+    case 'open': S.r.open = v; S.r.screen = 'detail'; S.r.sent = ''; { const r = recs().find(x => x.id === v); if (r) say(brief(r), S.r.lang); } break;
+    case 'back': S.r.screen = 'board'; S.r.ticks = false; break;
+    case 'night': S.r.night = !S.r.night; break;
+    case 'lang': S.r.lang = S.r.lang === 'EN' ? 'FIL' : 'EN'; break;
+    case 'speak': { const r = recs().find(x => x.id === S.r.open); if (r) say(brief(r), S.r.lang); } return;
+    case 'otw':
+      if (!S.r.otw.includes(S.r.open)) S.r.otw.push(S.r.open);
+      S.r.sent = tr('Sent. Their phone shows "Help is on the way".','Naipadala. Makikita nila ang "Paparating ang tulong".');
+      if (S.r.open === 'v1') setTimeout(() => { S.acked = true; buzz([200, 100, 200, 100, 200]); say(tv('Help is on the way','Paparating na ang tulong')); if (S.surv) wake(); else render(); }, S.battery <= 30 ? 2500 : 800);
+      break;
+    case 'ring':
+      S.r.sent = S.battery <= 30 && S.r.open === 'v1' ? tr('Ringing for 30 s. Low battery: it can take up to a minute to start.','Pinatutunog nang 30 s. Baka abutin ng isang minuto.') : tr('Ringing their phone for 30 s.','Pinatutunog ang phone nila nang 30 s.');
+      if (S.r.open === 'v1') setTimeout(() => { S.ringing = true; S.ringEnd = Date.now() + 30000; buzz([400, 200, 400]); render(); }, S.battery <= 30 ? 2500 : 800);
+      break;
+  }
+  render();
+});
+
+// Geiger-style ticks: faster as the band gets hotter, so the rescuer can watch the rubble, not the screen.
+let gTimer = 0, actx = null;
+function geiger() {
+  clearTimeout(gTimer);
+  if (!S.r.ticks || S.r.screen !== 'detail') return;
+  try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); const o = actx.createOscillator(), g = actx.createGain();
+    o.frequency.value = 1400; g.gain.setValueAtTime(.12, actx.currentTime); g.gain.exponentialRampToValueAtTime(.001, actx.currentTime + .04);
+    o.connect(g).connect(actx.destination); o.start(); o.stop(actx.currentTime + .05); } catch (e) {}
+  const r = recs().find(x => x.id === S.r.open);
+  const band = r && r.live ? bandOf(S.r.dist) : 1;
+  gTimer = setTimeout(geiger, [1300, 700, 330, 140][band]);
+}
+
+// ---------- power model (illustrative) ----------
+// ponytail: rough mA figures for a mid-range OLED phone; tune with the S12 BatteryManager measurements
+function screenState() {
+  if (S.ringing) return 'lit';
+  if (S.surv) return S.surv === 'status' ? 'dim' : S.surv;
+  return lifeHold() ? 'dimheld' : 'lit';
+}
+function radio() {
+  const low = S.battery <= 30 && !S.acked;
+  const adv = !S.sos ? 0 : S.acked ? 8 : low ? 3 * 10 / 60 : 1.5;
+  const scan = !S.sos ? 0 : low ? 2 * 10 / 60 : 2;
+  return {adv, scan};
+}
+function drawProposed(force) {
+  const st = force || screenState();
+  const screen = {lit: 110, dim: 40, dimheld: 45, black: 12, off: 0}[st];
+  const cpu = st === 'off' ? 2 : 8;
+  const {adv, scan} = radio();
+  const gps = S.sos ? 0.5 : 0;
+  const ai = S.mic === 'think' ? 350 : 0;
+  const ring = S.ringing ? 180 : 0;
+  return {screen, cpu, adv, scan, gps, ai: ai + ring, total: screen + cpu + adv + scan + gps + ai + ring};
+}
+function drawCurrent() {
+  // Current build at the same moment: bright fills on the report screen, 2 min before survival, full-brightness status,
+  // GPS asking for a fix every 30 s for as long as the beacon runs (indoors it never gets one and keeps searching).
+  const st = screenState();
+  const screen = {lit: 165, dim: 165, dimheld: 0, black: 12, off: 0}[st];
+  const cpu = st === 'off' || st === 'dimheld' ? 2 : 8;
+  const {adv, scan} = radio();
+  const gps = S.sos ? 25 : 0;
+  const ai = S.mic === 'think' ? 350 : 0;
+  const ring = S.ringing ? 180 : 0;
+  return {screen, cpu, adv, scan, gps, ai: ai + ring, total: screen + cpu + adv + scan + gps + ai + ring};
+}
+function renderPower() {
+  const a = drawCurrent(), b = drawProposed();
+  const mAh = 4000 * S.battery / 100;
+  const hrs = d => d.total ? (mAh / d.total) : 0;
+  const rows = [['Screen', 'screen'], ['CPU / app', 'cpu'], ['BLE advertise', 'adv'], ['BLE listen (ACK/RING)', 'scan'], ['GPS', 'gps'], ['AI / ring', 'ai']];
+  const f = x => x < 10 ? x.toFixed(1) : Math.round(x);
+  const offA = (() => { const s = S.sos; return (2 + radio().adv + radio().scan + (s ? 25 : 0)); })();
+  const offB = (() => { const s = S.sos; return (2 + radio().adv + radio().scan + (s ? .5 : 0)); })();
+  const cpr = lifeHold() ? `<div class="note" style="color:#ff8f87">Current build: no keep-screen-on, so the system timeout (often 30 s) locks the phone in the middle of CPR. That's why its screen draw shows 0 here.</div>` : '';
+  $('#power').innerHTML = `<table><tr><th>mA</th><th>Current build</th><th>Redesign</th></tr>
+    ${rows.map(([n, k]) => `<tr><td>${n}</td><td>${f(a[k])}</td><td>${f(b[k])}</td></tr>`).join('')}
+    <tr class="tot"><td>Total now</td><td>${f(a.total)}</td><td>${f(b.total)}</td></tr>
+    <tr><td>Hours at this rate (${S.battery}% of 4,000 mAh)</td><td>${hrs(a).toFixed(0)} h</td><td>${hrs(b).toFixed(0)} h</td></tr>
+    <tr class="tot"><td>Screen off, beacon only</td><td>${Math.round(mAh / offA)} h</td><td>${Math.round(mAh / offB)} h</td></tr></table>
+    <div class="bar2"><i style="width:${Math.min(100, 100 * (mAh / offA) / 72)}%"></i></div>
+    <div class="bar2"><i style="width:${Math.min(100, 100 * (mAh / offB) / 72)}%;background:var(--green)"></i></div>
+    <div class="note">Bars: screen-off beacon life against the 72 h target (top: current, bottom: redesign). The biggest steady-state gap is GPS, not the UI. The biggest gap while the user is active is how long the screen stays lit.</div>${cpr}`;
+}
+
+// ---------- findings ----------
+const FINDINGS = [
+  {p:0, w:'V', t:'CPR and bleeding steps can lock mid-step', d:'Nothing holds the screen on in <code>Steps</code>. Survival mode is skipped on the protocol screen, but the <b>system timeout still fires</b> (30 s on many Oppo/Realme phones), so the phone locks in the middle of CPR. Hold the screen on <b>only</b> for life-threat nodes, dimmed to ~30%, and keep the beat with sound and vibration rather than the screen.', go:() => demo({cond:['NOT_BREATHING'], steps:true})},
+  {p:0, w:'V', t:'GPS searches every 30 s for the whole 72 h', d:'<code>BeaconService.startGps()</code> asks for updates every 30 s for as long as the beacon runs. Indoors under rubble it <b>never gets a fix, so the GPS chip keeps searching</b>: ~20–30 mA, more than the screen-off beacon, the scan and the CPU together. Take one fix at SOS (30 s timeout), then retry every 15 min. See the power panel: this is the biggest gap in the 72 h figure.', go:() => demo({survival:'off'})},
+  {p:0, w:'V', t:'Survival mode takes 2 min and only fires from one screen', d:'Today: 2 min untouched on the report screen only, then 15 s at full system brightness. It never fires from the steps screen or the "Stay where you are" end screen, where victims actually wait. Redesign: <b>20 s idle on any non-life-threat screen</b> (10 s at ≤15%), a visible countdown so it isn\'t a surprise, 10 s of dim status, 10 s black, then the screen turns off.', go:() => demo({report:true, idleNow:true})},
+  {p:0, w:'V', t:'"Help is on the way" can be missed', d:'ACK resets the black layer for 15 s and speaks once. If the screen is already off from the system timeout, nothing wakes it. Redesign: a <b>3-pulse vibration and a chime</b>, wake the screen (<code>setTurnScreenOn</code>/<code>setShowWhenLocked</code>), show the message on black, and keep a line in the survival status. Try it: hold SOS, wait for black, then tap "On my way" on the rescuer phone.', go:() => demo({survival:'black', ackSoon:true})},
+  {p:0, w:'V', t:'The report screen asks for everything at once', d:'Current order: StatusCard, Understood, the follow-up with 3 answer buttons, mic, text field and Send, spinner, 5 tiles, Start steps, Survival button, banners, 911. That is <b>~14 targets in a scroll</b>, and the follow-up and the tiles compete with each other. Redesign: <b>one prompt at a time</b>. The current question comes with only the buttons that answer it (people count → 1/2/3/4+, place → floor). The general tiles show only when no question is open, and typing is behind "Type instead".', go:() => demo({report:true})},
+  {p:1, w:'V', t:'Bright fills where outlines would do', d:'Selected tiles use <code>onPrimaryContainer</code> (#D9E6FF, almost white). Condition chips are filled <code>onSurface</code> white. The SOS disc is light-blue <code>primary</code>. "Help is on the way" is a <b>filled light-blue banner that stays on every screen</b> after ACK. On OLED these are the largest bright areas in the app. Redesign: a 3 dp outline plus ✓ and coloured text on black, an SOS disc in <code>primaryContainer</code>, and ACK shown as an outlined card and a one-line strip.', go:() => demo({report:true, facts:{hazard:'COLLAPSE', trapped:true, cond:['HEAVY_BLEEDING']}, noSteps:true})},
+  {p:1, w:'V', t:'AI status card on the victim\'s screens', d:'<code>ModelRow()</code> stays visible after SOS. During model load it runs an <b>indeterminate progress bar</b>, an animation that never stops and keeps the GPU and display at full refresh. The victim can\'t act on it. Move it to the demo overlay and say "Battery critical: voice is off" only when it applies.', go:() => demo({report:true})},
+  {p:1, w:'V', t:'"I\'m safe" has the same weight as SOS', d:'A 64 dp button sits next to SOS and 911, and <b>one tap broadcasts SAFE</b> and changes the phone into a rescuer board. Make it a text link labelled "I\'m safe · help others" with a confirm sheet that explains what happens.', go:() => { reset(); S.sheet = true; render(); }},
+  {p:1, w:'V', t:'Steps screen: the status card is heavy and the end screen is a dead end', d:'Steps repeat the full header. Redesign: a one-line strip (triage, hazard, beacon, tap to expand), so the step text gets the space. The end screen "Stay where you are" now leads to battery saving instead of "Back to home".', go:() => demo({facts:{hazard:'COLLAPSE', people:3, trapped:true}, steps:true})},
+  {p:1, w:'V', t:'Rescued is a banner over a working report screen', d:'After RESC the victim still sees tiles and a mic that do nothing. Give it a <b>terminal screen</b> with one action: "I still need help: new SOS".', go:() => demo({rescued:true})},
+  {p:1, w:'V', t:'The battery estimate starts over on every entry', d:'<code>Survival()</code> measures from <code>remember { ctx.battery() }</code>, so each visit shows "Measuring battery use…" again. Start sampling at SOS confirm in the service and keep it. That also makes the 72 h slide number honest.', go:() => demo({survival:'status'})},
+  {p:1, w:'V', t:'Low battery barely changes anything', d:'At ≤30% only one line changes. Add tiers. <b>≤30%</b>: duty cycle (already done) plus the "ring may take 1 min" notice. <b>≤15%</b>: unload the model, turn TTS off, show tiles only, and go dark after 10 s. Set the battery slider to 12% to see it.', go:() => { S.battery = 12; $('#bat').value = 12; $('#batv').textContent = '12%'; demo({report:true}); }},
+  {p:0, w:'R', t:'Indoors, the main tool is the last button, below the fold', d:'Detail is one scroll: briefing, arrow, hot/cold, then On my way / Ring / Rescued. With no GPS (every collapse), <b>Ring phone is the main tool</b> but it\'s the second button and off-screen. Redesign: a fixed action bar. With no GPS, Ring comes first and filled; with GPS, On my way comes first.', go:() => demo({rescuerDetail:true})},
+  {p:0, w:'R', t:'Floor and room are buried in the flags line', d:'For a collapse, "Floor 2 · bathroom" is <b>the</b> location, because GPS can\'t give it. Today it\'s joined into the 15 sp flags line after vulnerable and conditions. Give it its own bold line on the row and a 24 sp line in detail.', go:() => demo({rescuerBoard:true})},
+  {p:1, w:'R', t:'Hot/cold makes you look at the screen', d:'Rescuers are watching rubble and using their hands. Add <b>Geiger-style ticks</b> (sound and a short vibration) that speed up as the band gets hotter, and keep the 4 bars as the visual. Turn on "Sound ticks" and drag the distance slider.', go:() => demo({rescuerDetail:true, ticks:true})},
+  {p:1, w:'R', t:'A neighbour rescuer uses their own battery too', d:'The board is always a white sunlight theme with a <b>low-latency scan, GPS every 2 s and a 1 s ticker</b>. For a bayanihan neighbour, who is also a survivor, that\'s the most expensive setup possible. Neighbour mode: dark theme, balanced scan on the board, low-latency and GPS only on an open record.', go:() => { setRType('neighbour'); demo({rescuerBoard:true}); }},
+  {p:1, w:'R', t:'Rescued needs only a second tap, which gloves do by accident', d:'A second tap within 3 s stops a victim\'s only signal and can\'t be undone. A <b>1 s hold with a fill bar</b> is harder to trigger by accident and still fast.', go:() => demo({rescuerDetail:true})},
+  {p:2, w:'R', t:'The meta line is 12 sp in glare', d:'"REPORTED · HEARD · %" is 12 sp grey in all caps. Use 14 sp in normal case, and put a 🔋 battery icon and "may stop soon" on the row. Also rank low-battery records first within the same triage group (raise this as a D9 rule change).', go:() => demo({rescuerBoard:true})},
+  {p:2, w:'V', t:'The language toggle takes up the header', d:'An M3 segmented button on every screen takes ~40% of the header width on a 360 dp screen. A single "FIL"/"EN" chip does the same job.', go:() => { reset(); render(); }},
+];
+let ftab = 'all';
+function renderFindings() {
+  const list = FINDINGS.map((f, i) => ({...f, i})).filter(f => ftab === 'all' || f.w === ftab).sort((a, b) => a.p - b.p);
+  $('#flist').innerHTML = list.map(f => `<div class="f"><div class="top"><span class="pri p${f.p}">P${f.p}</span><h3>${f.t}</h3><span class="who">${f.w === 'V' ? 'VICTIM' : 'RESCUER'}</span></div>
+    <p>${f.d}</p><button class="show" data-f="${f.i}">Show in prototype →</button></div>`).join('');
+}
+$('#flist').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (b) { FINDINGS[+b.dataset.f].go(); } });
+$('#ftabs').addEventListener('click', e => { const b = e.target.closest('[data-ft]'); if (!b) return; ftab = b.dataset.ft;
+  document.querySelectorAll('#ftabs .chipbtn').forEach(x => x.classList.toggle('on', x === b)); renderFindings(); });
+
+// Jump the prototype to a state for a finding.
+function demo(o) {
+  reset(false);
+  S.sos = true; S.v = 'report'; S.vStart = Date.now() - 6 * 60000; S.vHeardAt = Date.now(); S.asked = ['what', 'count'];
+  if (o.facts) Object.assign(S.facts, o.facts);
+  if (o.cond) S.facts.cond = o.cond;
+  if (o.rescuerBoard || o.rescuerDetail || o.survival || o.ackSoon) Object.assign(S.facts, {hazard:'COLLAPSE', people:4, trapped:true, floor:2, spot:'BATHROOM', vuln:['ELDERLY','CHILD'], cond:['PINNED','HEAVY_BLEEDING']});
+  if (o.report && !o.facts) { S.asked = []; nextQ(); }
+  if (o.steps) startSteps();
+  if (o.idleNow) S.lastTouch = Date.now() - IDLE_MS() + 4000;
+  if (o.survival) { enterSurvival(); if (o.survival !== 'status') { clearTimeout(survT); S.surv = o.survival; if (o.survival === 'black') survT = setTimeout(() => { S.surv = 'off'; render(); }, 10000); } }
+  if (o.rescued) S.v = 'rescued';
+  if (o.rescuerDetail) { S.r.screen = 'detail'; S.r.open = 'v1'; S.r.ticks = !!o.ticks; }
+  if (o.rescuerBoard) S.r.screen = 'board';
+  render();
+  if (o.ticks) geiger();
+  if (o.ackSoon) S.r.screen = 'board';
+}
+function reset(doRender = true) { clearTimeout(survT); clearInterval(cdTimer); clearTimeout(gTimer); S = fresh(); S.sos = false; try { speechSynthesis.cancel(); } catch (e) {} setRType(S.r.type, false); if (doRender) render(); }
+function setRType(t, doRender = true) {
+  S.r.type = t; S.r.night = t === 'neighbour';
+  document.querySelectorAll('[data-rtype]').forEach(b => b.classList.toggle('on', b.dataset.rtype === t));
+  if (doRender) render();
+}
+document.querySelectorAll('[data-rtype]').forEach(b => b.addEventListener('click', () => setRType(b.dataset.rtype)));
+$('#bat').addEventListener('input', e => { S.battery = +e.target.value; $('#batv').textContent = S.battery + '%'; render(); });
+$('#dist').addEventListener('input', e => { S.r.dist = +e.target.value; $('#distv').textContent = S.r.dist + ' m'; if (S.r.screen === 'detail') renderRescuer(); });
+$('#ff').addEventListener('click', () => { if (S.surv === 'status') { clearTimeout(survT); S.surv = 'black'; survT = setTimeout(() => { S.surv = 'off'; render(); }, 10000); render(); }
+  else if (S.surv === 'black') { clearTimeout(survT); S.surv = 'off'; render(); } else { S.lastTouch = 0; } });
+$('#reset').addEventListener('click', () => reset());
+S.sos = false; setRType('pro', false); renderFindings(); render();
+</script>
+</body>
+</html>

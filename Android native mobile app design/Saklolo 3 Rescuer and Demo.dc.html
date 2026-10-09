@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700;800&family=Atkinson+Hyperlegible+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0" rel="stylesheet">
+<style>body{margin:0;background:#E9EBEE;color:#0B0E12;font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#0B4FB3}a:hover{color:#002D72}</style>
+</helmet>
+<div style="padding:48px 56px 96px;display:flex;flex-direction:column;gap:56px">
+
+<header style="display:flex;flex-direction:column;gap:12px;max-width:980px">
+  <div style="display:flex;gap:10px;align-items:center;font:600 13px/1 'Atkinson Hyperlegible Mono',monospace;color:#3F4752;letter-spacing:.04em">
+    <a href="Saklolo 1 Language and Tokens.dc.html" style="text-decoration:none">← 1 Language</a><span>·</span><a href="Saklolo 2 Victim Flow.dc.html" style="text-decoration:none">2 Victim</a><span>·</span><span>SAKLOLO 3 / 3 · RESCUER + DEMO</span>
+  </div>
+  <h1 style="margin:0;font-size:48px;font-weight:800;letter-spacing:-.02em">Rescuer · sunlight, 360 × 800 dp</h1>
+  <p style="margin:0;font-size:18px;line-height:1.5;color:#2A313A;text-wrap:pretty">White and pure black, 2 dp outlines, no shadows. Triage is a full-height colour column with shape and word, so a row reads at a glance in glare or with colour-blindness. Non-triage states use ink: <strong>GETTING WORSE</strong> is a black tag, <strong>YOU'RE ON THE WAY</strong> is brand blue, <strong>SILENT</strong> is a dashed outline.</p>
+</header>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:26px;font-weight:800">A · Dispatch board and detail</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;align-items:flex-start">
+
+    <div style="width:360px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">R1 · DISPATCH BOARD</div>
+      <div style="width:360px;height:800px;background:#FFF;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 6px #1A1D21;color:#000">
+        <div style="height:28px;padding:0 16px;display:flex;align-items:center;gap:8px;font:600 11px 'Atkinson Hyperlegible Mono';color:#1F252C;flex:none"><span>22:03</span><span style="flex:1;text-align:center">DEMO · not medically reviewed</span><span style="font-family:'Material Symbols Rounded';font-size:16px">bluetooth_searching</span><span>88%</span></div>
+        <div style="padding:6px 12px 10px 16px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #000;flex:none">
+          <div style="flex:1;min-width:0"><div style="font-size:22px;font-weight:800;line-height:1.15">Calls for help</div><div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#1F252C;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#002D72"></span>6 BEACONS · SCANNING</div></div>
+          <div style="height:56px;padding:0 12px;border:2px solid #B3141B;color:#B3141B;border-radius:14px;display:flex;align-items:center;gap:4px;font-size:16px;font-weight:800;box-sizing:border-box"><span style="font-family:'Material Symbols Rounded';font-size:20px">call</span>911</div>
+        </div>
+        <div style="flex:1;overflow:hidden;padding:10px 12px;display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ rowsDay }}" as="r" hint-placeholder-count="6">
+            <div style="display:flex;border:{{ r.border }};background:{{ r.bg }};border-radius:16px;overflow:hidden;min-height:96px;flex:none">
+              <div style="width:56px;background:{{ r.tBg }};color:{{ r.tFg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex:none;border-right:{{ r.tSep }}">
+                <span style="width:{{ r.sw }};height:{{ r.sh }};background:{{ r.sFill }};border-radius:{{ r.sRad }};clip-path:{{ r.sClip }};transform:{{ r.sRot }};border:{{ r.sBorder }};display:block;box-sizing:border-box"></span>
+                <span style="font-size:12px;font-weight:800;letter-spacing:.04em">{{ r.word }}</span>
+              </div>
+              <div style="flex:1;min-width:0;padding:8px 10px;display:flex;flex-direction:column;gap:4px;color:{{ r.fg }}">
+                <sc-if value="{{ r.worse }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;background:#000;color:#FFF;font-size:12px;font-weight:800;letter-spacing:.05em;padding:3px 7px;border-radius:5px;display:flex;align-items:center;gap:3px"><span style="font-family:'Material Symbols Rounded';font-size:14px">trending_up</span>GETTING WORSE</span></sc-if>
+                <sc-if value="{{ r.otw }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;background:#002D72;color:#FFF;font-size:12px;font-weight:800;letter-spacing:.05em;padding:3px 7px;border-radius:5px;display:flex;align-items:center;gap:3px"><span style="font-family:'Material Symbols Rounded';font-size:14px">directions_boat</span>ON THE WAY</span></sc-if>
+                <sc-if value="{{ r.silent }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;border:1.5px dashed {{ r.fg }};font-size:12px;font-weight:800;letter-spacing:.05em;padding:2px 7px;border-radius:5px;display:flex;align-items:center;gap:3px"><span style="font-family:'Material Symbols Rounded';font-size:14px">signal_disconnected</span>SILENT · 12 MIN</span></sc-if>
+                <div style="font-size:18px;font-weight:800;line-height:1.15">{{ r.head }}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:4px 8px">
+                  <sc-for list="{{ r.flags }}" as="f" hint-placeholder-count="2">
+                    <span style="display:flex;align-items:center;gap:2px;font-size:14px;font-weight:{{ f.w }}"><span style="font-family:'Material Symbols Rounded';font-size:16px">{{ f.i }}</span>{{ f.t }}</span>
+                  </sc-for>
+                </div>
+                <div style="font:600 12px 'Atkinson Hyperlegible Mono';color:{{ r.fg2 }}">{{ r.meta }}</div>
+              </div>
+              <div style="width:68px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding-right:6px;color:{{ r.fg }}">
+                <span style="font-family:'Material Symbols Rounded';font-size:28px;transform:rotate({{ r.rot }}deg);display:block">north</span>
+                <span style="font-size:17px;font-weight:800">{{ r.dist }}</span>
+                <span style="font:600 11px 'Atkinson Hyperlegible Mono';color:{{ r.fg2 }}">{{ r.dir }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="font-size:14px;line-height:1.45;color:#3F4752">Sorted RED › YELLOW › GREEN, then vulnerable, then oldest. A silent RED keeps its rank and last location. Rows re-rank with a 240 ms move. 96 dp rows, whole row is the target.</div>
+    </div>
+
+    <div style="width:360px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">R2 · RECORD DETAIL · ARROW</div>
+      <div style="width:360px;height:800px;background:#FFF;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 6px #1A1D21;color:#000">
+        <div style="height:28px;padding:0 16px;display:flex;align-items:center;gap:8px;font:600 11px 'Atkinson Hyperlegible Mono';color:#FFF;background:#C9252C;flex:none"><span>22:04</span><span style="flex:1;text-align:center">DEMO · not medically reviewed</span><span>88%</span></div>
+        <div style="background:#C9252C;color:#FFF;padding:4px 12px 12px 8px;display:flex;align-items:center;gap:8px;flex:none">
+          <div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;flex:none"><span style="font-family:'Material Symbols Rounded';font-size:28px">arrow_back</span></div>
+          <span style="width:18px;height:18px;background:#FFF;transform:rotate(45deg) scale(.85);display:block;flex:none"></span>
+          <div style="flex:1"><div style="font-size:24px;font-weight:800;letter-spacing:.03em;line-height:1">RED</div><div style="font-size:14px;font-weight:700">Trapped on a roof · 3 people</div></div>
+          <span style="background:#000;color:#FFF;font-size:12px;font-weight:800;padding:4px 7px;border-radius:5px;letter-spacing:.05em">GETTING WORSE</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;padding:12px 16px 16px;gap:12px">
+          <div style="border:2px solid #000;border-radius:16px;padding:12px;display:flex;gap:10px;align-items:flex-start">
+            <div style="flex:1;font-size:17px;line-height:1.4;font-weight:500;text-wrap:pretty">"Red. Three people trapped on a roof. An infant and an elderly person. Someone is not breathing. Reported fourteen minutes ago."</div>
+            <div style="width:56px;height:56px;border-radius:14px;background:#002D72;color:#FFF;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none"><span style="font-family:'Material Symbols Rounded';font-size:26px">replay</span><span style="font-size:11px;font-weight:800">Repeat</span></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <span style="display:flex;align-items:center;gap:4px;border:2px solid #000;border-radius:8px;padding:4px 8px;font-size:15px;font-weight:700"><span style="font-family:'Material Symbols Rounded';font-size:18px">child_care</span>Infant</span>
+            <span style="display:flex;align-items:center;gap:4px;border:2px solid #000;border-radius:8px;padding:4px 8px;font-size:15px;font-weight:700"><span style="font-family:'Material Symbols Rounded';font-size:18px">elderly</span>Elderly</span>
+            <span style="display:flex;align-items:center;gap:4px;background:#000;color:#FFF;border-radius:8px;padding:4px 8px;font-size:15px;font-weight:800"><span style="font-family:'Material Symbols Rounded';font-size:18px">warning</span>Not breathing</span>
+            <span style="display:flex;align-items:center;gap:4px;border:2px dashed #1F252C;color:#1F252C;border-radius:8px;padding:4px 8px;font-size:15px;font-weight:700">? Can they get out</span>
+          </div>
+          <div style="flex:1;border:2px solid #000;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px">
+            <span style="font-family:'Material Symbols Rounded';font-size:150px;line-height:1;transform:rotate(40deg);display:block;color:#002D72">navigation</span>
+            <div style="font-size:56px;font-weight:800;line-height:1;letter-spacing:-.02em">240 m</div>
+            <div style="font-size:16px;font-weight:700">Northeast</div>
+            <div style="font:600 12px 'Atkinson Hyperlegible Mono';color:#1F252C">GPS ±12 m · HEARD 20 s · REV 4</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <div style="flex:1.4;height:72px;border-radius:16px;background:#002D72;color:#FFF;display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-family:'Material Symbols Rounded';font-size:26px">directions_boat</span><span style="font-size:21px;font-weight:800">On my way</span></div>
+            <div style="flex:1;height:72px;border-radius:16px;border:2px solid #000;display:flex;align-items:center;justify-content:center;gap:6px;box-sizing:border-box"><span style="font-family:'Material Symbols Rounded';font-size:24px">check</span><span style="font-size:19px;font-weight:800">Rescued</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:14px;line-height:1.45;color:#3F4752">Briefing auto-plays on open (TTS). Arrow uses phone compass + both GPS fixes. "On my way" sends the ACK; "Rescued" asks for a second tap (3 s undo bar), then stops the victim's beacon.</div>
+    </div>
+
+    <div style="width:360px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">R3 · RECORD DETAIL · NO GPS, HOT/COLD</div>
+      <div style="width:360px;height:800px;background:#FFF;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 6px #1A1D21;color:#000">
+        <div style="height:28px;padding:0 16px;display:flex;align-items:center;gap:8px;font:600 11px 'Atkinson Hyperlegible Mono';color:#000;background:#FFC53D;flex:none"><span>22:09</span><span style="flex:1;text-align:center">DEMO · not medically reviewed</span><span>86%</span></div>
+        <div style="background:#FFC53D;color:#000;padding:4px 12px 12px 8px;display:flex;align-items:center;gap:8px;flex:none;border-bottom:2px solid #000">
+          <div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;flex:none"><span style="font-family:'Material Symbols Rounded';font-size:28px">arrow_back</span></div>
+          <span style="width:20px;height:18px;background:#000;clip-path:polygon(50% 0,100% 100%,0 100%);display:block;flex:none"></span>
+          <div style="flex:1"><div style="font-size:24px;font-weight:800;letter-spacing:.03em;line-height:1">YELLOW</div><div style="font-size:14px;font-weight:700">Waded through floodwater · 2 people</div></div>
+          <span style="background:#002D72;color:#FFF;font-size:12px;font-weight:800;padding:4px 7px;border-radius:5px;letter-spacing:.05em">ON THE WAY</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;padding:12px 16px 16px;gap:12px">
+          <div style="border:2px solid #000;border-radius:16px;padding:12px;display:flex;gap:10px;align-items:flex-start">
+            <div style="flex:1;font-size:17px;line-height:1.4;font-weight:500">"Yellow. Two people, waded through floodwater. One elderly. No GPS."</div>
+            <div style="width:56px;height:56px;border-radius:14px;background:#002D72;color:#FFF;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none"><span style="font-family:'Material Symbols Rounded';font-size:26px">replay</span><span style="font-size:11px;font-weight:800">Repeat</span></div>
+          </div>
+          <div style="flex:1;border:2px dashed #000;border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:18px;height:18px;border:2px dashed #000;border-radius:50%;box-sizing:border-box"></span><span style="font-size:15px;font-weight:800">NO GPS · using signal strength</span></div>
+            <div style="flex:1;display:flex;align-items:flex-end;gap:8px;padding-top:6px">
+              <sc-for list="{{ bands }}" as="b" hint-placeholder-count="4">
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px;align-items:stretch">
+                  <div style="height:{{ b.h }};background:{{ b.bg }};border:2px solid #002D72;border-radius:8px;box-sizing:border-box"></div>
+                  <div style="font-size:13px;font-weight:{{ b.w }};text-align:center;line-height:1.1">{{ b.fil }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:10px;border-top:2px solid #000;padding-top:10px">
+              <span style="font-size:40px;font-weight:800;line-height:1">Hot</span>
+              <span style="display:flex;align-items:center;gap:2px;font-size:18px;font-weight:800;color:#002D72"><span style="font-family:'Material Symbols Rounded';font-size:22px">trending_up</span>Getting closer</span>
+            </div>
+            <div style="font:600 12px 'Atkinson Hyperlegible Mono';color:#1F252C">−68 dBm · 5 s average</div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <div style="flex:1.4;height:72px;border-radius:16px;border:2px solid #002D72;color:#002D72;display:flex;align-items:center;justify-content:center;gap:8px;box-sizing:border-box"><span style="font-family:'Material Symbols Rounded';font-size:24px">close</span><span style="font-size:18px;font-weight:800">Not going</span></div>
+            <div style="flex:1;height:72px;border-radius:16px;background:#000;color:#FFF;display:flex;align-items:center;justify-content:center;gap:6px"><span style="font-family:'Material Symbols Rounded';font-size:24px">check</span><span style="font-size:19px;font-weight:800">Rescued</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:14px;line-height:1.45;color:#3F4752">Four bands as rising bars in one hue (no warm colours: those are triage). Smoothed over 5 s, moves one band at a time, trend word added. After "On my way", the button becomes an undo.</div>
+    </div>
+
+    <div style="width:360px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">R4 · SCANNING, NOTHING YET</div>
+      <div style="width:360px;height:800px;background:#FFF;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 6px #1A1D21;color:#000">
+        <div style="height:28px;padding:0 16px;display:flex;align-items:center;gap:8px;font:600 11px 'Atkinson Hyperlegible Mono';color:#1F252C;flex:none"><span>21:40</span><span style="flex:1;text-align:center">DEMO · not medically reviewed</span><span style="font-family:'Material Symbols Rounded';font-size:16px">bluetooth_searching</span><span>92%</span></div>
+        <div style="padding:6px 12px 10px 16px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #000;flex:none">
+          <div style="flex:1;min-width:0"><div style="font-size:22px;font-weight:800;line-height:1.15">Calls for help</div><div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#1F252C;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#002D72"></span>0 BEACONS · SCANNING</div></div>
+          <div style="height:56px;padding:0 12px;border:2px solid #B3141B;color:#B3141B;border-radius:14px;display:flex;align-items:center;gap:4px;font-size:16px;font-weight:800;box-sizing:border-box"><span style="font-family:'Material Symbols Rounded';font-size:20px">call</span>911</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px">
+          <div style="width:160px;height:160px;border-radius:50%;border:2px solid #002D72;display:flex;align-items:center;justify-content:center">
+            <div style="width:104px;height:104px;border-radius:50%;border:2px solid #002D72;display:flex;align-items:center;justify-content:center"><span style="font-family:'Material Symbols Rounded';font-size:44px;color:#002D72">bluetooth_searching</span></div>
+          </div>
+          <div style="text-align:center;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:26px;font-weight:800;line-height:1.2">Listening for beacons…</div>
+            <div style="font-size:17px;line-height:1.4;text-wrap:pretty">No beacons nearby yet. Move closer to the flooded area.</div>
+            
+          </div>
+        </div>
+        <div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;border:2px solid #000;border-radius:14px;padding:10px 12px;font-size:15px;font-weight:700"><span style="font-family:'Material Symbols Rounded';font-size:22px">bluetooth</span><span style="flex:1">Bluetooth: on</span><span style="font:600 12px 'Atkinson Hyperlegible Mono'">RANGE ~100 m</span></div>
+          <div style="display:flex;align-items:center;gap:10px;border:2px solid #000;border-radius:14px;padding:10px 12px;font-size:15px;font-weight:700"><span style="font-family:'Material Symbols Rounded';font-size:22px">volume_up</span><span style="flex:1">New RED beacons are read aloud</span></div>
+        </div>
+      </div>
+      <div style="font-size:14px;line-height:1.45;color:#3F4752">Static rings; only the dot by "SCANNING" pulses. States the real range so nobody assumes silence means nobody needs help.</div>
+    </div>
+
+    <div style="width:360px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">R5 · BOARD · NIGHT THEME</div>
+      <div style="width:360px;height:800px;background:#0B0D10;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 6px #1A1D21;color:#FFF">
+        <div style="height:28px;padding:0 16px;display:flex;align-items:center;gap:8px;font:600 11px 'Atkinson Hyperlegible Mono';color:#D0D6DE;flex:none"><span>02:13</span><span style="flex:1;text-align:center">DEMO · not medically reviewed</span><span style="font-family:'Material Symbols Rounded';font-size:16px">bluetooth_searching</span><span>64%</span></div>
+        <div style="padding:6px 12px 10px 16px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #8A94A2;flex:none">
+          <div style="flex:1;min-width:0"><div style="font-size:22px;font-weight:800;line-height:1.15">Calls for help</div><div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#D0D6DE;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#A9C9FF"></span>6 BEACONS · SCANNING</div></div>
+          <div style="height:56px;padding:0 12px;border:2px solid #FF7A73;color:#FF7A73;border-radius:14px;display:flex;align-items:center;gap:4px;font-size:16px;font-weight:800;box-sizing:border-box"><span style="font-family:'Material Symbols Rounded';font-size:20px">call</span>911</div>
+        </div>
+        <div style="flex:1;overflow:hidden;padding:10px 12px;display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ rowsNight }}" as="r" hint-placeholder-count="6">
+            <div style="display:flex;border:{{ r.border }};background:{{ r.bg }};border-radius:16px;overflow:hidden;min-height:96px;flex:none">
+              <div style="width:56px;background:{{ r.tBg }};color:{{ r.tFg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex:none;border-right:{{ r.tSep }}">
+                <span style="width:{{ r.sw }};height:{{ r.sh }};background:{{ r.sFill }};border-radius:{{ r.sRad }};clip-path:{{ r.sClip }};transform:{{ r.sRot }};border:{{ r.sBorder }};display:block;box-sizing:border-box"></span>
+                <span style="font-size:12px;font-weight:800;letter-spacing:.04em">{{ r.word }}</span>
+              </div>
+              <div style="flex:1;min-width:0;padding:8px 10px;display:flex;flex-direction:column;gap:4px;color:{{ r.fg }}">
+                <sc-if value="{{ r.worse }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;background:#FFF;color:#000;font-size:12px;font-weight:800;letter-spacing:.05em;padding:3px 7px;border-radius:5px;display:flex;align-items:center;gap:3px"><span style="font-family:'Material Symbols Rounded';font-size:14px">trending_up</span>GETTING WORSE</span></sc-if>
+                <sc-if value="{{ r.otw }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;background:#A9C9FF;color:#00214F;font-size:12px;font-weight:800;letter-spacing:.05em;padding:3px 7px;border-radius:5px;display:flex;align-items:center;gap:3px"><span style="font-family:'Material Symbols Rounded';font-size:14px">directions_boat</span>ON THE WAY</span></sc-if>
+                <sc-if value="{{ r.silent }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;border:1.5px dashed {{ r.fg }};font-size:12px;font-weight:800;letter-spacing:.05em;padding:2px 7px;border-radius:5px;display:flex;align-items:center;gap:3px"><span style="font-family:'Material Symbols Rounded';font-size:14px">signal_disconnected</span>SILENT · 12 MIN</span></sc-if>
+                <div style="font-size:18px;font-weight:800;line-height:1.15">{{ r.head }}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:4px 8px">
+                  <sc-for list="{{ r.flags }}" as="f" hint-placeholder-count="2">
+                    <span style="display:flex;align-items:center;gap:2px;font-size:14px;font-weight:{{ f.w }}"><span style="font-family:'Material Symbols Rounded';font-size:16px">{{ f.i }}</span>{{ f.t }}</span>
+                  </sc-for>
+                </div>
+                <div style="font:600 12px 'Atkinson Hyperlegible Mono';color:{{ r.fg2 }}">{{ r.meta }}</div>
+              </div>
+              <div style="width:68px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding-right:6px;color:{{ r.fg }}">
+                <span style="font-family:'Material Symbols Rounded';font-size:28px;transform:rotate({{ r.rot }}deg);display:block">north</span>
+                <span style="font-size:17px;font-weight:800">{{ r.dist }}</span>
+                <span style="font:600 11px 'Atkinson Hyperlegible Mono';color:{{ r.fg2 }}">{{ r.dir }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="font-size:14px;line-height:1.45;color:#3F4752">Same layout, night roles. Triage fills stay identical across themes so a rescuer never re-learns them.</div>
+    </div>
+
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:26px;font-weight:800">B · Demo overlay (judges only) and eval</h2>
+  <p style="margin:0;max-width:900px;font-size:17px;line-height:1.5;color:#2A313A">Hidden toggle: long-press the REV label on the status card for 3 s, or a debug-build-only flag. It's a separate full screen that swipes over the app, so it can never appear by accident mid-report. Sized for projection: nothing under 16 sp, mono everywhere.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:44px;align-items:flex-start">
+
+    <div style="width:360px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">D1 · VICTIM PHONE · LAST AI CALL</div>
+      <div style="width:360px;height:800px;background:#0B0E12;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 6px #1A1D21;color:#F1F3F6">
+        <div style="height:28px;padding:0 16px;display:flex;align-items:center;gap:8px;font:600 11px 'Atkinson Hyperlegible Mono';color:#B9C1CC;flex:none"><span>21:48</span><span style="flex:1;text-align:center">DEMO OVERLAY</span><span style="font-family:'Material Symbols Rounded';font-size:16px">airplanemode_active</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;padding:8px 14px 14px;gap:12px">
+          <div style="display:flex;align-items:center;gap:10px;background:#F1F3F6;color:#0B0E12;border-radius:14px;padding:10px 12px">
+            <span style="font-family:'Material Symbols Rounded';font-size:30px">memory</span>
+            <div style="flex:1"><div style="font-size:19px;font-weight:800">Gemma · on this phone only</div><div style="font:600 13px 'Atkinson Hyperlegible Mono'">ON-DEVICE · AIRPLANE MODE · 0 B SENT TO CLOUD</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#B9C1CC">INPUT · SPEECH → TEXT</div>
+            <div style="font:400 16px/1.45 'Atkinson Hyperlegible Mono';background:#1C2128;border-radius:10px;padding:10px">"tulong po nasa bubong kami tatlo kami may baby tapos si lolo hindi na humihinga"</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#B9C1CC">OUTPUT · CLOSED LIST</div>
+            <div style="font:400 15px/1.55 'Atkinson Hyperlegible Mono';background:#1C2128;border-radius:10px;padding:10px;white-space:pre">incident   TRAPPED
+headcount  3
+trapped    YES
+vulnerable INFANT, ELDERLY
+danger     NOT_BREATHING</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;border:2px solid #9CC2FF;border-radius:12px;padding:10px 12px">
+            <span style="font-family:'Material Symbols Rounded';font-size:26px;color:#9CC2FF">rule</span>
+            <span style="font:600 17px 'Atkinson Hyperlegible Mono';flex:1">VALIDATOR PASS</span>
+            <span style="font:600 15px 'Atkinson Hyperlegible Mono';color:#B9C1CC">1.4 s</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#B9C1CC">DICTIONARY vs GEMMA · THIS REPORT</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border:1.5px solid #5B6573;border-radius:10px;overflow:hidden;font:400 14px/1.3 'Atkinson Hyperlegible Mono'">
+              <sc-for list="{{ compare }}" as="c" hint-placeholder-count="5">
+                <div style="padding:7px 8px;border-top:1px solid #2E353E;font-weight:{{ c.w }};color:{{ c.c0 }}">{{ c.k }}</div>
+                <div style="padding:7px 8px;border-top:1px solid #2E353E;color:{{ c.c1 }};font-weight:{{ c.w }}">{{ c.d }}</div>
+                <div style="padding:7px 8px;border-top:1px solid #2E353E;color:{{ c.c2 }};font-weight:{{ c.w }}">{{ c.g }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:14px;line-height:1.45;color:#3F4752">Misses are marked "—" with strike-through weight, not red. Sample data; the PRD's real comparison goes here.</div>
+    </div>
+
+    <div style="width:360px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">D2 · THE 20 BYTES</div>
+      <div style="width:360px;height:800px;background:#0B0E12;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 6px #1A1D21;color:#F1F3F6">
+        <div style="height:28px;padding:0 16px;display:flex;align-items:center;gap:8px;font:600 11px 'Atkinson Hyperlegible Mono';color:#B9C1CC;flex:none"><span>21:48</span><span style="flex:1;text-align:center">DEMO OVERLAY</span><span style="font-family:'Material Symbols Rounded';font-size:16px">airplanemode_active</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;padding:8px 14px 14px;gap:14px">
+          <div><div style="font-size:24px;font-weight:800">The whole emergency in 20 bytes</div><div style="font-size:15px;color:#B9C1CC">One Bluetooth advert, sent every second</div></div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+            <sc-for list="{{ bytes }}" as="b" hint-placeholder-count="20">
+              <div style="aspect-ratio:1;background:{{ b.bg }};color:#0B0E12;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px">
+                <span style="font:600 20px 'Atkinson Hyperlegible Mono'">{{ b.hex }}</span>
+                <span style="font:600 10px 'Atkinson Hyperlegible Mono';opacity:.8">{{ b.i }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ byteLegend }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <span style="width:18px;height:18px;border-radius:4px;background:{{ l.bg }};flex:none;margin-top:2px"></span>
+                <div style="flex:1"><div style="font:600 15px 'Atkinson Hyperlegible Mono'">{{ l.n }} <span style="color:#B9C1CC">{{ l.r }}</span></div><div style="font-size:15px;color:#B9C1CC;line-height:1.35">{{ l.d }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;align-items:center;gap:10px;border:2px solid #9CC2FF;border-radius:12px;padding:10px 12px">
+            <span style="font-family:'Material Symbols Rounded';font-size:24px;color:#9CC2FF">bluetooth</span>
+            <span style="font:600 15px 'Atkinson Hyperlegible Mono';flex:1">ADVERTISING · REV 2 · every 1 s</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:14px;line-height:1.45;color:#3F4752">Cell colours are field groups and avoid triage hues. Byte layout is a placeholder: replace with SPEC.md. On the rescuer phone, the same grid shows "received" with the decoded row underneath.</div>
+    </div>
+
+    <div style="width:360px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">E1 · EVAL (DEVELOPER)</div>
+      <div style="width:360px;height:800px;background:#FFF;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 6px #1A1D21;color:#000">
+        <div style="height:28px;padding:0 16px;display:flex;align-items:center;gap:8px;font:600 11px 'Atkinson Hyperlegible Mono';color:#1F252C;flex:none"><span>14:20</span><span style="flex:1;text-align:center">DEV · EVAL</span></div>
+        <div style="padding:6px 16px 12px;border-bottom:2px solid #000;flex:none"><div style="font-size:22px;font-weight:800">Eval</div><div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#1F252C">SAMPLE NUMBERS · RUN ON DEVICE</div></div>
+        <div style="flex:1;padding:14px 16px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;gap:14px;font:600 12px 'Atkinson Hyperlegible Mono'">
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:10px;background:#8A94A2"></span>DICTIONARY</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:10px;background:#002D72"></span>GEMMA</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:2px;height:14px;background:#000"></span>TARGET</span>
+          </div>
+          <sc-for list="{{ evals }}" as="e" hint-placeholder-count="3">
+            <div style="border:2px solid #000;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:17px;font-weight:800;flex:1">{{ e.name }}</span><span style="font:600 12px 'Atkinson Hyperlegible Mono';color:#1F252C">n={{ e.n }}</span></div>
+              <div style="position:relative;display:flex;flex-direction:column;gap:4px">
+                <div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:14px;background:#EDEFF2;border-radius:3px"><div style="height:14px;width:{{ e.dw }};background:#8A94A2;border-radius:3px"></div></div><span style="font:600 14px 'Atkinson Hyperlegible Mono';width:40px;text-align:right">{{ e.d }}</span></div>
+                <div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:14px;background:#EDEFF2;border-radius:3px"><div style="height:14px;width:{{ e.gw }};background:#002D72;border-radius:3px"></div></div><span style="font:600 14px 'Atkinson Hyperlegible Mono';width:40px;text-align:right">{{ e.g }}</span></div>
+                <div style="position:absolute;top:-3px;bottom:-3px;left:calc((100% - 48px) * {{ e.t01 }});width:2px;background:#000"></div>
+              </div>
+              <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#1F252C">TARGET {{ e.t }} · {{ e.verdict }}</div>
+            </div>
+          </sc-for>
+          <div style="border:2px solid #000;border-radius:14px;padding:12px;display:flex;align-items:baseline;gap:10px">
+            <span style="font-size:17px;font-weight:800;flex:1">Median latency</span>
+            <span style="font:600 28px 'Atkinson Hyperlegible Mono'">1.4 s</span>
+            <span style="font:600 12px 'Atkinson Hyperlegible Mono';color:#1F252C">TARGET 2.0 s</span>
+          </div>
+          <div style="font:600 12px/1.5 'Atkinson Hyperlegible Mono';color:#1F252C">DEVICE: low-end test phone · MODEL: quantised · LAST RUN 14:12</div>
+        </div>
+      </div>
+      <div style="font-size:14px;line-height:1.45;color:#3F4752">A stock LazyColumn of three cards. Pass/fail is a word, not a colour.</div>
+    </div>
+
+  </div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const shapes = {
+      RED: { bg:'#C9252C', fg:'#FFF', w:'RED', sw:'16px', sh:'16px', fill:'#FFF', rad:'0', clip:'none', rot:'rotate(45deg) scale(.85)', bd:'none' },
+      YELLOW: { bg:'#FFC53D', fg:'#000', w:'YELLOW', sw:'18px', sh:'16px', fill:'#000', rad:'0', clip:'polygon(50% 0,100% 100%,0 100%)', rot:'none', bd:'none' },
+      GREEN: { bg:'#2FB36A', fg:'#000', w:'GREEN', sw:'16px', sh:'16px', fill:'#000', rad:'50%', clip:'none', rot:'none', bd:'none' },
+    };
+    const raw = [
+      { t:'RED', head:'3 people · trapped on roof', flags:[['child_care','Infant'],['elderly','Elderly'],['warning','Not breathing',1]], dist:'240 m', dir:'NE', rot:40, meta:'14 MIN · HEARD 20 s', worse:true },
+      { t:'RED', head:'1 person · drowning', flags:[['face','Child'],['warning','CPR',1]], dist:'380 m', dir:'E', rot:95, meta:'9 MIN · HEARD 5 s', otw:true },
+      { t:'RED', head:'2 people · trapped', flags:[['pregnant_woman','Pregnant']], dist:'410 m', dir:'W · last known', rot:270, meta:'31 MIN · HEARD 12 MIN', silent:true },
+      { t:'YELLOW', head:'2 people · waded in flood', flags:[['elderly','Elderly']], dist:'1.1 km', dir:'S', rot:180, meta:'22 MIN · HEARD 40 s' },
+      { t:'YELLOW', head:'1 person · dog bite', flags:[], dist:'600 m', dir:'NW', rot:315, meta:'6 MIN · HEARD 8 s' },
+      { t:'GREEN', head:'4 people · stranded', flags:[['accessible','PWD']], dist:'2.3 km', dir:'N', rot:5, meta:'40 MIN · HEARD 1 MIN' },
+    ];
+    const make = (night) => raw.map(r => {
+      const s = shapes[r.t];
+      const fg = night ? '#FFFFFF' : '#000000';
+      const fg2 = night ? '#D0D6DE' : '#1F252C';
+      let border = night ? '2px solid #8A94A2' : '2px solid #000';
+      let bg = night ? '#171B20' : '#FFF';
+      if (r.otw) { border = night ? '3px solid #A9C9FF' : '3px solid #002D72'; bg = night ? '#1B3B6E' : '#C9DBFF'; }
+      if (r.silent) { border = night ? '2px dashed #8A94A2' : '2px dashed #1F252C'; bg = night ? '#0B0D10' : '#EDEFF2'; }
+      const tBg = r.silent ? 'transparent' : s.bg;
+      const tFg = r.silent ? fg : s.fg;
+      return {
+        border, bg, fg, fg2, tBg, tFg, word: s.w, tSep: r.silent ? (night ? '2px dashed #8A94A2' : '2px dashed #1F252C') : 'none',
+        sw: s.sw, sh: s.sh, sFill: r.silent ? 'transparent' : s.fill, sRad: s.rad, sClip: r.silent ? 'none' : s.clip, sRot: s.rot,
+        sBorder: r.silent ? '2px solid ' + fg : 'none',
+        worse: !!r.worse, otw: !!r.otw, silent: !!r.silent,
+        head: r.head, flags: r.flags.map(([i,t,d]) => ({ i, t, w: d ? 800 : 600 })),
+        dist: r.dist, dir: r.dir, rot: r.rot, meta: r.meta,
+      };
+    });
+    const bands = [
+      { fil:'Cold', h:'28px', bg:'#FFF', w:600 },
+      { fil:'Warm', h:'56px', bg:'#C9DBFF', w:600 },
+      { fil:'Hot', h:'92px', bg:'#002D72', w:800 },
+      { fil:'Right here', h:'132px', bg:'#FFF', w:600 },
+    ];
+    const compare = [
+      { k:'FIELD', d:'DICT', g:'GEMMA', w:700, c0:'#B9C1CC', c1:'#B9C1CC', c2:'#B9C1CC' },
+      { k:'incident', d:'—', g:'TRAPPED', w:400, c0:'#F1F3F6', c1:'#5B6573', c2:'#F1F3F6' },
+      { k:'headcount', d:'3', g:'3', w:400, c0:'#F1F3F6', c1:'#F1F3F6', c2:'#F1F3F6' },
+      { k:'vulnerable', d:'INFANT', g:'INFANT, ELDERLY', w:400, c0:'#F1F3F6', c1:'#F1F3F6', c2:'#F1F3F6' },
+      { k:'danger', d:'—', g:'NOT_BREATHING', w:400, c0:'#F1F3F6', c1:'#5B6573', c2:'#F1F3F6' },
+      { k:'triage', d:'YELLOW', g:'RED', w:700, c0:'#F1F3F6', c1:'#F1F3F6', c2:'#9CC2FF' },
+    ];
+    const G = { hdr:'#DDE1E6', loc:'#9CC2FF', fact:'#C9B6FF', stat:'#8FE3F0' };
+    const hex = ['01','08','C4','1F','3A','48','21','9B','0E','92','03','0A','05','04','00','0E','7C','21','26','B7'];
+    const grp = ['hdr','loc','loc','loc','loc','loc','loc','loc','loc','fact','fact','fact','fact','hdr','stat','stat','stat','stat','stat','hdr'];
+    const bytes = hex.map((h,i) => ({ hex:h, i: String(i), bg: G[grp[i]] }));
+    const byteLegend = [
+      { bg:G.loc, n:'1–8', r:'LAT / LON', d:'Location, 2 × int32. Zero when there is no GPS.' },
+      { bg:G.fact, n:'9–12', r:'FACTS', d:'Triage, incident, headcount, trapped, vulnerable and danger bits.' },
+      { bg:G.stat, n:'14–18', r:'STATUS', d:'Report age, device ID, battery.' },
+      { bg:G.hdr, n:'0 · 13 · 19', r:'HEADER', d:'Version, revision, checksum.' },
+    ];
+    const ev = [
+      { name:'Taglish reports', n:60, d:71, g:89, t:85 },
+      { name:'Noisy audio', n:40, d:52, g:78, t:75 },
+      { name:'Myth-buster', n:30, d:64, g:93, t:90 },
+    ];
+    const evals = ev.map(e => ({ ...e, dw: e.d+'%', gw: e.g+'%', d: e.d+'%', g: e.g+'%', t01: e.t/100, t: e.t+'%', verdict: e.g >= e.t ? 'GEMMA PASSES' : 'BELOW TARGET' }));
+    return { rowsDay: make(false), rowsNight: make(true), bands, compare, bytes, byteLegend, evals };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Saklolo Demo Film</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;600;700&display=block" rel="stylesheet">
+<style>
+:root{--night:#040913;--deep:#001233;--navy:#002D72;--ice:#D9E6FF;--ink:#EEF3FB;--mute:#8C9BB5;--dim:#4A5872;
+  --red:#E8333D;--amber:#FFC53D;--green:#2FB36A;--teal:#7FD6D0;--ai:#B9A6FF;--line:rgba(217,230,255,.14);--scr:#0A1222}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;height:100%;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+  background:radial-gradient(ellipse 110% 90% at 50% 38%,#0B1834 0%,var(--night) 58%,#02050b 100%);
+  font-family:Archivo,system-ui,sans-serif;color:var(--ink);font-variation-settings:"wdth" 100}
+.a{position:absolute;left:0;top:0;will-change:transform,opacity}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kick{font:600 20px/1 'JetBrains Mono',monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--teal)}
+.h1{font-weight:800;font-size:76px;line-height:1.02;letter-spacing:-.02em;font-variation-settings:"wdth" 88}
+.h2{font-weight:700;font-size:52px;line-height:1.08;letter-spacing:-.015em;font-variation-settings:"wdth" 92}
+.sub{font-size:28px;line-height:1.35;color:var(--mute);font-weight:400}
+#grain{position:absolute;inset:-50%;opacity:.07;pointer-events:none;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+#vign{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 85% 75% at 50% 50%,transparent 55%,rgba(0,0,0,.55) 100%)}
+#gridbg{position:absolute;inset:0;opacity:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:60px 60px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 20%,transparent 75%)}
+
+/* scene 1 */
+#bars{left:810px;top:300px;width:300px;height:220px}
+#bars i{position:absolute;bottom:0;width:52px;border-radius:8px;background:var(--ice)}
+#nosvc{left:0;top:560px;width:1920px;text-align:center;font:600 24px 'JetBrains Mono',monospace;letter-spacing:.3em;color:var(--red)}
+#s1a,#s1b{left:0;width:1920px;text-align:center}
+#s1a{top:650px;color:var(--mute);font-size:44px;font-weight:500}
+#s1b{top:712px}
+
+/* logo */
+#logo{left:810px;top:270px;width:300px;height:300px}
+#word{left:0;top:600px;width:1920px;text-align:center;font-weight:800;font-size:120px;letter-spacing:-.03em;font-variation-settings:"wdth" 110}
+#word span{display:inline-block}
+#tag{left:0;top:752px;width:1920px;text-align:center;font-size:34px;color:var(--ice);font-weight:400}
+#chips1{left:0;top:830px;width:1920px;display:flex;justify-content:center;gap:16px}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;border:1.5px solid var(--line);font:600 20px 'JetBrains Mono',monospace;color:var(--ice);background:rgba(217,230,255,.04);white-space:nowrap}
+.chip svg{width:22px;height:22px;fill:currentColor}
+
+/* phones */
+.phone{width:420px;height:860px;border-radius:60px;background:#05080d;padding:13px;
+  box-shadow:0 50px 120px rgba(0,0,0,.6),inset 0 0 0 2px #283244,0 0 0 1px #10151d}
+.scr{position:relative;width:100%;height:100%;border-radius:48px;background:var(--scr);overflow:hidden}
+.sb{position:absolute;top:0;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:6px 34px 0;font:600 17px Archivo;color:var(--ice);z-index:5}
+.sb .ic{display:flex;gap:8px;align-items:center}.sb svg{width:18px;height:18px;fill:var(--ice)}
+.pane{position:absolute;inset:52px 0 0 0;padding:14px 26px}
+.apphd{display:flex;align-items:center;gap:10px;font-weight:800;font-size:24px}
+.apphd .lg{width:34px;height:34px}
+.seg{margin-left:auto;display:flex;border:1.5px solid var(--line);border-radius:999px;font:700 14px 'JetBrains Mono';overflow:hidden}
+.seg b{padding:6px 11px}.seg b.on{background:var(--ice);color:var(--deep)}
+.sos{position:absolute;left:50%;top:330px;width:270px;height:270px;margin:-135px 0 0 -135px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#FF5A62,#C9252C 70%);display:grid;place-items:center;text-align:center;box-shadow:0 0 0 14px rgba(232,51,61,.14),0 0 0 30px rgba(232,51,61,.07)}
+.sos b{display:block;font-size:84px;font-weight:900;letter-spacing:.02em;font-variation-settings:"wdth" 110;line-height:.9}
+.sos small{font:600 17px 'JetBrains Mono';opacity:.9}
+.sosring{position:absolute;left:50%;top:330px;width:330px;height:330px;margin:-165px 0 0 -165px}
+.btnrow{position:absolute;left:26px;right:26px;bottom:34px;display:flex;flex-direction:column;gap:12px}
+.btn{height:68px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px;border:2px solid var(--line);color:var(--ice)}
+.btn.g{border-color:rgba(47,179,106,.6);color:#9BE3BA}
+.btn.r{background:var(--red);border:0;color:#fff}
+.btn.s{background:var(--ice);border:0;color:var(--deep)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font:700 15px 'JetBrains Mono';background:rgba(127,214,208,.12);color:var(--teal)}
+.pill i{width:9px;height:9px;border-radius:50%;background:var(--teal)}
+.tri{padding:5px 10px;border-radius:8px;font:800 14px 'JetBrains Mono';letter-spacing:.05em}
+.tri.y{background:var(--amber);color:#2a1d00}.tri.r{background:var(--red);color:#fff}.tri.g{background:var(--green);color:#03150b}
+.mic{position:absolute;left:50%;top:270px;width:150px;height:150px;margin-left:-75px;border-radius:50%;background:rgba(217,230,255,.08);display:grid;place-items:center}
+.mic svg{width:64px;height:64px;fill:var(--ice)}
+.wave{position:absolute;left:30px;right:30px;top:470px;height:90px;display:flex;align-items:center;justify-content:space-between}
+.wave i{width:8px;border-radius:4px;background:var(--ice)}
+.mtx{position:absolute;left:26px;right:26px;top:600px;font-size:19px;line-height:1.4;color:var(--mute)}
+.band{margin:0 -26px;padding:16px 26px;background:var(--red);color:#fff;font:800 22px Archivo;display:flex;justify-content:space-between;align-items:center}
+.band small{font:600 14px 'JetBrains Mono';opacity:.9}
+.step{font-size:40px;font-weight:800;line-height:1.12;margin-top:34px;letter-spacing:-.01em}
+.spk{display:flex;align-items:center;gap:12px;margin-top:26px;color:var(--teal);font:600 17px 'JetBrains Mono'}
+.spk svg{width:28px;height:28px;fill:var(--teal)}
+.next{margin-top:30px;font-size:22px;color:var(--mute);line-height:1.35;padding-left:14px;border-left:3px solid var(--line)}
+.bub{margin-top:22px;margin-left:50px;padding:16px 18px;border-radius:20px 20px 4px 20px;background:rgba(217,230,255,.1);font-size:21px;line-height:1.35}
+.ans{margin-top:18px;padding:18px;border-radius:20px;background:#fff;color:#14182a}
+.ans b{display:block;font-size:46px;font-weight:900;color:#B3141B;line-height:1}
+.ans p{font-size:20px;line-height:1.35;margin-top:8px}
+.ans small{display:block;margin-top:10px;font:600 13px 'JetBrains Mono';color:#5B6573}
+.strobe{position:absolute;inset:0;background:#fff;display:grid;place-items:center;color:#000;font:900 46px Archivo;letter-spacing:.1em;z-index:6}
+.help{position:absolute;inset:0;background:linear-gradient(170deg,#0f5b36,#07311f);z-index:4;padding:120px 30px 0}
+.help h3{font-size:62px;line-height:1;font-weight:900;letter-spacing:-.02em;margin-top:30px}
+.help p{font-size:22px;line-height:1.4;color:#c9f0da;margin-top:20px}
+/* rescuer */
+.row{margin-top:12px;padding:14px 14px 14px 18px;border-radius:18px;background:rgba(217,230,255,.06);border-left:6px solid}
+.row .t{display:flex;justify-content:space-between;align-items:center;font:800 21px Archivo}
+.row .d{font-size:16px;color:var(--mute);margin-top:6px;line-height:1.4}
+.row .m{font:600 13px 'JetBrains Mono';color:var(--dim);margin-top:6px}
+.meter{display:flex;gap:8px;margin-top:16px}
+.meter i{flex:1;height:58px;border-radius:12px;background:rgba(217,230,255,.07)}
+
+/* transcript */
+#tx{left:900px;top:250px;width:900px;font-size:54px;line-height:1.22;font-weight:700;letter-spacing:-.01em;transform-origin:0 0}
+#tx span{display:inline-block;margin-right:.24em;border-radius:8px;position:relative}
+#tx span.k::after{content:"";position:absolute;inset:-2px -6px;border-radius:8px;background:var(--hl,transparent);opacity:var(--ho,0);z-index:-1}
+#tx span.x::before{content:"";position:absolute;left:-4px;right:-4px;top:54%;height:5px;background:var(--red);transform:scaleX(var(--sx,0));transform-origin:0 50%}
+#txk{left:900px;top:190px}
+#txen{left:900px;top:740px;width:880px;font-size:27px;line-height:1.4;color:var(--mute);font-style:italic}
+
+/* AI scene */
+#s4k{left:120px;top:150px}
+#model{left:760px;top:330px;width:400px;height:420px;border-radius:28px;border:1.5px solid rgba(185,166,255,.45);background:linear-gradient(180deg,rgba(185,166,255,.10),rgba(185,166,255,.02));padding:28px}
+#model h4{font-size:34px;font-weight:800;letter-spacing:-.01em}
+#model .m1{font:600 17px 'JetBrains Mono';color:var(--ai);margin-top:6px}
+#vec{position:relative;margin-top:28px;height:170px;display:flex;align-items:center;gap:2px}
+#vec i{flex:1;border-radius:2px}
+#model .m2{font:600 15px 'JetBrains Mono';color:var(--mute);margin-top:22px;display:flex;justify-content:space-between}
+#outs{left:1240px;top:300px;width:600px}
+.orow{display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid var(--line)}
+.orow label{width:150px;font:600 15px 'JetBrains Mono';color:var(--mute);text-transform:uppercase;letter-spacing:.1em}
+.oc{display:inline-block;padding:8px 14px;border-radius:10px;font:700 22px 'JetBrains Mono';background:rgba(217,230,255,.08);color:var(--ice)}
+.oc.r{background:rgba(232,51,61,.18);color:#FF8A90}.oc.v{background:rgba(255,197,61,.15);color:var(--amber)}
+#stamp{left:1240px;top:760px;display:flex;align-items:center;gap:22px}
+#stamp .rb{font:900 92px Archivo;letter-spacing:.04em;color:#fff;background:var(--red);padding:4px 30px;border-radius:16px;font-variation-settings:"wdth" 112}
+#stamp .rl{font:600 17px 'JetBrains Mono';color:var(--mute);line-height:1.6}
+#kw{left:120px;top:690px;width:545px;padding:22px 24px;border-radius:20px;border:1.5px solid rgba(232,51,61,.45);background:rgba(232,51,61,.06)}
+#kw .l{font:600 15px 'JetBrains Mono';color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
+#kw .v{font-size:32px;font-weight:700;margin-top:10px;color:#FF8A90}
+#kw .v s{text-decoration-thickness:3px}
+#cap4,#cap4b{left:0;top:940px;width:1920px;text-align:center;font-size:30px;color:var(--ice)}
+#cap4 b,#cap4b b{color:var(--ai);font-weight:700}
+#flow{left:0;top:0;width:1920px;height:1080px;overflow:visible}
+
+/* training */
+#snips{left:0;top:0;width:1920px;height:1080px;display:flex;gap:30px;padding:0 40px;opacity:0}
+#snips .col{flex:1;position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent);mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent)}
+#snips .col div{position:absolute;left:0;right:0;font:400 17px/1.35 'JetBrains Mono';color:var(--mute)}
+#snips .col div em{font-style:normal;color:var(--teal);font-size:13px;display:block;margin-top:2px}
+#s5k{left:0;top:250px;width:1920px;text-align:center}
+#count{left:0;top:300px;width:1920px;text-align:center;font-weight:900;font-size:220px;letter-spacing:-.04em;font-variation-settings:"wdth" 100;font-feature-settings:"tnum"}
+#count5{left:0;top:560px;width:1920px;text-align:center}
+#pipe{left:0;top:700px;width:1920px;display:flex;justify-content:center;align-items:center;gap:18px}
+#pipe .chip{font-size:19px}
+#pipe .ar{color:var(--dim);font:700 26px 'JetBrains Mono'}
+#morphk{left:0;top:300px;width:1920px;text-align:center}
+#morph{left:0;top:400px;width:1920px;text-align:center;font:700 66px 'JetBrains Mono';letter-spacing:-.01em;white-space:nowrap}
+#morphtag{left:0;top:510px;width:1920px;display:flex;justify-content:center;gap:12px}
+#morphtag .chip.on{background:var(--teal);color:#05211f;border-color:var(--teal)}
+#morphlab{left:0;top:640px;width:1920px;text-align:center}
+#morphlab .oc{margin:0 6px}
+#morphnote{left:0;top:740px;width:1920px;text-align:center}
+#res{left:160px;top:250px;width:1600px}
+#res .rk{margin-bottom:18px}
+#bars2{margin-top:56px;width:860px}
+.br{margin-bottom:34px}
+.br .bl{display:flex;justify-content:space-between;font-size:24px;color:var(--mute);margin-bottom:10px}
+.br .bl b{font:800 40px Archivo;color:var(--ink)}
+.br .tr{height:34px;border-radius:10px;background:rgba(217,230,255,.07);overflow:hidden}
+.br .tr i{display:block;height:100%;border-radius:10px;transform-origin:0 50%}
+#stats{position:absolute;left:1000px;top:120px;width:600px}
+.st{padding:22px 0;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:24px}
+.st b{font-weight:900;font-size:84px;width:210px;letter-spacing:-.03em;color:var(--teal);font-variation-settings:"wdth" 90}
+.st span{font-size:26px;line-height:1.3;color:var(--ice)}
+#resnote{position:absolute;left:0;top:640px;font:600 16px 'JetBrains Mono';color:var(--dim);letter-spacing:.04em}
+
+/* instruct / bytes */
+#s6k,#s6h,#s6s,#s6k2,#s6h2,#s6s2{left:900px;width:900px}
+#s6k,#s6k2{top:330px}#s6h,#s6h2{top:380px}#s6s,#s6s2{top:560px}
+#bytes{left:0;top:330px;width:1920px;display:flex;justify-content:center;gap:8px}
+.by{width:64px;height:88px;border-radius:12px;display:grid;place-items:center;font:700 27px 'JetBrains Mono';color:var(--ice);background:rgba(217,230,255,.07);border:1.5px solid var(--line)}
+#bylab{left:0;top:440px;width:1920px;height:200px}
+#bylab div{position:absolute;top:0;border-top:2px solid;padding-top:12px;font:600 15px/1.35 'JetBrains Mono';text-align:center}
+#s6bh{left:0;top:150px;width:1920px;text-align:center}
+#s6bs{left:0;top:700px;width:1920px;text-align:center}
+#dot{left:0;top:0;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;background:var(--teal);box-shadow:0 0 40px 10px rgba(127,214,208,.6)}
+.ring{position:absolute;left:0;top:0;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:3px solid var(--teal)}
+
+/* rescuer scene */
+#s7k,#s7h,#s7s{left:900px;width:900px}
+#s7k{top:250px}#s7h{top:300px}#s7s{top:480px}
+#brief{left:900px;top:300px;width:900px}
+#brief .q{font-size:46px;font-weight:700;line-height:1.22;letter-spacing:-.01em}
+#brief .q span{display:inline-block;margin-right:.24em}
+#hc{left:900px;top:300px;width:900px}
+#hcm{display:flex;gap:12px;margin-top:40px}
+#hcm div{flex:1}
+#hcm i{display:block;height:120px;border-radius:18px;background:rgba(217,230,255,.07)}
+#hcm span{display:block;margin-top:14px;text-align:center;font:700 18px 'JetBrains Mono';color:var(--dim);letter-spacing:.1em}
+#tap{left:0;top:0;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:4px solid #fff;background:rgba(255,255,255,.25)}
+
+/* end */
+#e1{left:0;top:330px;width:1920px;text-align:center}
+#e2{left:0;top:430px;width:1920px;text-align:center;font-size:40px;color:var(--teal);font-weight:600}
+#elogo{left:885px;top:590px;width:150px;height:150px}
+#eword{left:0;top:760px;width:1920px;text-align:center;font-weight:800;font-size:64px;letter-spacing:-.02em;font-variation-settings:"wdth" 110}
+#efoot{left:0;top:860px;width:1920px;display:flex;justify-content:center;gap:14px}
+#edisc{left:0;top:1010px;width:1920px;text-align:center;font:600 15px 'JetBrains Mono';color:var(--dim);letter-spacing:.08em}
+#fade{position:absolute;inset:0;background:#000;pointer-events:none}
+#flash{position:absolute;inset:0;background:#fff;pointer-events:none;opacity:0}
+
+/* preview chrome */
+#ui{position:fixed;left:0;right:0;bottom:0;height:46px;display:flex;align-items:center;gap:12px;padding:0 16px;background:rgba(0,0,0,.7);font:600 13px 'JetBrains Mono',monospace;color:#ccd;z-index:9}
+#ui button{background:#D9E6FF;color:#001233;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
+#ui input{flex:1}
+body.render #ui{display:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="gridbg"></div>
+  <div id="snips"></div>
+
+  <!-- S1 dead air -->
+  <div id="bars" class="a"><i style="left:0;height:30%"></i><i style="left:82px;height:53%"></i><i style="left:164px;height:76%"></i><i style="left:246px;height:100%"></i></div>
+  <div id="nosvc" class="a">NO SERVICE · 911 UNREACHABLE</div>
+  <div id="s1a" class="a">When the Big One hits,</div>
+  <div id="s1b" class="a h1">the network is the first thing to go.</div>
+
+  <!-- S2 logo -->
+  <svg id="logo" class="a" viewBox="0 0 108 108">
+    <rect id="lgbg" width="108" height="108" rx="24" fill="#002D72"/>
+    <g fill="none" stroke="#D9E6FF" stroke-linecap="round" stroke-linejoin="round">
+      <path id="lghouse" d="M28,56 L54,32 L80,56 M36,50 L36,76 L72,76 L72,50" stroke-width="5" pathLength="1" stroke-dasharray="1"/>
+      <path id="lgarc1" d="M48.34,56.34 A8,8 0 0,1 59.66,56.34" stroke-width="4"/>
+      <path id="lgarc2" d="M44.1,52.1 A14,14 0 0,1 63.9,52.1" stroke-width="4"/>
+    </g>
+    <circle id="lgdot" cx="54" cy="62" r="4.5" fill="#D9E6FF"/>
+  </svg>
+  <div id="word" class="a"></div>
+  <div id="tag" class="a">The offline 911 dispatcher, in your pocket.</div>
+  <div id="chips1" class="a">
+    <span class="chip"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>Airplane mode</span>
+    <span class="chip"><svg viewBox="0 0 24 24"><path d="M17.71 7.71 12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/></svg>Bluetooth on</span>
+    <span class="chip">AI on the phone</span>
+    <span class="chip">No towers needed</span>
+  </div>
+
+  <!-- transcript (S3 → S4) -->
+  <div id="txk" class="a kick">A panicked report · in Taglish</div>
+  <div id="tx" class="a"></div>
+  <div id="txen" class="a">"Help! The house collapsed, we're trapped on the second floor, by the bathroom. Three of us, no wait, four, grandma too. I can't move my leg… so much blood on my child's head!"</div>
+
+  <!-- S4 AI -->
+  <div id="s4k" class="a kick" style="color:var(--ai)">Inside the phone · zero internet</div>
+  <svg id="flow" class="a" viewBox="0 0 1920 1080"></svg>
+  <div id="model" class="a">
+    <h4>EmbeddingGemma</h4>
+    <div class="m1">300M · running on this phone</div>
+    <div id="vec"></div>
+    <div class="m2"><span>768-dim meaning vector</span><span id="ms">0 ms</span></div>
+  </div>
+  <div id="outs" class="a">
+    <div class="orow"><label>hazard</label><span class="oc">COLLAPSE</span></div>
+    <div class="orow"><label>trapped</label><span class="oc">YES</span></div>
+    <div class="orow"><label>place</label><span class="oc">FLOOR 2</span><span class="oc">BATHROOM</span></div>
+    <div class="orow"><label>people</label><span class="oc">4</span></div>
+    <div class="orow"><label>condition</label><span class="oc r">PINNED</span><span class="oc r">HEAVY BLEEDING</span></div>
+    <div class="orow"><label>vulnerable</label><span class="oc v">CHILD</span><span class="oc v">ELDERLY</span></div>
+  </div>
+  <div id="stamp" class="a"><span class="rb">RED</span><span class="rl">triage rule, not AI<br>life threat → top of<br>every rescuer's list</span></div>
+  <div id="kw" class="a"><div class="l">Keyword list alone</div><div class="v">3 people · no injuries ✗</div></div>
+  <div id="cap4" class="a">Rules decide first. <b>On-device AI catches what word lists miss.</b> It only picks from closed lists.</div>
+  <div id="cap4b" class="a">Why local? <b>When the towers fall, there is no cloud.</b></div>
+
+  <!-- S5 training -->
+  <div id="s5k" class="a kick">How Saklolo's local AI was trained</div>
+  <div id="count" class="a">0</div>
+  <div id="count5" class="a sub">labeled emergency reports · English · Filipino · Taglish</div>
+  <div id="pipe" class="a">
+    <span class="chip">phrase banks</span><span class="ar">→</span>
+    <span class="chip">labeled reports</span><span class="ar">→</span>
+    <span class="chip" style="color:var(--ai);border-color:rgba(185,166,255,.5)">EmbeddingGemma vectors</span><span class="ar">→</span>
+    <span class="chip" style="color:var(--teal);border-color:rgba(127,214,208,.5)">110 KB classifier heads</span>
+  </div>
+  <div id="morphk" class="a kick">Taught to read how people actually type in a crisis</div>
+  <div id="morph" class="a"></div>
+  <div id="morphtag" class="a"><span class="chip">original</span><span class="chip">text-speak</span><span class="chip">typos</span><span class="chip">all caps</span><span class="chip">no punctuation</span></div>
+  <div id="morphlab" class="a"><span class="oc">TRAPPED</span><span class="oc">FLOOR 2</span><span class="oc r">HEAVY BLEEDING</span></div>
+  <div id="morphnote" class="a sub">Same meaning, same labels, every time.</div>
+  <div id="res" class="a">
+    <div class="kick rk">Graded on reports it never trained on</div>
+    <div class="h2">Hard cases, whole record correct</div>
+    <div id="bars2">
+      <div class="br"><div class="bl"><span>Keyword rules only</span><b id="pA">0%</b></div><div class="tr"><i id="bA" style="background:#5B6573"></i></div></div>
+      <div class="br"><div class="bl"><span>Rules + on-device AI</span><b id="pB">0%</b></div><div class="tr"><i id="bB" style="background:linear-gradient(90deg,var(--ai),var(--teal))"></i></div></div>
+    </div>
+    <div id="stats">
+      <div class="st"><b>0</b><span>wrong life-threat labels<br>(not breathing, unconscious, bleeding)</span></div>
+      <div class="st"><b>8/8</b><span>unclear answers took<br>the safer branch</span></div>
+      <div class="st"><b>~1 s</b><span>per report, phone CPU,<br>180 MB model</span></div>
+    </div>
+    <div id="resnote">29 hard cases written apart from training · Samsung S24 Ultra · measured 2026-10-10</div>
+  </div>
+
+  <!-- S6 instruct + bytes -->
+  <div id="s6k" class="a kick" style="color:var(--red)">Instant first aid · it never waits for the AI</div>
+  <div id="s6h" class="a h2">Life-threat first.<br>Spoken out loud.</div>
+  <div id="s6s" class="a sub">Approved, step-by-step protocols in English, with Filipino one tap away.</div>
+  <div id="s6k2" class="a kick" style="color:var(--amber)">Myth-buster</div>
+  <div id="s6h2" class="a h2">Dangerous instincts,<br>stopped.</div>
+  <div id="s6s2" class="a sub">The AI matches the question to a reviewed answer, or says nothing. Never a made-up one.</div>
+  <div id="s6bh" class="a h1">Everything a rescuer needs.<br><span style="color:var(--teal)">22 bytes.</span></div>
+  <div id="bytes" class="a"></div>
+  <div id="bylab" class="a"></div>
+  <div id="s6bs" class="a sub">Broadcast over Bluetooth, phone in airplane mode, duty-cycled to last the golden 72 hours.</div>
+  <div id="rings" class="a"></div>
+  <div id="dot" class="a"></div>
+
+  <!-- S7 rescuer copy -->
+  <div id="s7k" class="a kick">Every safe phone becomes a rescuer</div>
+  <div id="s7h" class="a h1">RED goes<br>to the top.</div>
+  <div id="s7s" class="a sub">Ranked by triage, vulnerable people and time waiting. Battery shows whose beacon dies first.</div>
+  <div id="brief" class="a"><div class="kick" style="margin-bottom:24px">Spoken briefing</div><div class="q"></div></div>
+  <div id="hc" class="a"><div class="kick">No GPS indoors</div><div class="h2" style="margin-top:20px">Follow the signal.<br>Then make it ring.</div>
+    <div id="hcm"><div><i></i><span>COLD</span></div><div><i></i><span>COOL</span></div><div><i></i><span>WARM</span></div><div><i></i><span>HOT</span></div></div></div>
+
+  <div id="vp" class="a phone"></div>
+  <div id="rp" class="a phone"></div>
+  <div id="tap" class="a"></div>
+
+  <!-- end -->
+  <div id="e1" class="a h1">Every safe phone becomes a rescuer.</div>
+  <div id="e2" class="a">Bayanihan, with no towers.</div>
+  <svg id="elogo" class="a" viewBox="0 0 108 108"><use href="#lgbg"/><g fill="none" stroke="#D9E6FF" stroke-linecap="round" stroke-linejoin="round"><path d="M28,56 L54,32 L80,56 M36,50 L36,76 L72,76 L72,50" stroke-width="5"/><path d="M44.1,52.1 A14,14 0 0,1 63.9,52.1 M48.34,56.34 A8,8 0 0,1 59.66,56.34" stroke-width="4"/></g><circle cx="54" cy="62" r="4.5" fill="#D9E6FF"/></svg>
+  <div id="eword" class="a">Saklolo</div>
+  <div id="efoot" class="a"><span class="chip">Offline</span><span class="chip">On-device AI</span><span class="chip">Bluetooth beacon</span><span class="chip">English · Filipino · Taglish</span></div>
+  <div id="edisc" class="a">Hackathon prototype · demo, not medically reviewed</div>
+
+  <div id="grain"></div><div id="vign"></div><div id="flash"></div><div id="fade"></div>
+</div>
+<div id="ui"><button id="pp">Play</button><span id="tc">0.00</span><input id="sk" type="range" min="0" max="60" step="0.01" value="0"></div>
+
+<script>
+const DUR = 60;
+const $ = id => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const E = {
+  lin: x => x,
+  out: x => 1 - Math.pow(1 - x, 3),
+  io: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+  back: x => { const c = 1.9, c3 = c + 1; return 1 + c3 * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); },
+  expo: x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x),
+};
+const P = (t, a, b, e = E.lin) => e(cl((t - a) / (b - a)));
+// keyframes: [[time, value, ease?], ...]
+function kf(t, k, e = E.io) {
+  if (t <= k[0][0]) return k[0][1];
+  for (let i = 1; i < k.length; i++) if (t <= k[i][0]) {
+    const [a, va] = k[i - 1], [b, vb, ei] = k[i];
+    return va + (vb - va) * (ei || e)((t - a) / (b - a));
+  }
+  return k[k.length - 1][1];
+}
+function set(el, { o = 1, x = 0, y = 0, s = 1, r = 0, blur = 0 } = {}) {
+  el.style.opacity = o;
+  el.style.visibility = o < .002 ? 'hidden' : 'visible';
+  el.style.transform = `translate(${x}px,${y}px) scale(${s}) rotate(${r}deg)`;
+  el.style.filter = blur > .05 ? `blur(${blur}px)` : 'none';
+}
+// enter at a, leave at b: lift + de-blur in, soft blur out
+function rise(el, t, a, b, { dy = 36, dur = .6, out = .4, x = 0, s = 1 } = {}) {
+  const i = E.out(cl((t - a) / dur)), o = b == null ? 0 : E.io(cl((t - b) / out));
+  set(el, { o: i * (1 - o), x, y: (1 - i) * dy - o * 20, blur: (1 - i) * 12 + o * 10, s });
+}
+// deterministic pseudo-random
+const rnd = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+/* ---------- build DOM ---------- */
+const ICON_AIR = '<svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>';
+const ICON_BT = '<svg viewBox="0 0 24 24"><path d="M17.71 7.71 12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/></svg>';
+const ICON_SPK = '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
+const LOGO = '<svg class="lg" viewBox="0 0 108 108"><rect width="108" height="108" rx="24" fill="#002D72"/><g fill="none" stroke="#D9E6FF" stroke-linecap="round" stroke-linejoin="round"><path d="M28,56 L54,32 L80,56 M36,50 L36,76 L72,76 L72,50" stroke-width="6"/><path d="M44.1,52.1 A14,14 0 0,1 63.9,52.1 M48.34,56.34 A8,8 0 0,1 59.66,56.34" stroke-width="5"/></g><circle cx="54" cy="62" r="5" fill="#D9E6FF"/></svg>';
+const SB = bat => `<div class="sb"><span>3:12</span><span class="ic">${ICON_AIR}${ICON_BT}<span>${bat}</span></span></div>`;
+const HD = '<div class="apphd">' + LOGO + 'Saklolo<div class="seg"><b class="on">EN</b><b>FIL</b></div></div>';
+
+$('vp').innerHTML = `<div class="scr">${SB('78%')}
+  <div class="pane" id="vA">${HD}
+    <svg class="sosring" viewBox="0 0 330 330"><circle cx="165" cy="165" r="155" fill="none" stroke="rgba(217,230,255,.12)" stroke-width="8"/><circle id="sosp" cx="165" cy="165" r="155" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 165 165)"/></svg>
+    <div class="sos" id="sosb"><div><b>SOS</b><small id="sosl">HOLD 3 SEC</small></div></div>
+    <div class="btnrow"><div class="btn g">I'm safe</div><div class="btn">Call 911</div></div></div>
+  <div class="pane" id="vB">${HD}
+    <div style="display:flex;gap:10px;margin-top:22px;align-items:center"><span class="pill"><i></i>BEACON ON</span><span class="tri y" id="vtri">YELLOW</span></div>
+    <div style="margin-top:34px;font-size:30px;font-weight:800">Tell me what happened.</div>
+    <div style="margin-top:6px;font-size:19px;color:var(--mute)">Any language. Just talk.</div>
+    <div class="mic" style="top:250px"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg></div>
+    <div class="wave" id="vwave"></div>
+    <div class="mtx" id="vmtx"></div></div>
+  <div class="pane" id="vC" style="padding-top:0">
+    <div class="band">Heavy bleeding<small>STEP 1 / 4</small></div>
+    <div class="step">Press hard on the wound with a cloth.</div>
+    <div class="spk">${ICON_SPK}<span>SPEAKING…</span></div>
+    <div class="next">Next: Use both hands and your body weight.</div>
+    <div class="bub" id="vq">Pwede bang sindihan ang lighter para makakita?</div>
+    <div class="ans" id="va"><b>No.</b><p>Never light a lighter, match or candle. Gas may be leaking and one spark can explode. Use your phone's light.</p><small>APPROVED ANSWER · MATCHED ON DEVICE</small></div>
+  </div>
+  <div class="help" id="vH"><span class="pill" style="background:rgba(255,255,255,.14);color:#fff"><i style="background:#fff"></i>BEACON ON · AIRPLANE MODE</span>
+    <h3>Help is on the way.</h3><p>A rescuer heard your beacon and is coming to you. Keep your phone on. Stay where you are.</p></div>
+  <div class="strobe" id="vS">RINGING</div>
+</div>`;
+
+$('rp').innerHTML = `<div class="scr">${SB('91%')}
+  <div class="pane" id="rA">${HD}
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:20px"><span style="font-size:28px;font-weight:800">Nearby beacons</span><span style="font:600 15px 'JetBrains Mono';color:var(--green)">SAFE · 12</span></div>
+    <div class="row" id="rr1" style="border-color:var(--red)"><div class="t"><span>4 people · Floor 2</span><span class="tri r">RED</span></div><div class="d">Bathroom · pinned · heavy bleeding<br>child · elderly · trapped</div><div class="m">COLLAPSE · 🔋78% · HEARD 4 S AGO</div></div>
+    <div class="row" id="rr2" style="border-color:var(--amber)"><div class="t"><span>2 people · Roof</span><span class="tri y">YELLOW</span></div><div class="d">Water rising · infant</div><div class="m">FLOOD · 🔋23% · HEARD 1 MIN AGO</div></div>
+    <div class="row" id="rr3" style="border-color:var(--amber)"><div class="t"><span>1 person · Floor 1</span><span class="tri y">YELLOW</span></div><div class="d">Trapped · no injuries reported</div><div class="m">COLLAPSE · 🔋54% · HEARD 2 MIN AGO</div></div>
+  </div>
+  <div class="pane" id="rB">${HD}
+    <div style="display:flex;gap:10px;align-items:center;margin-top:20px"><span class="tri r">RED</span><span style="font-size:26px;font-weight:800">4 people · Floor 2</span></div>
+    <div style="font-size:19px;color:var(--mute);margin-top:8px">Bathroom · pinned · heavy bleeding · child · elderly</div>
+    <div style="margin-top:26px;font:600 15px 'JetBrains Mono';color:var(--mute);letter-spacing:.1em">SIGNAL · NO GPS FIX</div>
+    <div class="meter" id="rmeter"><i></i><i></i><i></i><i></i></div>
+    <div style="display:flex;justify-content:space-between;font:700 13px 'JetBrains Mono';color:var(--dim);margin-top:8px"><span>COLD</span><span>HOT</span></div>
+    <div class="btnrow"><div class="btn" id="rring" style="border-color:var(--amber);color:var(--amber)">Ring phone</div><div class="btn s" id="romw">On my way</div></div>
+  </div>
+</div>`;
+
+// transcript words; k = keyword (highlight), x = struck (self-correction)
+const TX = [['Tulong!'], ['Gumuho', 'k'], ['ang'], ['bahay,', 'k'], ['naipit', 'k'], ['kami'], ['sa'], ['ikalawang', 'k'], ['palapag,', 'k'], ['sa'], ['may'], ['banyo.', 'k'],
+  ['Tatlo', 'x'], ['kami,', 'x'], ['ay'], ['hindi,'], ['apat', 'k'], ['pala,', 'k'], ['kasama'], ['si'], ['lola.', 'k'], ['Hindi', 'k'], ['ko'], ['maigalaw', 'k'], ['ang'], ['binti', 'k'], ['ko…'],
+  ['ang'], ['daming', 'k'], ['dugo', 'k'], ['sa'], ['ulo'], ['ng'], ['anak', 'k'], ['ko!']];
+$('tx').innerHTML = TX.map(([w, c]) => `<span class="${c === 'k' ? 'k' : c === 'x' ? 'k x' : ''}">${w}</span>`).join('');
+const txw = [...$('tx').children];
+$('vmtx').textContent = TX.map(w => w[0]).join(' ');
+
+$('vwave').innerHTML = '<i></i>'.repeat(28);
+const waveBars = [...$('vwave').children];
+
+$('word').innerHTML = [...'Saklolo'].map(c => `<span>${c}</span>`).join('');
+const wordL = [...$('word').children];
+
+// vector: 96 bars standing in for 768 dims
+$('vec').innerHTML = '<i></i>'.repeat(96);
+const vecB = [...$('vec').children];
+
+// training snippets: real lines from train/reports.jsonl
+const SN = [["hindi sumasagot si nanay pag tinatawag", "UNCONSCIOUS"], ["saklolo, tapos earthquake, everything fell", "COLLAPSE"], ["Tulong po!, abot dibdib na ang baha", "FLOOD"], ["lumindol nang malakas at in the bedroom", "COLLAPSE"], ["nadaganan ng aparador buntis kong asawa", "PINNED"], ["God help us pero mud came down the hill", "LANDSLIDE"], ["hindi gumagalaw ang dibdib ni tatay kong naka-wheelchair", "NOT_BREATHING"], ["GUMUHO ANG BUNDOK SA LIKOD NAMIN", "LANDSLIDE"], ["sa kwarto the door is blocked we are six pls hurry", "TRAPPED"], ["MY COWORKER IS BLEEDING BADLY", "HEAVY_BLEEDING"], ["kasama namin my wife pero umapaw ang ilog", "FLOOD"], ["stuck kmi dito at aq lang mag-isa", "TRAPPED"], ["yung bulag naming kasama passed out", "UNCONSCIOUS"], ["malalim ang sugat ni my husband at dumudugo", "HEAVY_BLEEDING"], ["hindi maigalaw ni si tito ang paa", "PINNED"], ["PAKI-RESCUE PO. NAIPIT ANG KAMAY KO", "PINNED"], ["paki-rescue po, natabunan ng lupa ang bahay", "LANDSLIDE"], ["storm surge hit our village pero god help us", "FLOOD"], ["HINDI TUMITIGIL ANG DUGO NI KAPATID KONG PWD", "HEAVY_BLEEDING"], ["DALUYONG SA TABING DAGAT UNDER THE TABLE", "FLOOD"], ["HELP, WITH MY 80 YEAR OLD DAD, TWO OF US", "ELDERLY"], ["si ate na buntis won't wake up", "UNCONSCIOUS"], ["TULONG PO TRAPPED INSIDE LUMINDOL AT BUMIGAY ANG PADER", "COLLAPSE"], ["MUD CAME DOWN THE HILL PERO DI NA KAMI MAKABABA", "LANDSLIDE"], ["okay lang kami. sa ilalim ng mesa. please send a boat", "FLOOD"], ["natabunan ng lupa ang bahay. rescue needd", "LANDSLIDE"], ["hnd namin maais ung nakaharang", "TRAPPED"], ["my husband's leg is pinned under the wall", "PINNED"], ["bumagsak ang pader pagkatapos ng lindol. saklolo", "COLLAPSE"], ["nag-crack at bumagsak ang dingding", "COLLAPSE"], ["pls rt putik ang pumasok sa kusina", "LANDSLIDE"], ["hnd kmi makalabas, si tito got burned", "INJURED"], ["ang daming dugo my deaf brother", "HEAVY_BLEEDING"], ["basang-basa ng dugo ang damit ni ang pamangkin ko", "HEAVY_BLEEDING"], ["Please help sa attic pataas nang pataas ang baha", "WATER_RISING"], ["tatlo kami dito sa ilalim ng mesa", "TRAPPED"], ["mudslide sa barangay namin pero [address]", "LANDSLIDE"], ["my newborn is awake and talking", "INFANT"], ["send help asap pero sa ikalawang palapag", "TRAPPED"], ["nagkaroon ng landslide, tapos please po", "LANDSLIDE"]];
+const NCOL = 5;
+$('snips').innerHTML = Array.from({ length: NCOL }, (_, c) => '<div class="col">' +
+  Array.from({ length: 16 }, (_, i) => { const s = SN[(c * 7 + i * 3) % SN.length]; return `<div>${s[0]}<em>→ ${s[1]}</em></div>`; }).join('') + '</div>').join('');
+const cols = [...$('snips').children].map(c => [...c.children]);
+
+const MORPH = ['Naipit kami sa 2nd floor, may dugo.', 'naipit kmi s 2nd flr my dugo', 'naipt kami sa 2nd flor may dugoo', 'NAIPIT KAMI SA 2ND FLOOR MAY DUGO!!!', 'naipit kami sa 2nd floor may dugo'];
+const mtags = [...$('morphtag').children];
+
+// the real record, Record.encode(): v1 · id · lat/lon NO_FIX (indoors) · kind · people · vuln · cond · place · battery · rev · age
+const BY = ['10', '5A', '4B', '1C', '07', '80', '00', '00', '00', '80', '00', '00', '00', '0A', '04', '06', '0C', '21', '4E', '02', '00', 'B4'];
+const BYC = i => i === 0 ? '#5B6573' : i < 5 ? '#5B6573' : i < 13 ? '#7FD6D0' : i === 13 ? '#E8333D' : i === 14 ? '#D9E6FF' : i === 15 ? '#FFC53D' : i === 16 ? '#E8333D' : i === 17 ? '#B9A6FF' : i === 18 ? '#2FB36A' : '#5B6573';
+$('bytes').innerHTML = BY.map((b, i) => `<div class="by" style="border-color:${BYC(i)}55">${b}</div>`).join('');
+const byEls = [...$('bytes').children];
+const X0 = (1920 - (22 * 64 + 21 * 8)) / 2, cellX = i => X0 + i * 72;
+const LABS = [[1, 4, 'phone id'], [5, 12, 'no GPS fix: indoors'], [13, 13, 'collapse\nRED\ntrapped'], [14, 14, '4\npeople'], [15, 15, 'child\nelderly'], [16, 16, 'pinned\nbleeding'], [17, 17, 'floor 2\nbathroom'], [18, 18, 'battery\n78%'], [19, 21, 'rev · age']];
+$('bylab').innerHTML = LABS.map(([a, b, l]) => `<div style="left:${cellX(a)}px;width:${(b - a) * 72 + 64}px;border-color:${BYC(a)};color:${BYC(a) === '#5B6573' ? '#8C9BB5' : BYC(a)}">${l.replace(/\n/g, '<br>')}</div>`).join('');
+const labEls = [...$('bylab').children];
+
+$('rings').innerHTML = '<div class="ring"></div>'.repeat(5);
+const ringEls = [...$('rings').children];
+
+const BRIEF = 'RED. Four people, second floor, bathroom. One pinned, heavy bleeding. A child and an elderly person.'.split(' ');
+$('brief').querySelector('.q').innerHTML = BRIEF.map(w => `<span>${w}</span>`).join('');
+const briefW = [...$('brief').querySelectorAll('.q span')];
+
+// flow lines for the AI scene
+const OUT_Y = [334, 402, 470, 538, 606, 674];
+$('flow').innerHTML =
+  [0, 1, 2, 3, 4].map(i => `<path class="fin" d="M 690 ${360 + i * 60} C 720 ${360 + i * 60}, 730 540, 760 540" fill="none" stroke="#B9A6FF" stroke-width="2" pathLength="1" stroke-dasharray="1"/>`).join('') +
+  OUT_Y.map(y => `<path class="fout" d="M 1160 540 C 1200 540, 1200 ${y}, 1240 ${y}" fill="none" stroke="#7FD6D0" stroke-width="2" pathLength="1" stroke-dasharray="1"/>`).join('') +
+  [0, 1, 2, 3, 4, 5, 6, 7].map(() => '<circle class="pt" r="5" fill="#fff"/>').join('');
+const fin = [...document.querySelectorAll('.fin')], fout = [...document.querySelectorAll('.fout')], pts = [...document.querySelectorAll('.pt')];
+const orows = [...document.querySelectorAll('.orow')], ochips = orows.map(r => [...r.querySelectorAll('.oc')]);
+
+const el = id => $(id);
+const ALL = [...document.querySelectorAll('#stage .a')];
+
+/* ---------- render(t): every frame is a pure function of time ---------- */
+function render(t) {
+  ALL.forEach(e => { e.style.opacity = 0; e.style.visibility = 'hidden'; });
+
+  // background texture
+  $('grain').style.transform = `translate(${(rnd(Math.floor(t * 24)) - .5) * 200}px,${(rnd(Math.floor(t * 24) + 9) - .5) * 200}px)`;
+  $('gridbg').style.opacity = 0.5 * P(t, 19, 20) * (1 - P(t, 30.6, 31.2)) + 0.25 * P(t, 31, 32) * (1 - P(t, 39.6, 40.2));
+  $('fade').style.opacity = 1 - P(t, 0, .6) + P(t, 59.3, 60);
+
+  /* S1 dead air 0–6 */
+  if (t < 6.2) {
+    const bars = [...$('bars').children];
+    bars.forEach((b, i) => {
+      const d = 0.7 + (3 - i) * 0.42;            // highest bar dies first
+      const dead = P(t, d, d + .25, E.out);
+      b.style.background = dead > .5 ? '#2a3448' : '#D9E6FF';
+      b.style.transform = `scaleY(${1 - dead * .82})`; b.style.transformOrigin = '50% 100%';
+    });
+    set($('bars'), { o: 1 - P(t, 5.0, 5.6), s: 1 - P(t, 5.0, 5.8, E.io) * .3, y: -40 });
+    const flick = t > 2.4 && t < 3.1 ? (Math.floor(t * 14) % 2 ? .3 : 1) : 1;
+    set($('nosvc'), { o: P(t, 2.4, 2.5) * flick * (1 - P(t, 5, 5.5)) });
+    rise($('s1a'), t, 2.8, 5.1);
+    rise($('s1b'), t, 3.4, 5.2, { dy: 50 });
+  }
+
+  /* S2 logo 5.6–10.2 */
+  if (t > 5.4 && t < 10.6) {
+    const lt = t - 5.8;
+    const s = kf(t, [[5.8, .2], [6.5, 1, E.back], [9.4, 1.04, E.lin], [10.1, .4]]);
+    set($('logo'), { o: P(t, 5.8, 6.1) * (1 - P(t, 9.8, 10.2)), s, y: kf(t, [[9.4, 0], [10.1, -180]]) });
+    $('lghouse').style.strokeDashoffset = 1 - P(t, 6.0, 7.0, E.io);
+    $('lgdot').style.opacity = P(t, 7.0, 7.2);
+    const pulse = k => { const c = ((lt - 1.3 - k * .18) % 1.2 + 1.2) % 1.2; return lt < 1.3 + k * .18 ? 0 : (c < .25 ? 1 : 1 - (c - .25) / .95 * .7); };
+    $('lgarc1').style.opacity = pulse(0); $('lgarc2').style.opacity = pulse(1);
+    wordL.forEach((w, i) => {
+      const p = P(t, 7.0 + i * .05, 7.6 + i * .05, E.out);
+      w.style.transform = `translateY(${(1 - p) * 60}px)`; w.style.opacity = p;
+    });
+    set($('word'), { o: 1 - P(t, 9.6, 10.0), blur: P(t, 9.6, 10) * 10 });
+    rise($('tag'), t, 7.7, 9.6);
+    rise($('chips1'), t, 8.2, 9.7, { dy: 24 });
+  }
+
+  /* victim phone */
+  const vp = $('vp');
+  if (t > 9.6 && t < 19.8) {
+    set(vp, { o: P(t, 9.8, 10.4), x: 330, y: kf(t, [[9.8, 300], [10.6, 110, E.out]]) + kf(t, [[18.8, 0], [19.6, 0]]), s: 1 });
+    if (t > 18.9) set(vp, { o: 1 - P(t, 18.9, 19.6), x: 330 - P(t, 18.9, 19.6, E.io) * 400, y: 110, blur: P(t, 18.9, 19.6) * 8 });
+  }
+  if (t > 39.6 && t < 44.6) set(vp, { o: P(t, 39.8, 40.3) * (1 - P(t, 44.0, 44.5)), x: 330 + (1 - P(t, 39.8, 40.5, E.out)) * -300 - P(t, 44, 44.5, E.io) * 300, y: 110 });
+  if (t > 52.6 && t < 59.9) {
+    const toC = P(t, 55.3, 56.1, E.io);
+    set(vp, { o: P(t, 52.7, 53.1) * (1 - P(t, 57.5, 58.0)), x: 1380 + (750 - 1380) * toC + (1 - P(t, 52.7, 53.2, E.out)) * 300, y: 110, s: .86 + .14 * toC });
+  }
+  // victim screens
+  const sA = $('vA'), sB = $('vB'), sC = $('vC');
+  sA.style.opacity = 1 - P(t, 12.3, 12.5);
+  sB.style.opacity = P(t, 12.3, 12.5) * (t < 30 ? 1 : 0);
+  sC.style.opacity = t > 30 ? 1 : 0;
+  const hold = P(t, 10.8, 12.1, E.lin);
+  $('sosp').style.strokeDashoffset = 1 - hold;
+  $('sosb').style.transform = `scale(${1 - hold * .06 + (t > 12.1 && t < 12.3 ? .08 : 0)})`;
+  $('sosl').textContent = t < 10.8 ? 'HOLD 3 SEC' : t < 12.1 ? `SENDING IN ${Math.max(1, 3 - Math.floor(hold * 3))}` : 'SENT';
+  waveBars.forEach((b, i) => {
+    const talk = P(t, 12.6, 12.9) * (1 - P(t, 17.6, 18));
+    const h = 8 + talk * 80 * Math.abs(Math.sin(t * 9 + i * .7) * Math.sin(t * 3.1 + i * 1.3)) * (0.5 + rnd(i + Math.floor(t * 12)) * .5);
+    b.style.height = h + 'px'; b.style.opacity = .4 + talk * .6;
+  });
+  $('vmtx').style.opacity = P(t, 13, 13.5) * .9;
+  $('vtri').textContent = t > 17.8 ? 'RED' : 'YELLOW'; $('vtri').className = 'tri ' + (t > 17.8 ? 'r' : 'y');
+  $('vq').style.opacity = P(t, 42.0, 42.3); $('vq').style.transform = `translateY(${(1 - P(t, 42, 42.4, E.out)) * 20}px)`;
+  $('va').style.opacity = P(t, 42.8, 43.1); $('va').style.transform = `translateY(${(1 - P(t, 42.8, 43.2, E.out)) * 20}px)`;
+  sC.querySelector('.step').style.display = sC.querySelector('.next').style.display = sC.querySelector('.spk').style.display = t > 41.9 ? 'none' : '';
+  sC.querySelector('.spk svg').style.opacity = .5 + .5 * Math.abs(Math.sin(t * 6));
+  const ringing = t > 53.2 && t < 55.4;
+  $('vS').style.opacity = ringing ? (Math.floor(t * 8) % 2 ? 1 : 0) : 0;
+  $('vH').style.opacity = P(t, 55.3, 55.6);
+  // SOS beacon rings off victim phone
+  if (t > 12.1 && t < 19) rings(t, 330 + 210, 110 + 430, 12.1, 1.6, 1 - P(t, 18.4, 19));
+  if (t > 53.2 && t < 55.4) rings(t, 1380 + 210, 110 + 430, 53.2, .5, 1, '#FFFFFF');
+
+  /* S3 transcript */
+  if (t > 12.3 && t < 31) {
+    rise($('txk'), t, 12.4, 18.8);
+    const n = txw.length, a = 12.7, b = 17.3;
+    txw.forEach((w, i) => {
+      const ti = a + i * (b - a) / n, p = P(t, ti, ti + .25, E.out);
+      w.style.opacity = .12 + .88 * p; w.style.filter = p < 1 ? `blur(${(1 - p) * 6}px)` : 'none';
+      const k = w.classList.contains('k'), hi = P(t, 21.0 + i * .03, 21.4 + i * .03);
+      w.style.setProperty('--ho', k ? hi : 0);
+      w.style.setProperty('--hl', w.classList.contains('x') ? 'rgba(232,51,61,.18)' : 'rgba(185,166,255,.28)');
+      w.style.setProperty('--sx', P(t, 22.0, 22.5, E.out));
+      w.style.color = w.classList.contains('x') && t > 22 ? '#8C9BB5' : '';
+    });
+    const mv = P(t, 19.0, 20.2, E.io);
+    set($('tx'), { o: 1, x: -780 * mv, y: 40 * mv, s: 1 - .38 * mv });
+    rise($('txen'), t, 15.2, 18.8, { dy: 20 });
+    if (t > 30.2) set($('tx'), { o: 1 - P(t, 30.2, 30.8), x: -780, y: 40, s: .62, blur: P(t, 30.2, 30.8) * 10 });
+  }
+
+  /* S4 AI 19–31 */
+  if (t > 19 && t < 31.2) {
+    const out = 30.4;
+    rise($('s4k'), t, 19.6, out);
+    rise($('model'), t, 20.0, out, { dy: 0, s: 1 });
+    $('model').style.transform += ` scale(${kf(t, [[20, .9], [20.8, 1, E.back]])})`;
+    $('model').style.boxShadow = `0 0 ${40 + 60 * P(t, 21.2, 22.6) * (1 - P(t, 23, 24))}px rgba(185,166,255,${.15 + .35 * P(t, 21.2, 22.6) * (1 - P(t, 23, 24))})`;
+    vecB.forEach((b, i) => {
+      const p = P(t, 21.2 + i * .012, 21.6 + i * .012, E.out);
+      const v = (rnd(i * 3.7) - .5) * 2, live = Math.sin(t * 2 + i) * .08;
+      b.style.height = (6 + Math.abs(v + live) * 76 * p) * 2 + 'px';
+      b.style.background = v > 0 ? `rgba(185,166,255,${.35 + .65 * Math.abs(v)})` : `rgba(127,214,208,${.35 + .65 * Math.abs(v)})`;
+      b.style.opacity = .15 + .85 * p;
+    });
+    $('ms').textContent = t < 21.2 ? '—' : t < 22.6 ? Math.round(P(t, 21.2, 22.6) * 640) + ' ms' : '640 ms';
+    fin.forEach((p, i) => { p.style.strokeDashoffset = 1 - P(t, 20.4 + i * .08, 21.3 + i * .08, E.io); p.style.opacity = .5 * (1 - P(t, out, out + .4)); });
+    fout.forEach((p, i) => { p.style.strokeDashoffset = 1 - P(t, 22.6 + i * .1, 23.3 + i * .1, E.io); p.style.opacity = .55 * (1 - P(t, out, out + .4)); });
+    set($('flow'), { o: 1 });
+    pts.forEach((c, j) => {
+      const inPhase = j < 4, path = inPhase ? fin[j % fin.length] : fout[j % fout.length];
+      const st = inPhase ? 20.8 + j * .22 : 23.0 + (j - 4) * .3, ph = ((t - st) / .9);
+      const L = path.getTotalLength(), pos = path.getPointAtLength(L * (ph - Math.floor(ph)));
+      c.setAttribute('cx', pos.x); c.setAttribute('cy', pos.y);
+      c.style.opacity = t > st && t < out ? .9 : 0;
+    });
+    set($('outs'), { o: 1 - P(t, out, out + .4) });
+    orows.forEach((r, i) => {
+      const a = 22.9 + i * .32;
+      r.style.opacity = .25 + .75 * P(t, a, a + .2);
+      ochips[i].forEach((c, j) => { const p = P(t, a + j * .12, a + j * .12 + .35, E.back); c.style.transform = `scale(${.4 + .6 * p})`; c.style.opacity = p; });
+    });
+    rise($('kw'), t, 25.6, out, { dy: 20 });
+    const sp = P(t, 26.7, 27.05, E.out);
+    set($('stamp'), { o: sp * (1 - P(t, out, out + .4)), s: 1.6 - .6 * sp });
+    if (t > 27.05 && t < 27.25) $('flash').style.opacity = .14 * (1 - P(t, 27.05, 27.25)); else $('flash').style.opacity = 0;
+    rise($('cap4'), t, 23.6, 28.2, { dy: 16 });
+    rise($('cap4b'), t, 28.5, out, { dy: 16 });
+  }
+
+  /* S5 training 31–40 */
+  if (t > 30.8 && t < 40.3) {
+    const snipO = P(t, 30.9, 31.6) * (1 - P(t, 34.0, 34.6)) * .55 + P(t, 34.0, 34.6) * (1 - P(t, 36.4, 36.9)) * .14;
+    $('snips').style.opacity = snipO;
+    cols.forEach((c, ci) => c.forEach((d, i) => {
+      const sp = 40 + ci * 9, H = 16 * 70;
+      const y = ((i * 70 - (t - 30) * sp * (ci % 2 ? 1 : 1.3)) % H + H) % H - 70;
+      d.style.top = y + 'px';
+    }));
+    rise($('s5k'), t, 31.1, 34.0);
+    rise($('count'), t, 31.2, 34.0, { dy: 30 });
+    $('count').textContent = Math.round(4371 * P(t, 31.3, 33.0, E.out)).toLocaleString('en-US');
+    rise($('count5'), t, 31.6, 34.0, { dy: 16 });
+    rise($('pipe'), t, 32.3, 34.0, { dy: 16 });
+    [...$('pipe').children].forEach((c, i) => { c.style.opacity = P(t, 32.3 + i * .12, 32.6 + i * .12); });
+    // morph
+    rise($('morphk'), t, 34.2, 36.6);
+    rise($('morph'), t, 34.3, 36.6, { dy: 20 });
+    const mi = Math.min(MORPH.length - 1, Math.floor(P(t, 34.4, 36.4) * MORPH.length));
+    $('morph').textContent = MORPH[mi];
+    mtags.forEach((m, i) => m.classList.toggle('on', i === mi));
+    rise($('morphtag'), t, 34.4, 36.6, { dy: 16 });
+    rise($('morphlab'), t, 34.7, 36.6, { dy: 16 });
+    rise($('morphnote'), t, 35.0, 36.6, { dy: 16 });
+    // results
+    rise($('res'), t, 36.8, 39.8, { dy: 24 });
+    const A = 28 * P(t, 37.3, 38.0, E.out), B = 45 * P(t, 37.7, 38.7, E.out);
+    $('bA').style.transform = `scaleX(${A / 100})`; $('bB').style.transform = `scaleX(${B / 100})`;
+    $('pA').textContent = Math.round(A) + '%'; $('pB').textContent = Math.round(B) + '%';
+    [...$('stats').children].forEach((s, i) => { const p = P(t, 37.6 + i * .3, 38.1 + i * .3, E.out); s.style.opacity = p; s.style.transform = `translateX(${(1 - p) * 40}px)`; });
+  } else $('snips').style.opacity = 0;
+
+  /* S6 instruct 40–44, bytes 44–46.8 */
+  if (t > 40 && t < 47.6) {
+    rise($('s6k'), t, 40.3, 41.8); rise($('s6h'), t, 40.4, 41.8, { dy: 40 }); rise($('s6s'), t, 40.6, 41.8, { dy: 20 });
+    rise($('s6k2'), t, 42.0, 43.9); rise($('s6h2'), t, 42.1, 43.9, { dy: 40 }); rise($('s6s2'), t, 42.3, 43.9, { dy: 20 });
+    rise($('s6bh'), t, 44.2, 46.4, { dy: 30 });
+    set($('bytes'), { o: 1 }); set($('bylab'), { o: 1 - P(t, 46.2, 46.5) });
+    const conv = P(t, 46.3, 46.8, E.io);
+    byEls.forEach((b, i) => {
+      const p = P(t, 44.3 + i * .05, 44.6 + i * .05, E.back);
+      const dx = (960 - (cellX(i) + 32)) * conv;
+      b.style.opacity = p * (1 - P(t, 46.6, 46.8));
+      b.style.transform = `translate(${dx}px,${(1 - p) * -40}px) scale(${(.5 + .5 * p) * (1 - conv * .7)})`;
+    });
+    labEls.forEach((l, i) => { const p = P(t, 45.0 + i * .08, 45.3 + i * .08, E.out); l.style.opacity = p; l.style.transform = `translateY(${(1 - p) * 14}px)`; });
+    rise($('s6bs'), t, 45.4, 46.4, { dy: 16 });
+    // the 22 bytes become one beacon dot that travels to the rescuer phone
+    if (t > 46.6) {
+      const tr = P(t, 46.8, 47.5, E.io);
+      set($('dot'), { o: 1 - P(t, 47.3, 47.5), x: 960 + (540 - 960) * tr, y: 370 + (540 - 370) * tr, s: 1 + Math.sin(t * 20) * .1 });
+    }
+  }
+
+  /* S7 rescuer 46.8–55.6 */
+  const rp = $('rp');
+  if (t > 46.8 && t < 56.2) {
+    set(rp, { o: P(t, 47.0, 47.5) * (1 - P(t, 55.3, 55.8)), x: 330 - P(t, 55.3, 55.8, E.io) * 300, y: kf(t, [[47.0, 260], [47.7, 110, E.out]]) });
+    if (t > 47.3 && t < 50.4) rings(t, 540, 540, 47.3, 1.1, 1 - P(t, 49.8, 50.4));
+    $('rA').style.opacity = 1 - P(t, 50.3, 50.5); $('rB').style.opacity = P(t, 50.3, 50.5);
+    ['rr1', 'rr2', 'rr3'].forEach((id, i) => { const p = P(t, 47.6 + i * .18, 48.0 + i * .18, E.out); $(id).style.opacity = p; $(id).style.transform = `translateY(${(1 - p) * 30}px)`; });
+    $('rr1').style.boxShadow = `0 0 0 ${2 * P(t, 48.4, 48.6)}px rgba(232,51,61,${.6 * (.5 + .5 * Math.sin(t * 6))})`;
+    rise($('s7k'), t, 47.6, 48.8); rise($('s7h'), t, 47.7, 48.8, { dy: 40 }); rise($('s7s'), t, 47.9, 48.8, { dy: 20 });
+    // spoken briefing
+    rise($('brief'), t, 48.9, 50.4, { dy: 20 });
+    briefW.forEach((w, i) => { const ti = 49.0 + i * .085; const p = P(t, ti, ti + .15); w.style.opacity = .15 + .85 * p; w.style.color = i === 0 ? '#FF6B72' : ''; });
+    // hot/cold walk
+    rise($('hc'), t, 50.5, 55.2, { dy: 20 });
+    const heat = kf(t, [[50.8, .3], [51.4, 1.4], [51.8, 1.1], [52.4, 2.6], [52.7, 2.3], [53.1, 4]]);
+    const bandC = ['#5B8DEF', '#7FD6D0', '#FFC53D', '#E8333D'];
+    const big = [...$('hcm').querySelectorAll('i')], bigL = [...$('hcm').querySelectorAll('span')], small = [...$('rmeter').children];
+    [big, small].forEach(arr => arr.forEach((b, i) => { const on = heat > i + .2; b.style.background = on ? bandC[i] : 'rgba(217,230,255,.07)'; b.style.boxShadow = on && i === Math.floor(heat - .2) ? `0 0 30px ${bandC[i]}` : 'none'; }));
+    bigL.forEach((l, i) => { l.style.color = heat > i + .2 ? bandC[i] : ''; });
+    // finger taps
+    const tapAt = (a, x, y) => { if (t > a - .35 && t < a + .45) { const p = P(t, a - .35, a); set($('tap'), { o: p * (1 - P(t, a + .1, a + .45)), x, y, s: 1.4 - .4 * p + P(t, a, a + .45) * .5 }); } };
+    tapAt(48.3, 540, 380); tapAt(53.1, 540, 870); tapAt(54.7, 540, 950);
+    $('rring').style.background = t > 53.1 && t < 55.4 ? 'rgba(255,197,61,.18)' : '';
+    $('rring').textContent = t > 53.1 ? 'Ringing… 30 s' : 'Ring phone';
+    $('romw').textContent = t > 54.7 ? '✓ Sent' : 'On my way';
+  }
+
+  /* S8 payoff 55.3–60 */
+  if (t > 57.6) {
+    rise($('e1'), t, 57.7, null, { dy: 30 });
+    rise($('e2'), t, 58.0, null, { dy: 20 });
+    rise($('elogo'), t, 58.2, null, { dy: 20 });
+    rise($('eword'), t, 58.3, null, { dy: 20 });
+    rise($('efoot'), t, 58.5, null, { dy: 14 });
+    rise($('edisc'), t, 58.6, null, { dy: 0 });
+  }
+}
+
+// expanding beacon rings at (x, y), starting at t0, one every `gap` seconds
+function rings(t, x, y, t0, gap, k = 1, color = '#7FD6D0') {
+  set($('rings'), { o: 1 });
+  ringEls.forEach((r, i) => {
+    const age = ((t - t0 - i * gap * .2) % gap + gap) % gap / gap;
+    const live = t - t0 - i * gap * .2 > 0;
+    r.style.left = x + 'px'; r.style.top = y + 'px'; r.style.borderColor = color;
+    r.style.opacity = live ? (1 - age) * .7 * k : 0;
+    r.style.transform = `scale(${.4 + age * 4})`;
+  });
+}
+
+/* ---------- preview player ---------- */
+const stage = $('stage');
+const isRender = new URLSearchParams(location.search).has('render');
+if (isRender) document.body.classList.add('render');
+function fit() {
+  if (isRender) return;
+  const s = Math.min(innerWidth / 1920, (innerHeight - 46) / 1080);
+  stage.style.transform = `translate(${(innerWidth - 1920 * s) / 2}px,${(innerHeight - 46 - 1080 * s) / 2}px) scale(${s})`;
+}
+addEventListener('resize', fit); fit();
+let T = +(new URLSearchParams(location.search).get('t') || 0), playing = false, last = 0;
+const draw = () => { render(T); $('tc').textContent = T.toFixed(2) + ' / 60.00'; $('sk').value = T; };
+$('pp').onclick = () => { playing = !playing; $('pp').textContent = playing ? 'Pause' : 'Play'; if (playing && T >= DUR) T = 0; last = performance.now(); };
+$('sk').oninput = e => { T = +e.target.value; draw(); };
+addEventListener('keydown', e => { if (e.code === 'Space') { e.preventDefault(); $('pp').click(); } });
+(function loop(now) { if (playing) { T += (now - last) / 1000; last = now; if (T >= DUR) { T = DUR; playing = false; $('pp').textContent = 'Play'; } draw(); } requestAnimationFrame(loop); })(0);
+window.seek = t => render(t);
+window.ready = document.fonts.ready.then(() => { draw(); return true; });
+</script>
+</body>
+</html>

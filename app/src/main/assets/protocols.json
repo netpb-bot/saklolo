@@ -1,0 +1,651 @@
+{
+  "protocols": [
+    {
+      "id": "NOT_BREATHING",
+      "title": {
+        "en": "Not breathing: CPR",
+        "fil": "Hindi humihinga: CPR"
+      },
+      "nodes": [
+        {
+          "id": "nb_check",
+          "text": {
+            "en": "Is the person breathing?",
+            "fil": "Humihinga ba siya?"
+          },
+          "detail": {
+            "en": "Watch the chest for 10 seconds.",
+            "fil": "Tingnan ang dibdib nang 10 segundo."
+          },
+          "yes": "nb_side",
+          "no": "nb_push",
+          "safer": "nb_push"
+        },
+        {
+          "id": "nb_breaths",
+          "text": {
+            "en": "Give 5 rescue breaths.",
+            "fil": "Magbigay ng 5 hinga."
+          },
+          "detail": {
+            "en": "Tilt the head back, pinch the nose, and breathe into the mouth until the chest rises. After drowning, air comes first.",
+            "fil": "Itingala ang ulo, ipitin ang ilong, at hingahan ang bibig hanggang umangat ang dibdib. Kapag nalunod, hangin muna."
+          },
+          "next": "nb_push"
+        },
+        {
+          "id": "nb_push",
+          "text": {
+            "en": "Push hard and fast on the centre of the chest.",
+            "fil": "Diinan nang malakas at mabilis ang gitna ng dibdib."
+          },
+          "detail": {
+            "en": "30 pushes, about 2 every second, 5 cm deep.",
+            "fil": "30 diin, mga 2 bawat segundo, 5 cm ang lalim."
+          },
+          "next": "nb_two"
+        },
+        {
+          "id": "nb_two",
+          "text": {
+            "en": "Give 2 breaths.",
+            "fil": "Magbigay ng 2 hinga."
+          },
+          "detail": {
+            "en": "Then go back to 30 pushes.",
+            "fil": "Pagkatapos, bumalik sa 30 diin."
+          },
+          "next": "nb_keep"
+        },
+        {
+          "id": "nb_keep",
+          "text": {
+            "en": "Keep going: 30 pushes, 2 breaths.",
+            "fil": "Ituloy: 30 diin, 2 hinga."
+          },
+          "detail": {
+            "en": "Don't stop until they breathe or help arrives. Swap with someone if you get tired.",
+            "fil": "Huwag tumigil hanggang huminga siya o dumating ang tulong. Makipagpalit kung napapagod ka na."
+          }
+        },
+        {
+          "id": "nb_side",
+          "text": {
+            "en": "Turn them on their side.",
+            "fil": "Ihiga siya nang patagilid."
+          },
+          "detail": {
+            "en": "Keep the head tilted back. Check their breathing often.",
+            "fil": "Panatilihing nakatingala ang ulo. Laging tingnan kung humihinga pa."
+          }
+        }
+      ],
+      "faqs": [
+        {
+          "id": "upside_down",
+          "q_examples": [
+            "Should I turn them upside down to get the water out?",
+            "Baligtarin ko ba siya para lumabas ang tubig?",
+            "Should I press the stomach to push the water out?",
+            "Didiinan ko ba ang tiyan para lumabas ang tubig?"
+          ],
+          "answer": {
+            "en": "No. Don't turn them upside down or press the stomach. It wastes time and can make them choke. Give rescue breaths and CPR now.",
+            "fil": "Hindi. Huwag siyang baligtarin o diinan ang tiyan. Sayang ang oras at baka siya mabulunan. Magbigay agad ng hinga at CPR."
+          }
+        },
+        {
+          "id": "stop_check",
+          "q_examples": [
+            "Can I stop CPR to check if they're alive?",
+            "Titigil ba ako para tingnan kung buhay pa siya?",
+            "Should I take a break from pushing?"
+          ],
+          "answer": {
+            "en": "Don't stop. Keep pushing until they breathe, move, or help arrives. Swap with someone if you get tired.",
+            "fil": "Huwag tumigil. Ituloy ang pagdiin hanggang huminga o gumalaw siya, o dumating ang tulong. Makipagpalit kung napapagod ka na."
+          }
+        },
+        {
+          "id": "ribs",
+          "q_examples": [
+            "What if I break their ribs?",
+            "Paano kung mabali ang tadyang niya?",
+            "Am I pushing too hard?"
+          ],
+          "answer": {
+            "en": "Keep pushing hard. Broken ribs can heal; without CPR they won't survive. Push 5 cm deep, about 2 times a second.",
+            "fil": "Ituloy ang malakas na pagdiin. Gumagaling ang baling tadyang; kung walang CPR, hindi siya mabubuhay. 5 cm ang lalim, mga 2 beses bawat segundo."
+          }
+        }
+      ]
+    },
+    {
+      "id": "BLEEDING",
+      "title": {
+        "en": "Heavy bleeding",
+        "fil": "Malakas na pagdurugo"
+      },
+      "nodes": [
+        {
+          "id": "bl_press",
+          "text": {
+            "en": "Press hard on the wound with a cloth.",
+            "fil": "Diinan nang malakas ang sugat gamit ang tela."
+          },
+          "detail": {
+            "en": "Use both hands and your body weight.",
+            "fil": "Gamitin ang dalawang kamay at ang bigat ng katawan mo."
+          },
+          "next": "bl_hold"
+        },
+        {
+          "id": "bl_hold",
+          "text": {
+            "en": "Don't lift the cloth to look.",
+            "fil": "Huwag iangat ang tela para tumingin."
+          },
+          "detail": {
+            "en": "Lifting it starts the bleeding again.",
+            "fil": "Kapag inangat, magdurugo ulit."
+          },
+          "next": "bl_soak"
+        },
+        {
+          "id": "bl_soak",
+          "text": {
+            "en": "Is blood soaking through the cloth?",
+            "fil": "Tumatagos ba ang dugo sa tela?"
+          },
+          "yes": "bl_more",
+          "no": "bl_keep",
+          "safer": "bl_more"
+        },
+        {
+          "id": "bl_more",
+          "text": {
+            "en": "Put more cloth on top and press harder.",
+            "fil": "Patungan ng isa pang tela at diinan nang mas malakas."
+          },
+          "detail": {
+            "en": "Leave the first cloth where it is.",
+            "fil": "Iwan ang unang tela sa lugar nito."
+          },
+          "next": "bl_keep"
+        },
+        {
+          "id": "bl_keep",
+          "text": {
+            "en": "Keep pressing until help arrives.",
+            "fil": "Ituloy ang pagdiin hanggang dumating ang tulong."
+          },
+          "detail": {
+            "en": "If you can, keep the person lying down and warm.",
+            "fil": "Kung kaya, panatilihin siyang nakahiga at mainit."
+          }
+        }
+      ],
+      "faqs": [
+        {
+          "id": "coffee",
+          "q_examples": [
+            "Can I put coffee on the wound?",
+            "Lalagyan ko ba ng kape ang sugat?",
+            "Can I use toothpaste or sugar on it?",
+            "Pwede bang toothpaste o asukal sa sugat?"
+          ],
+          "answer": {
+            "en": "No. Don't put coffee, toothpaste, sugar or anything else on the wound. It doesn't stop bleeding and can cause infection. Just press hard with a cloth.",
+            "fil": "Hindi. Huwag lagyan ng kape, toothpaste, asukal o kahit ano ang sugat. Hindi nito napapahinto ang dugo at puwedeng maimpeksiyon. Diinan lang nang malakas gamit ang tela."
+          }
+        },
+        {
+          "id": "peek",
+          "q_examples": [
+            "Can I lift the cloth to check if it stopped?",
+            "Pwede ko bang silipin kung tumigil na ang dugo?",
+            "Should I change the bloody cloth for a clean one?"
+          ],
+          "answer": {
+            "en": "No. Keep pressing. Lifting the cloth starts the bleeding again. If blood soaks through, put more cloth on top.",
+            "fil": "Hindi. Ituloy ang pagdiin. Kapag inangat ang tela, magdurugo ulit. Kung tumagos ang dugo, patungan ng isa pang tela."
+          }
+        },
+        {
+          "id": "stuck_object",
+          "q_examples": [
+            "Should I pull out the glass stuck in the wound?",
+            "Bubunutin ko ba ang pakong nakatusok?",
+            "Can I remove the thing stuck in his leg?"
+          ],
+          "answer": {
+            "en": "No. Don't pull out anything stuck in the wound. It may be holding the bleeding back. Press around it, not on it.",
+            "fil": "Hindi. Huwag bunutin ang anumang nakatusok sa sugat. Baka ito ang pumipigil sa pagdurugo. Diinan ang paligid nito, hindi mismo ito."
+          }
+        }
+      ]
+    },
+    {
+      "id": "COLLAPSE",
+      "title": {
+        "en": "Trapped in a collapse",
+        "fil": "Naipit sa gumuhong gusali"
+      },
+      "nodes": [
+        {
+          "id": "co_dust",
+          "text": {
+            "en": "Cover your mouth and nose with cloth.",
+            "fil": "Takpan ng tela ang bibig at ilong."
+          },
+          "detail": {
+            "en": "Dust can hurt your lungs.",
+            "fil": "Nakakasama sa baga ang alikabok."
+          },
+          "next": "co_gas"
+        },
+        {
+          "id": "co_gas",
+          "text": {
+            "en": "Do you smell gas or smoke?",
+            "fil": "May naaamoy ka bang gas o usok?"
+          },
+          "yes": "co_leak",
+          "no": "co_flame",
+          "safer": "co_leak"
+        },
+        {
+          "id": "co_leak",
+          "text": {
+            "en": "Don't light anything and don't flip switches.",
+            "fil": "Huwag magsindi ng kahit ano at huwag pindutin ang switch."
+          },
+          "detail": {
+            "en": "Gas may be leaking. One spark can explode. Use your phone's light.",
+            "fil": "Baka may tagas ng gas. Isang kislap lang, puwedeng sumabog. Gamitin ang ilaw ng phone."
+          },
+          "next": "co_debris"
+        },
+        {
+          "id": "co_flame",
+          "text": {
+            "en": "Never light a match or lighter.",
+            "fil": "Huwag kailanman magsindi ng posporo o lighter."
+          },
+          "detail": {
+            "en": "There may be a gas leak you can't smell. Use your phone's light.",
+            "fil": "Baka may tagas ng gas na hindi mo naaamoy. Gamitin ang ilaw ng phone."
+          },
+          "next": "co_debris"
+        },
+        {
+          "id": "co_debris",
+          "text": {
+            "en": "Don't move debris above you.",
+            "fil": "Huwag galawin ang guho sa itaas mo."
+          },
+          "detail": {
+            "en": "More can fall. Stay as still as you can.",
+            "fil": "Baka may bumagsak pa. Manatiling hindi gumagalaw hangga't kaya."
+          },
+          "next": "co_tap"
+        },
+        {
+          "id": "co_tap",
+          "text": {
+            "en": "Tap 3 times on a pipe or wall.",
+            "fil": "Kumatok nang 3 beses sa tubo o pader."
+          },
+          "detail": {
+            "en": "Rest, then tap again. Tapping carries further than your voice.",
+            "fil": "Magpahinga, tapos kumatok ulit. Mas malayo ang abot ng katok kaysa boses."
+          },
+          "next": "co_shout"
+        },
+        {
+          "id": "co_shout",
+          "text": {
+            "en": "Shout only when you hear rescuers.",
+            "fil": "Sumigaw lang kapag may naririnig kang rescuer."
+          },
+          "detail": {
+            "en": "Shouting uses up air and energy.",
+            "fil": "Nauubos ang hangin at lakas mo sa pagsigaw."
+          },
+          "next": "co_save"
+        },
+        {
+          "id": "co_save",
+          "text": {
+            "en": "Save your phone's battery.",
+            "fil": "Tipirin ang baterya ng phone."
+          },
+          "detail": {
+            "en": "Survival mode keeps your beacon going longer.",
+            "fil": "Mas tatagal ang beacon mo sa survival mode."
+          }
+        }
+      ],
+      "faqs": [
+        {
+          "id": "lighter",
+          "q_examples": [
+            "Can I light a lighter to see?",
+            "Pwede bang sindihan ang lighter para makakita?",
+            "Can I use a match or a candle?",
+            "Magsisindi ba ako ng posporo o kandila?"
+          ],
+          "answer": {
+            "en": "No. Never light a lighter, match or candle. Gas may be leaking and one spark can explode. Use your phone's light.",
+            "fil": "Hindi. Huwag kailanman magsindi ng lighter, posporo o kandila. Baka may tagas ng gas, at isang kislap lang ay puwedeng sumabog. Gamitin ang ilaw ng phone."
+          }
+        },
+        {
+          "id": "shout",
+          "q_examples": [
+            "Should I keep shouting for help?",
+            "Sisigaw ba ako nang sisigaw hanggang may makarinig?",
+            "Should I scream so people hear me?"
+          ],
+          "answer": {
+            "en": "No. Shouting nonstop uses up your air and energy, and you breathe in dust. Tap 3 times on a pipe or wall instead. Shout only when you hear rescuers.",
+            "fil": "Hindi. Nauubos ang hangin at lakas mo sa tuloy-tuloy na pagsigaw, at nalalanghap mo ang alikabok. Kumatok na lang nang 3 beses sa tubo o pader. Sumigaw lang kapag may naririnig kang rescuer."
+          }
+        },
+        {
+          "id": "run_outside",
+          "q_examples": [
+            "Should I run outside during an aftershock?",
+            "Tatakbo ba ako palabas kapag may aftershock?",
+            "It's shaking again, should I run?"
+          ],
+          "answer": {
+            "en": "No. Don't run while the ground is shaking. People get hit by falling things when they run. Stay where you are and protect your head and neck until it stops.",
+            "fil": "Hindi. Huwag tumakbo habang yumayanig. Natatamaan ng bumabagsak ang mga tumatakbo. Manatili ka riyan at protektahan ang ulo at leeg hanggang tumigil ito."
+          }
+        },
+        {
+          "id": "triangle",
+          "q_examples": [
+            "Should I lie next to furniture, the triangle of life?",
+            "Tama ba yung triangle of life?",
+            "Hihiga ba ako sa tabi ng kama o mesa?"
+          ],
+          "answer": {
+            "en": "The \"triangle of life\" is not recommended. In an aftershock, get under a sturdy table and hold on if you can. If you can't, cover your head and neck with your arms.",
+            "fil": "Hindi inirerekomenda ang \"triangle of life\". Kapag may aftershock, sumilong sa ilalim ng matibay na mesa at kumapit kung kaya. Kung hindi, takpan ng braso ang ulo at leeg."
+          }
+        },
+        {
+          "id": "dig_out",
+          "q_examples": [
+            "Should I dig my way out?",
+            "Huhukayin ko ba ang guho para makalabas?",
+            "Can I push the rubble off me?"
+          ],
+          "answer": {
+            "en": "No. Don't move the debris above or around you. More can fall on you. Stay still, tap to signal, and let rescuers move it.",
+            "fil": "Hindi. Huwag galawin ang guho sa itaas o paligid mo. Baka may bumagsak pa sa iyo. Manatiling hindi gumagalaw, kumatok para sumenyas, at hayaang ang rescuer ang mag-alis nito."
+          }
+        }
+      ]
+    },
+    {
+      "id": "ROOF",
+      "title": {
+        "en": "On a roof, water rising",
+        "fil": "Nasa bubong, tumataas ang tubig"
+      },
+      "nodes": [
+        {
+          "id": "rf_rising",
+          "text": {
+            "en": "Is the water still rising?",
+            "fil": "Tumataas pa ba ang tubig?"
+          },
+          "yes": "rf_high",
+          "no": "rf_stay",
+          "safer": "rf_high",
+          "fact": "WATER_RISING"
+        },
+        {
+          "id": "rf_high",
+          "text": {
+            "en": "Go to the highest point that still has a way out.",
+            "fil": "Pumunta sa pinakamataas na lugar na may labasan pa."
+          },
+          "detail": {
+            "en": "Don't climb into an attic or ceiling with no exit.",
+            "fil": "Huwag umakyat sa kisame o attic na walang labasan."
+          },
+          "next": "rf_swim"
+        },
+        {
+          "id": "rf_stay",
+          "text": {
+            "en": "Stay on the roof where rescuers can see you.",
+            "fil": "Manatili sa bubong kung saan ka makikita ng rescuer."
+          },
+          "detail": {
+            "en": "Watch the water. If it rises, move higher.",
+            "fil": "Bantayan ang tubig. Kapag tumaas, umakyat pa."
+          },
+          "next": "rf_swim"
+        },
+        {
+          "id": "rf_swim",
+          "text": {
+            "en": "Never wade or swim in moving water.",
+            "fil": "Huwag lumusong o lumangoy sa umaagos na tubig."
+          },
+          "detail": {
+            "en": "Even a shallow current can knock you down. Wait for a boat.",
+            "fil": "Kahit mababaw na agos, puwede kang matumba. Hintayin ang bangka."
+          },
+          "next": "rf_wires"
+        },
+        {
+          "id": "rf_wires",
+          "text": {
+            "en": "Stay away from power lines.",
+            "fil": "Lumayo sa mga kable ng kuryente."
+          },
+          "detail": {
+            "en": "Water carries electricity.",
+            "fil": "Dumadaloy ang kuryente sa tubig."
+          },
+          "next": "rf_drink"
+        },
+        {
+          "id": "rf_drink",
+          "text": {
+            "en": "Don't drink floodwater.",
+            "fil": "Huwag uminom ng tubig-baha."
+          },
+          "detail": {
+            "en": "It will make you sick. Catch rainwater if you can.",
+            "fil": "Magkakasakit ka. Sahurin ang tubig-ulan kung kaya."
+          },
+          "next": "rf_signal"
+        },
+        {
+          "id": "rf_signal",
+          "text": {
+            "en": "Signal with a light or a bright cloth.",
+            "fil": "Sumenyas gamit ang ilaw o matingkad na tela."
+          },
+          "detail": {
+            "en": "Wave it when you hear or see a boat.",
+            "fil": "Iwagayway kapag may narinig o nakitang bangka."
+          }
+        }
+      ],
+      "faqs": [
+        {
+          "id": "swim",
+          "q_examples": [
+            "Can I swim to the next house?",
+            "Lalanguyin ko na lang ba papunta sa kabila?",
+            "Can we wade through the water to the road?",
+            "Pwede bang lumusong sa baha?"
+          ],
+          "answer": {
+            "en": "No. Never wade or swim in moving water. Even shallow water can knock you down and sweep you away. Stay up high and wait for a boat.",
+            "fil": "Hindi. Huwag lumusong o lumangoy sa umaagos na tubig. Kahit mababaw, puwede kang matumba at matangay. Manatili sa mataas at hintayin ang bangka."
+          }
+        },
+        {
+          "id": "ceiling",
+          "q_examples": [
+            "Should we climb into the ceiling?",
+            "Aakyat ba kami sa kisame?",
+            "Should we hide in the attic?"
+          ],
+          "answer": {
+            "en": "Only if there's a way out. People drown trapped in ceilings and attics as the water rises. Go to the highest point that still has an exit, like the roof.",
+            "fil": "Kung may labasan lang. May mga nalulunod na naipit sa kisame at attic habang tumataas ang tubig. Pumunta sa pinakamataas na lugar na may labasan pa, tulad ng bubong."
+          }
+        },
+        {
+          "id": "drink",
+          "q_examples": [
+            "Can I drink the floodwater?",
+            "Pwede bang inumin ang tubig-baha?",
+            "We're thirsty, can we drink this water?"
+          ],
+          "answer": {
+            "en": "No. Floodwater carries sewage and disease. Catch rainwater in a clean container instead.",
+            "fil": "Hindi. May dumi at sakit ang tubig-baha. Sahurin na lang ang tubig-ulan sa malinis na lalagyan."
+          }
+        },
+        {
+          "id": "surge",
+          "q_examples": [
+            "Is storm surge just a big wave?",
+            "Malaking alon lang ba ang storm surge?",
+            "Aatras din ba ang daluyong?"
+          ],
+          "answer": {
+            "en": "No. Storm surge is like a tsunami: the sea rises fast and can cover a house. Get to the highest point with a way out now, and don't go back down until rescuers come.",
+            "fil": "Hindi. Parang tsunami ang daluyong: mabilis tumaas ang dagat at kayang lubugin ang bahay. Pumunta na sa pinakamataas na lugar na may labasan, at huwag bumaba hanggang dumating ang rescuer."
+          }
+        },
+        {
+          "id": "wires",
+          "q_examples": [
+            "Can I move the fallen wire?",
+            "Pwede bang hawakan ang kable?",
+            "Is the water near the electric post safe?"
+          ],
+          "answer": {
+            "en": "No. Stay away from power lines and the water around them. Water carries electricity.",
+            "fil": "Hindi. Lumayo sa mga kable ng kuryente at sa tubig sa paligid nito. Dumadaloy ang kuryente sa tubig."
+          }
+        }
+      ]
+    }
+  ],
+  "followups": [
+    {
+      "id": "what",
+      "text": {
+        "en": "What happened?",
+        "fil": "Ano ang nangyari?"
+      }
+    },
+    {
+      "id": "hurt",
+      "text": {
+        "en": "Is anyone hurt?",
+        "fil": "May nasaktan ba?"
+      },
+      "by_hazard": {
+        "COLLAPSE": {
+          "en": "Is anyone hurt or pinned?",
+          "fil": "May nasaktan o naipit ba?"
+        },
+        "LANDSLIDE": {
+          "en": "Is anyone hurt or pinned?",
+          "fil": "May nasaktan o naipit ba?"
+        }
+      }
+    },
+    {
+      "id": "count",
+      "text": {
+        "en": "How many of you are there?",
+        "fil": "Ilan kayo riyan?"
+      }
+    },
+    {
+      "id": "exit",
+      "text": {
+        "en": "Can you get out?",
+        "fil": "Makakalabas ba kayo?"
+      },
+      "by_hazard": {
+        "FLOOD": {
+          "en": "Can you get to higher, dry ground?",
+          "fil": "Makakapunta ba kayo sa mas mataas at tuyong lugar?"
+        }
+      }
+    },
+    {
+      "id": "place",
+      "text": {
+        "en": "Which floor, and which part of the building?",
+        "fil": "Anong palapag, at saang bahagi ng gusali?"
+      },
+      "by_hazard": {
+        "FLOOD": {
+          "en": "Which floor are you on? Are you on the roof?",
+          "fil": "Anong palapag kayo? Nasa bubong ba kayo?"
+        },
+        "LANDSLIDE": {
+          "en": "Are you inside a house, or outside?",
+          "fil": "Nasa loob ba kayo ng bahay, o nasa labas?"
+        }
+      }
+    }
+  ],
+  "examples": {
+    "answer": {
+      "YES": [
+        "yes",
+        "oo",
+        "opo",
+        "yes, definitely",
+        "oo, sigurado",
+        "yes, the chest is moving",
+        "oo, humihinga siya",
+        "yes we can",
+        "kaya namin"
+      ],
+      "NO": [
+        "no",
+        "hindi",
+        "hindi po",
+        "no, not at all",
+        "wala",
+        "no, he's not moving",
+        "hindi, naipit ang paa ko",
+        "walang amoy",
+        "we can't"
+      ],
+      "UNSURE": [
+        "I don't know",
+        "hindi ko alam",
+        "maybe",
+        "siguro",
+        "yata",
+        "parang oo, parang hindi",
+        "I'm not sure",
+        "hindi ako sigurado",
+        "medyo",
+        "I can't tell",
+        "baka",
+        "ewan ko"
+      ]
+    }
+  }
+}

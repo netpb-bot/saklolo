@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700;800&family=Atkinson+Hyperlegible+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0" rel="stylesheet">
+<style>body{margin:0;background:#E9EBEE;color:#0B0E12;font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#0B4FB3}a:hover{color:#002D72}.ms{font-family:"Material Symbols Rounded";font-weight:normal;font-style:normal;line-height:1;display:inline-block;-webkit-font-feature-settings:"liga";font-feature-settings:"liga"}</style>
+</helmet>
+<div style="max-width:1180px;margin:0 auto;padding:56px 48px 96px;display:flex;flex-direction:column;gap:56px">
+
+<header style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;gap:10px;align-items:center;font:600 13px/1 'Atkinson Hyperlegible Mono',monospace;color:#3F4752;letter-spacing:.04em">
+    <span>SAKLOLO</span><span>·</span><span>1 / 3</span><span>·</span><span>LANGUAGE + TOKENS</span>
+    <span style="flex:1"></span>
+    <a href="Saklolo 2 Victim Flow.dc.html" style="text-decoration:none">2 Victim →</a>
+    <a href="Saklolo 3 Rescuer and Demo.dc.html" style="text-decoration:none">3 Rescuer + demo →</a>
+  </div>
+  <h1 style="margin:0;font-size:64px;line-height:1.02;font-weight:800;letter-spacing:-.02em">Hinahon</h1>
+  <p style="margin:0;max-width:760px;font-size:22px;line-height:1.45;color:#2A313A;text-wrap:pretty">The Saklolo design language. <em>Hinahon</em> means composure: the steady voice of a dispatcher who has done this a thousand times. Every token below is a Material 3 role, so it drops into a Compose <code style="font:500 18px 'Atkinson Hyperlegible Mono'">MaterialTheme</code>.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;max-width:900px">
+    <div style="flex:1 1 380px;background:#FFF;border:1px solid #CDD2D9;border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.45;color:#2A313A"><strong>Assumption.</strong> PRD.md, SPEC.md and demo.html weren't in the upload, so copy is drafted from the brief. English is the default language; Filipino is a switch that adds a second line under each string. The 20-byte layout and eval numbers are placeholders. Send the PRD and I'll swap in its strings.</div>
+    <div style="flex:1 1 380px;background:#FFF;border:1px solid #CDD2D9;border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.45;color:#2A313A"><strong>Not using the project's default system (Chop).</strong> It uses red for errors and green for money, which breaks the reserved triage rule. Hinahon is built from scratch on stock M3.</div>
+  </div>
+</header>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:32px;font-weight:800">Principles</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+    <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">01</div>
+      <div style="font-size:24px;font-weight:800">One thing at a time</div>
+      <div style="font-size:15px;color:#3F4752">Isa-isa lang</div>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Each victim screen has one instruction and one primary action. The status card is the only other thing on screen. If two things compete (CPR and a question), one is visibly on top and the other waits.</p>
+    </div>
+    <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">02</div>
+      <div style="font-size:24px;font-weight:800">Voice first, buttons always</div>
+      <div style="font-size:15px;color:#3F4752">Boses muna, laging may pindutan</div>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">The phone speaks every instruction and listens for every answer. OO / HINDI / HINDI SIGURADO and the incident tiles never disappear, so a failed model, a loud storm or a quiet voice never blocks a report.</p>
+    </div>
+    <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">03</div>
+      <div style="font-size:24px;font-weight:800">Never colour alone</div>
+      <div style="font-size:15px;color:#3F4752">Hindi kulay lang</div>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Triage is colour + word + shape, every time. Red, yellow and green belong to triage only. The brand is blue. Status that isn't triage (on the way, silent, worse) uses ink, outline and icons.</p>
+    </div>
+    <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">04</div>
+      <div style="font-size:24px;font-weight:800">Honest about what's known</div>
+      <div style="font-size:15px;color:#3F4752">Tapat</div>
+      <p style="margin:0;font-size:16px;line-height:1.5;text-wrap:pretty">Show what the phone understood as facts, with a one-tap fix. Unknown looks unknown (dashed, "?"). The beacon says "sending, no answer yet" until an ACK arrives. Nothing looks more connected than it is.</p>
+    </div>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:32px;font-weight:800">Triage: reserved colours</h2>
+  <p style="margin:0;max-width:760px;font-size:17px;line-height:1.5;color:#2A313A">Not M3 roles. Define them as a separate <code style="font:500 15px 'Atkinson Hyperlegible Mono'">TriageColors</code> object so no M3 component can pick them up by accident. Same fill in every theme; yellow gets a 1.5 dp ink outline on light surfaces for glare.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
+    <div style="background:#FFF;border-radius:16px;overflow:hidden">
+      <div style="background:#C9252C;color:#FFF;height:120px;padding:18px;display:flex;flex-direction:column;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:22px;height:22px;background:#FFF;transform:rotate(45deg) scale(.82);display:block"></span><span style="font-size:30px;font-weight:800;letter-spacing:.02em">PULA · RED</span></div>
+        <div style="font:500 14px 'Atkinson Hyperlegible Mono'">#C9252C · on #FFFFFF 5.6:1</div>
+      </div>
+      <div style="padding:16px 18px;font-size:15px;line-height:1.5">Shape: <strong>diamond ◆</strong>. Life-threatening now: not breathing, drowning, trapped with water rising.</div>
+    </div>
+    <div style="background:#FFF;border-radius:16px;overflow:hidden">
+      <div style="background:#FFC53D;color:#000;height:120px;padding:18px;display:flex;flex-direction:column;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:24px;height:22px;background:#000;clip-path:polygon(50% 0,100% 100%,0 100%);display:block"></span><span style="font-size:30px;font-weight:800;letter-spacing:.02em">DILAW · YELLOW</span></div>
+        <div style="font:500 14px 'Atkinson Hyperlegible Mono'">#FFC53D · on #000000 13.1:1</div>
+      </div>
+      <div style="padding:16px 18px;font-size:15px;line-height:1.5">Shape: <strong>triangle ▲</strong>. Serious, can wait minutes: bite, wound, waded in floodwater with a cut.</div>
+    </div>
+    <div style="background:#FFF;border-radius:16px;overflow:hidden">
+      <div style="background:#2FB36A;color:#000;height:120px;padding:18px;display:flex;flex-direction:column;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:22px;height:22px;background:#000;border-radius:50%;display:block"></span><span style="font-size:30px;font-weight:800;letter-spacing:.02em">BERDE · GREEN</span></div>
+        <div style="font:500 14px 'Atkinson Hyperlegible Mono'">#2FB36A · on #000000 8.6:1</div>
+      </div>
+      <div style="padding:16px 18px;font-size:15px;line-height:1.5">Shape: <strong>circle ●</strong>. Stranded, stable, can walk. Needs pickup, not first aid.</div>
+    </div>
+    <div style="background:#FFF;border-radius:16px;overflow:hidden">
+      <div style="background:#FFF;border-bottom:1px solid #E1E5EA;color:#3F4752;height:120px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:20px;height:20px;border:2.5px dashed #3F4752;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 13px sans-serif">?</span><span style="font-size:30px;font-weight:800;letter-spacing:.02em">HINDI PA ALAM</span></div>
+        <div style="font:500 14px 'Atkinson Hyperlegible Mono'">outline dashed 2dp · onSurfaceVariant</div>
+      </div>
+      <div style="padding:16px 18px;font-size:15px;line-height:1.5">Not yet triaged. The pattern for <strong>any unknown fact</strong>: dashed outline, "?", the word for what's missing. Never an empty slot.</div>
+    </div>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:32px;font-weight:800">Colour roles · Material 3</h2>
+  <p style="margin:0;max-width:820px;font-size:17px;line-height:1.5;color:#2A313A">Victim is dark-first: true-black background so most of an OLED screen is off. Rescuer light is built for sun: pure white, pure black ink, 2 dp black outlines instead of shadows. The brand primary is blue in every theme. M3 <code style="font:500 15px 'Atkinson Hyperlegible Mono'">error</code> is mapped to the 911 red and used only by the 911 button; there are no form errors in this app.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px">
+    <sc-for list="{{ themes }}" as="t" hint-placeholder-count="4">
+      <div style="background:{{ t.bg }};color:{{ t.fg }};border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;border:1px solid #CDD2D9">
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <div style="font-size:20px;font-weight:800">{{ t.name }}</div>
+          <div style="font-size:14px;opacity:.8">{{ t.note }}</div>
+        </div>
+        <sc-for list="{{ t.roles }}" as="r" hint-placeholder-count="10">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="width:36px;height:28px;border-radius:6px;background:{{ r.hex }};box-shadow:inset 0 0 0 1px rgba(128,128,128,.45);flex:none"></span>
+            <span style="font:600 13px 'Atkinson Hyperlegible Mono';flex:1;min-width:0">{{ r.role }}</span>
+            <span style="font:400 13px 'Atkinson Hyperlegible Mono';opacity:.85">{{ r.hex }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </sc-for>
+  </div>
+  <pre style="margin:0;background:#0B0E12;color:#E6EAF0;border-radius:12px;padding:18px 20px;font:400 13px/1.6 'Atkinson Hyperlegible Mono',monospace;overflow:auto">val VictimDark = darkColorScheme(
+  primary = Color(0xFF9CC2FF), onPrimary = Color(0xFF002E69),
+  primaryContainer = Color(0xFF12407F), onPrimaryContainer = Color(0xFFD9E6FF),
+  background = Color(0xFF000000), surface = Color(0xFF000000),
+  surfaceContainer = Color(0xFF12161B), surfaceContainerHigh = Color(0xFF1C2128),
+  onSurface = Color(0xFFF1F3F6), onSurfaceVariant = Color(0xFFB9C1CC),
+  outline = Color(0xFF5B6573), outlineVariant = Color(0xFF2E353E),
+  error = Color(0xFFFF7A73) // 911 only
+)
+object TriageColors { val Red = Color(0xFFC9252C); val Yellow = Color(0xFFFFC53D); val Green = Color(0xFF2FB36A) }</pre>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:32px;font-weight:800">Type scale</h2>
+  <p style="margin:0;max-width:820px;font-size:17px;line-height:1.5;color:#2A313A">Atkinson Hyperlegible Next, designed for low-vision readers: distinct 1/l/I and 0/O, open counters that survive a cracked screen. Mono for bytes and data. Victim body starts at 18 sp; nothing safety-relevant goes under 16 sp. All sizes in sp, so 130% system scaling applies.</p>
+  <div style="background:#FFF;border-radius:16px;padding:8px 24px">
+    <sc-for list="{{ type }}" as="s" hint-placeholder-count="9">
+      <div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:20px;align-items:baseline;padding:14px 0;border-bottom:1px solid #E6E9ED">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font:600 13px 'Atkinson Hyperlegible Mono'">{{ s.role }}</span>
+          <span style="font:400 13px 'Atkinson Hyperlegible Mono';color:#4A525D">{{ s.spec }}</span>
+        </div>
+        <div style="font-size:{{ s.px }};line-height:1.2;font-weight:{{ s.w }};font-family:{{ s.ff }};text-wrap:pretty">{{ s.sample }}</div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px">
+  <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px">
+    <h3 style="margin:0;font-size:22px;font-weight:800">Spacing</h3>
+    <div style="font-size:15px;line-height:1.5;color:#2A313A">4 dp base. Screen padding 16. Gap between stacked buttons 12, so a wet thumb doesn't hit two.</div>
+    <sc-for list="{{ space }}" as="s" hint-placeholder-count="7">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font:600 13px 'Atkinson Hyperlegible Mono';width:76px">{{ s.n }}</span>
+        <span style="height:14px;width:{{ s.w }};background:#0B4FB3;border-radius:2px"></span>
+        <span style="font:400 13px 'Atkinson Hyperlegible Mono';color:#4A525D">{{ s.use }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px">
+    <h3 style="margin:0;font-size:22px;font-weight:800">Shape + targets</h3>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;line-height:1.45">
+      <div style="display:flex;gap:12px;align-items:center"><span style="width:44px;height:30px;border:2px solid #0B0E12;border-radius:8px;flex:none"></span><span><strong>small 8</strong> · chips, byte cells</span></div>
+      <div style="display:flex;gap:12px;align-items:center"><span style="width:44px;height:30px;border:2px solid #0B0E12;border-radius:16px;flex:none"></span><span><strong>medium 16</strong> · buttons, tiles, rows</span></div>
+      <div style="display:flex;gap:12px;align-items:center"><span style="width:44px;height:30px;border:2px solid #0B0E12;border-radius:24px 24px 6px 6px;flex:none"></span><span><strong>large 24</strong> · status card, sheets</span></div>
+      <div style="display:flex;gap:12px;align-items:center"><span style="width:30px;height:30px;border:2px solid #0B0E12;border-radius:50%;flex:none;margin:0 7px"></span><span><strong>full</strong> · SOS, mic only</span></div>
+    </div>
+    <div style="border-top:1px solid #E6E9ED;padding-top:12px;display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.45">
+      <div><strong>Victim</strong> min target 64 dp, key actions 72 dp, SOS 240 dp</div>
+      <div><strong>Rescuer</strong> min target 56 dp, primary actions 72 dp</div>
+      <div><strong>Spacing between targets</strong> ≥ 12 dp</div>
+    </div>
+  </div>
+  <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px">
+    <h3 style="margin:0;font-size:22px;font-weight:800">Elevation</h3>
+    <div style="font-size:15px;line-height:1.5;color:#2A313A">No shadows anywhere. Shadows vanish on black OLED and in sunlight.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;line-height:1.45">
+      <div><strong>Victim</strong> tonal only: level 0 = background, level 1 = surfaceContainer (status card), level 2 = surfaceContainerHigh (tiles, answer buttons).</div>
+      <div><strong>Rescuer</strong> 2 dp outline on every row and card; selected row = 4 dp outline in primary.</div>
+      <div><strong>Overlay</strong> the "help is coming" banner is the only thing that draws over content.</div>
+    </div>
+  </div>
+</section>
+
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:16px">
+  <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px">
+    <h3 style="margin:0;font-size:22px;font-weight:800">Motion: only six things move</h3>
+    <div style="font:500 14px 'Atkinson Hyperlegible Mono';color:#3F4752">fast 120ms · standard 240ms · slow 400ms · easing M3 Standard</div>
+    <sc-for list="{{ motion }}" as="m" hint-placeholder-count="6">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:12px;padding:8px 0;border-top:1px solid #E6E9ED;font-size:15px;line-height:1.4">
+        <div><strong>{{ m.what }}</strong><div style="color:#3F4752">{{ m.how }}</div></div>
+        <div style="font:500 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">{{ m.api }}</div>
+      </div>
+    </sc-for>
+    <div style="font-size:15px;line-height:1.5;color:#2A313A">Everything else switches instantly. With system "remove animations" on, the mic pulse becomes a static ring and the CPR beat becomes a number only. All built with <code style="font:500 13px 'Atkinson Hyperlegible Mono'">animate*AsState</code> and <code style="font:500 13px 'Atkinson Hyperlegible Mono'">rememberInfiniteTransition</code>, no library.</div>
+  </div>
+  <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px">
+    <h3 style="margin:0;font-size:22px;font-weight:800">Haptics</h3>
+    <div style="font:500 14px 'Atkinson Hyperlegible Mono';color:#3F4752">VibrationEffect.createWaveform(timings ms, -1) · off / on / off / on…</div>
+    <sc-for list="{{ haptics }}" as="h" hint-placeholder-count="7">
+      <div style="display:flex;flex-direction:column;gap:6px;padding:8px 0;border-top:1px solid #E6E9ED">
+        <div style="display:flex;gap:12px;align-items:baseline;font-size:15px"><strong style="flex:1">{{ h.what }}</strong><span style="font:500 13px 'Atkinson Hyperlegible Mono';color:#0B4FB3">{{ h.wave }}</span></div>
+        <div style="display:flex;gap:3px;align-items:center;height:12px">
+          <sc-for list="{{ h.bars }}" as="b" hint-placeholder-count="3">
+            <span style="height:{{ b.h }};width:{{ b.w }};background:{{ b.c }};border-radius:2px;flex:none"></span>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+    <div style="font-size:15px;line-height:1.5;color:#2A313A">Each pattern is distinct by rhythm, so a victim holding the phone face-down can tell "question" from "help is coming".</div>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:32px;font-weight:800">Components</h2>
+  <p style="margin:0;max-width:820px;font-size:17px;line-height:1.5;color:#2A313A">Seven custom composables. Everything else is stock M3 with the theme above.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px">
+    <div style="background:#FFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#3F4752">STOCK M3 · THEMED</div>
+      <sc-for list="{{ stock }}" as="c" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:190px minmax(0,1fr);gap:12px;font-size:15px;line-height:1.4;padding:6px 0;border-top:1px solid #E6E9ED">
+          <span style="font:600 13px/1.6 'Atkinson Hyperlegible Mono'">{{ c.n }}</span><span>{{ c.u }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="background:#0B0E12;color:#F1F3F6;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+      <div style="font:600 13px 'Atkinson Hyperlegible Mono';color:#9CC2FF">CUSTOM · BUILD THESE</div>
+      <sc-for list="{{ custom }}" as="c" hint-placeholder-count="7">
+        <div style="display:grid;grid-template-columns:150px minmax(0,1fr) 48px;gap:12px;font-size:15px;line-height:1.4;padding:6px 0;border-top:1px solid #2E353E">
+          <span style="font:600 13px/1.6 'Atkinson Hyperlegible Mono';color:#9CC2FF">{{ c.n }}</span><span>{{ c.u }}</span><span style="font:500 13px/1.6 'Atkinson Hyperlegible Mono';color:#B9C1CC;text-align:right">{{ c.h }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:20px">
+  <h2 style="margin:0;font-size:32px;font-weight:800">Where the flow will trip a panicking user</h2>
+  <p style="margin:0;max-width:820px;font-size:17px;line-height:1.5;color:#2A313A">Ordered by risk. The victim screens in file 2 already apply these fixes; each is cheap to build.</p>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <sc-for list="{{ critique }}" as="c" hint-placeholder-count="8">
+      <div style="background:#FFF;border-radius:16px;padding:18px 22px;display:grid;grid-template-columns:44px minmax(0,1fr) minmax(0,1fr);gap:20px">
+        <span style="font:600 22px 'Atkinson Hyperlegible Mono';color:#0B4FB3">{{ c.n }}</span>
+        <div style="display:flex;flex-direction:column;gap:6px"><strong style="font-size:18px">{{ c.t }}</strong><span style="font-size:15px;line-height:1.5;color:#2A313A;text-wrap:pretty">{{ c.p }}</span></div>
+        <div style="font-size:15px;line-height:1.5;text-wrap:pretty;border-left:2px solid #0B4FB3;padding-left:16px"><strong>Fix:</strong> {{ c.f }}</div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:16px">
+  <div style="background:#0B0E12;color:#F1F3F6;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px">
+    <h3 style="margin:0;font-size:24px;font-weight:800">Handoff: 5 things not to get wrong</h3>
+    <sc-for list="{{ must }}" as="m" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid #2E353E;font-size:16px;line-height:1.5">
+        <span style="font:600 16px 'Atkinson Hyperlegible Mono';color:#9CC2FF">{{ m.n }}</span><span><strong>{{ m.t }}</strong> {{ m.p }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div style="background:#FFF;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px">
+    <h3 style="margin:0;font-size:24px;font-weight:800">Cut in this order if time runs out</h3>
+    <sc-for list="{{ cuts }}" as="m" hint-placeholder-count="8">
+      <div style="display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid #E6E9ED;font-size:16px;line-height:1.5">
+        <span style="font:600 16px 'Atkinson Hyperlegible Mono';color:#3F4752">{{ m.n }}</span><span><strong>{{ m.t }}</strong> {{ m.p }}</span>
+      </div>
+    </sc-for>
+    <div style="font-size:15px;line-height:1.5;color:#3F4752;border-top:1px solid #E6E9ED;padding-top:12px">Never cut: SOS hold, beacon, tiles, OO/HINDI/HINDI SIGURADO, CPR step, status card, board ranking, "Papunta na" ACK.</div>
+  </div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const R = (role, hex) => ({ role, hex });
+    const themes = [
+      { name: 'Victim · Dark (default)', note: 'OLED true black. Use always unless system is light.', bg: '#000000', fg: '#F1F3F6', roles: [R('primary','#9CC2FF'),R('onPrimary','#002E69'),R('primaryContainer','#12407F'),R('onPrimaryContainer','#D9E6FF'),R('background / surface','#000000'),R('surfaceContainer','#12161B'),R('surfaceContainerHigh','#1C2128'),R('onSurface','#F1F3F6'),R('onSurfaceVariant','#B9C1CC'),R('outline','#5B6573'),R('error (911 only)','#FF7A73')] },
+      { name: 'Victim · Light', note: 'Same roles, for users with light system theme.', bg: '#FFFFFF', fg: '#0B0E12', roles: [R('primary','#0B4FB3'),R('onPrimary','#FFFFFF'),R('primaryContainer','#D9E6FF'),R('onPrimaryContainer','#001A41'),R('background','#F6F7F9'),R('surfaceContainer','#EEF1F4'),R('surfaceContainerHigh','#E3E7EC'),R('onSurface','#0B0E12'),R('onSurfaceVariant','#3F4752'),R('outline','#6F7987'),R('error (911 only)','#C9252C')] },
+      { name: 'Rescuer · Sunlight', note: 'Default for rescuers. Max contrast, outlines not fills.', bg: '#FFFFFF', fg: '#000000', roles: [R('primary','#002D72'),R('onPrimary','#FFFFFF'),R('primaryContainer','#C9DBFF'),R('onPrimaryContainer','#001233'),R('background / surface','#FFFFFF'),R('surfaceContainer','#EDEFF2'),R('surfaceContainerHigh','#DDE1E6'),R('onSurface','#000000'),R('onSurfaceVariant','#1F252C'),R('outline (2dp)','#000000'),R('error (911 only)','#B3141B')] },
+      { name: 'Rescuer · Night', note: 'Boat at night. Keeps night vision; no white fills.', bg: '#0B0D10', fg: '#FFFFFF', roles: [R('primary','#A9C9FF'),R('onPrimary','#00214F'),R('primaryContainer','#1B3B6E'),R('onPrimaryContainer','#DCE7FF'),R('background / surface','#0B0D10'),R('surfaceContainer','#171B20'),R('surfaceContainerHigh','#222830'),R('onSurface','#FFFFFF'),R('onSurfaceVariant','#D0D6DE'),R('outline (2dp)','#8A94A2'),R('error (911 only)','#FF7A73')] },
+    ];
+    const F = "'Atkinson Hyperlegible Next',sans-serif", M = "'Atkinson Hyperlegible Mono',monospace";
+    const type = [
+      { role:'displayLarge', spec:'64/68 · 800 · CPR count', px:'64px', w:800, ff:F, sample:'27' },
+      { role:'displayMedium', spec:'44/48 · 800 · SOS label', px:'44px', w:800, ff:F, sample:'SOS' },
+      { role:'headlineLarge', spec:'32/38 · 800 · instruction', px:'32px', w:800, ff:F, sample:'Push the centre of the chest.' },
+      { role:'headlineMedium', spec:'26/32 · 700 · question', px:'26px', w:700, ff:F, sample:'Can you get out?' },
+      { role:'titleLarge', spec:'22/28 · 700 · tiles, rows', px:'22px', w:700, ff:F, sample:'Waded through floodwater' },
+      { role:'bodyLarge', spec:'18/26 · 400 · victim body', px:'18px', w:400, ff:F, sample:'The beacon starts right away, even without signal.' },
+      { role:'bodyMedium', spec:'16/24 · 400 · Filipino line, rescuer body', px:'16px', w:400, ff:F, sample:'Magsisimula agad ang beacon kahit walang signal.' },
+      { role:'labelLarge', spec:'20/24 · 800 · buttons, ALL CAPS ok', px:'20px', w:800, ff:F, sample:'NOT SURE' },
+      { role:'labelMedium (mono)', spec:'14/20 · 600 · data, bytes, timestamps', px:'14px', w:600, ff:M, sample:'REV 4 · 240 m · 0x3A 0x9F' },
+    ];
+    const space = [['xs 4','4px','icon ↔ label'],['sm 8','8px','chip padding'],['md 12','12px','between buttons'],['lg 16','16px','screen padding'],['xl 24','24px','between sections'],['xxl 32','32px','above SOS'],['xxxl 48','48px','CPR count block']].map(([n,w,use])=>({n,w,use}));
+    const motion = [
+      { what:'SOS hold ring', how:'Ring fills over 1.5 s while held; releases snap back in 120 ms.', api:'animateFloatAsState' },
+      { what:'Cancel countdown', how:'3 → 0 bar shrinks linearly. Number changes, nothing bounces.', api:'tween(3000, Linear)' },
+      { what:'Mic listening pulse', how:'One ring scales 1.0 → 1.15, 1 s loop. Thinking = ring rotates dashed.', api:'infiniteTransition' },
+      { what:'CPR beat', how:'Dot flashes at 110 bpm (545 ms). The only fast loop in the app.', api:'infiniteTransition' },
+      { what:'Help-is-coming banner', how:'Slides down from top, 400 ms, then stays. Never auto-dismisses.', api:'AnimatedVisibility' },
+      { what:'Board re-rank', how:'Rows move to new position in 240 ms so rescuers see what changed.', api:'Modifier.animateItem()' },
+    ];
+    const wave = (arr) => { const out=[]; arr.forEach((ms,i)=>{ out.push({ w: Math.max(2,ms/6)+'px', h: i%2? '12px':'2px', c: i%2? '#0B4FB3':'#CDD2D9' }); }); return out; };
+    const haptics = [
+      ['Hold progress tick','EFFECT_TICK every 500 ms',[0,20,480,20,480,20]],
+      ['SOS sent','[0, 500]',[0,500]],
+      ['Cancelled','[0, 60, 80, 60]',[0,60,80,60]],
+      ['Question asked','[0, 80, 120, 80]',[0,80,120,80]],
+      ['Understood','EFFECT_CLICK',[0,30]],
+      ['Help is coming (ACK)','[0, 200, 100, 200, 100, 700]',[0,200,100,200,100,700]],
+      ['CPR beat (optional)','EFFECT_TICK @ 110 bpm',[0,20,525,20,525,20,525,20]],
+      ['Rescuer: new RED beacon','[0, 400, 150, 400]',[0,400,150,400]],
+    ].map(([what,w,arr])=>({ what, wave:w, bars: wave(arr) }));
+    const stock = [
+      ['Scaffold / TopAppBar','Screen shell. Rescuer top bar holds scan state.'],
+      ['Button','OO / HINDI / HINDI SIGURADO, Susunod, Papunta na. Height overridden to 72 dp.'],
+      ['OutlinedButton','Tumawag sa 911, Nakuha na, Itama (correct).'],
+      ['FilledTonalButton','Incident tiles (in a 2-col grid).'],
+      ['Card / OutlinedCard','Status card shell, rescuer rows, briefing.'],
+      ['ListItem','Inside each dispatch row.'],
+      ['AssistChip','Fact chips on status card (3 tao, Sanggol).'],
+      ['LinearProgressIndicator','Cancel countdown, model loading, eval bars.'],
+      ['ModalBottomSheet','Correction picker after "Itama".'],
+      ['LazyColumn + animateItem','Dispatch board.'],
+    ].map(([n,u])=>({n,u}));
+    const custom = [
+      ['SosHoldButton','240 dp circle, pointerInput hold + ring. Accessibility: also works with TalkBack double-tap-hold.','1.5 h'],
+      ['TriageBadge','Shape + word + colour. 3 shapes are Box with RoundedCornerShape / GenericShape.','0.5 h'],
+      ['StatusCard','Facts as chips; unknown = dashed chip. Collapsed and expanded.','1 h'],
+      ['MicButton','4 states: idle, listening, thinking, understood.','1 h'],
+      ['UnderstoodRow','"Naintindihan ko: HINDI" + Itama. Also shows the safer-branch note.','0.5 h'],
+      ['CprPanel','Count, beat dot, keepScreenOn, never times out.','1 h'],
+      ['FinderDial','Bearing arrow (rotate an Icon) or 4-band hot/cold meter.','1 h'],
+    ].map(([n,u,h])=>({n,u,h}));
+    const critique = [
+      { n:'1', t:'Hold, then a 3-second cancel, is two waits in a row.', p:'A panicking user will let go early, think it failed, and hold again. The cancel screen also blocks the report for 3 seconds when every second counts.', f:'Hold for 1.5 s (not longer). The beacon is queued at release. Skip the separate cancel screen: go straight to "Ano ang nangyari?" with a 3 s "Kanselahin" bar on top of it. Speaking or tapping a tile during those 3 s confirms early.' },
+      { n:'2', t:'"Beacon starts right away" conflicts with "3-second cancel".', p:'If the beacon goes out at once, cancel can\'t un-send it. If it waits, the copy is untrue.', f:'Advertise after the 3 s window; say "Magsisimula ang beacon sa 3…". If cancel comes after advertising starts, send a CANCELLED revision so rescuers drop it.' },
+      { n:'3', t:'Showing the victim "PULA / RED" can raise panic.', p:'Telling someone on a roof that they are red-tagged is accurate but not calming, and they can\'t act on it.', f:'Keep the triage badge (judges and rescuers expect it) but small, at the side of the status card. Lead with facts the victim recognises: what happened, how many, who is vulnerable.' },
+      { n:'4', t:'Too many modes: follow-ups, first-aid steps, first-aid questions, myth-buster.', p:'To the victim these are all "the phone talking". Four different screen types make them re-learn the layout every step.', f:'One screen template: status card → current step (instruction or question) → answers → mic. Myth-buster is not a screen; it\'s what happens when the mic hears a question.' },
+      { n:'5', t:'The victim can stop the beacon by accident.', p:'A wet thumb on a "Rescued" button silences the only signal they have.', f:'"Itigil ang beacon" needs a 3 s hold, and is placed at the bottom of a scroll, never on the first screen. Rescuer "Nakuha na" sends it via ACK so the victim rarely needs it.' },
+      { n:'6', t:'Silence after SOS reads as failure.', p:'Until a rescuer ACKs, nothing visible happens, and people restart apps that look stuck.', f:'Beacon line always shows the last send time ("Naipadala 4 s ang nakaraan") and the honest status "Wala pang sumasagot". Never a spinner that implies connection.' },
+      { n:'7', t:'Hot/cold bands from Bluetooth signal strength will jump around.', p:'RSSI swings with every wave and body. A rescuer who sees Mainit → Malamig → Mainit stops trusting it.', f:'Smooth over ~5 s, only move one band at a time, and add a trend word: "Lumalapit" / "Lumalayo".' },
+      { n:'8', t:'"Tumawag sa 911" mostly can\'t connect here.', p:'With towers down it fails, and a failed call feels like a second abandonment.', f:'Label it "Tumawag sa 911 · kung may signal" and keep the beacon running during and after the call attempt.' },
+    ];
+    const must = [
+      { n:'1', t:'Triage colours live outside the M3 scheme.', p:'Never map RED/YELLOW/GREEN to error/tertiary/etc. Always render through TriageBadge (shape + word).' },
+      { n:'2', t:'SOS works with no model, no GPS, no permission dialog in the way.', p:'Request Bluetooth/location before the first hold or show tiles-only and keep going. AI state is shown but never blocks.' },
+      { n:'3', t:'CPR never times out and keeps the screen on.', p:'keepScreenOn, no auto-advance, no dialog over it. The help-is-coming banner and questions stack below/above without covering the count.' },
+      { n:'4', t:'Every AI output goes through the closed-list validator before the UI shows it.', p:'Failure shows "Hindi sigurado ang AI. Pumili sa ibaba." and the tiles. Approved myth-buster text is rendered only from the bundled list, with its "Aprubado" label.' },
+      { n:'5', t:'Test at 130% font with Filipino switched on.', p:'English is the default, but Filipino runs ~30% longer and adds a second line. No fixed heights on anything with text; buttons grow vertically.' },
+    ];
+    const cuts = [
+      { n:'1', t:'Eval screen.', p:'Show numbers on a slide instead.' },
+      { n:'2', t:'Rescuer night theme.', p:'Victim light theme too; ship dark victim + sunlight rescuer only.' },
+      { n:'3', t:'"Dictionary vs. Gemma" side-by-side.', p:'Keep the model badge, validator line and bytes.' },
+      { n:'4', t:'Hot/cold meter.', p:'Arrow + distance only; show "Walang GPS" text when missing.' },
+      { n:'5', t:'Myth-buster.', p:'Mic questions fall through to "Hindi ko masasagot iyan nang ligtas."' },
+      { n:'6', t:'Haptics beyond SOS sent and ACK.', p:'Two patterns cover the emotional moments.' },
+      { n:'7', t:'Board animations and GETTING WORSE.', p:'Ranking still updates; keep SILENT and ON THE WAY.' },
+      { n:'8', t:'Filipino switch.', p:'Ship English only; keep strings in strings.xml so Filipino is a values-fil folder later.' },
+    ];
+    return { themes, type, space, motion, haptics, stock, custom, critique, must, cuts };
+  }
+}
+</script>
+</body>
+</html>

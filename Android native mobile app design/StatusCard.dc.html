@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="background:#12161B;border-radius:24px;padding:12px 14px 12px;display:flex;flex-direction:column;gap:10px;font-family:'Atkinson Hyperlegible Next',sans-serif;color:#F1F3F6;box-sizing:border-box;width:100%">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="display:flex;align-items:center;gap:7px;padding:5px 10px 5px 8px;border-radius:8px;background:{{ tBg }};color:{{ tFg }};border:{{ tBorder }};flex:none">
+      <sc-if value="{{ isRed }}" hint-placeholder-val="{{ false }}"><span style="width:12px;height:12px;background:#FFF;transform:rotate(45deg) scale(.85);display:block"></span></sc-if>
+      <sc-if value="{{ isYellow }}" hint-placeholder-val="{{ false }}"><span style="width:14px;height:12px;background:#000;clip-path:polygon(50% 0,100% 100%,0 100%);display:block"></span></sc-if>
+      <sc-if value="{{ isGreen }}" hint-placeholder-val="{{ false }}"><span style="width:12px;height:12px;background:#000;border-radius:50%;display:block"></span></sc-if>
+      <sc-if value="{{ isUnknown }}" hint-placeholder-val="{{ true }}"><span style="width:12px;height:12px;border:2px dashed #B9C1CC;border-radius:50%;display:block;box-sizing:border-box"></span></sc-if>
+      <span style="font-size:14px;font-weight:800;letter-spacing:.04em">{{ tWord }}</span>
+    </div>
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+      <span style="font-size:18px;font-weight:800;line-height:1.2;color:{{ whatColor }}">{{ whatLabel }}</span>
+      <sc-if value="{{ showWhatEn }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;color:#B9C1CC;line-height:1.2">{{ whatEn }}</span></sc-if>
+    </div>
+    <span style="font:600 12px 'Atkinson Hyperlegible Mono',monospace;color:#B9C1CC;flex:none">REV {{ rev }}</span>
+  </div>
+  <sc-if value="{{ showChips }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      <sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:5px;padding:5px 9px;border-radius:8px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.fg }};min-height:30px;box-sizing:border-box">
+          <span class="ms" style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1">{{ c.icon }}</span>
+          <span style="font-size:15px;font-weight:700;line-height:1.1">{{ c.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+  <div style="display:flex;align-items:center;gap:8px;border-top:1px solid #2E353E;padding-top:9px">
+    <span style="width:10px;height:10px;border-radius:50%;background:{{ bDot }};border:{{ bDotBorder }};flex:none;box-sizing:border-box"></span>
+    <span style="font-size:15px;font-weight:700;color:{{ bColor }};flex:1;min-width:0;line-height:1.25">{{ bText }}</span>
+    <span style="font:600 12px 'Atkinson Hyperlegible Mono',monospace;color:#B9C1CC;flex:none">{{ bTime }}</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:340,&quot;height&quot;:200},&quot;triage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;RED&quot;,&quot;YELLOW&quot;,&quot;GREEN&quot;,&quot;UNKNOWN&quot;],&quot;default&quot;:&quot;RED&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;what&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Trapped on a roof&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;whatAlt&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Naiipit sa bubong&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;alt&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;people&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;tsType&quot;:&quot;number&quot;},&quot;trapped&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;vuln&quot;:{&quot;editor&quot;:null,&quot;default&quot;:[&quot;Infant&quot;],&quot;tsType&quot;:&quot;string[]&quot;},&quot;danger&quot;:{&quot;editor&quot;:null,&quot;default&quot;:[&quot;Not breathing&quot;],&quot;tsType&quot;:&quot;string[]&quot;},&quot;rev&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;tsType&quot;:&quot;number&quot;},&quot;beacon&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;queued&quot;,&quot;sending&quot;,&quot;ack&quot;,&quot;stopped&quot;,&quot;lowbat&quot;],&quot;default&quot;:&quot;sending&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;time&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;2 s&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const t = p.triage ?? 'UNKNOWN';
+    const tri = {
+      RED: { bg:'#C9252C', fg:'#FFF', w:'RED' },
+      YELLOW: { bg:'#FFC53D', fg:'#000', w:'YELLOW' },
+      GREEN: { bg:'#2FB36A', fg:'#000', w:'GREEN' },
+      UNKNOWN: { bg:'transparent', fg:'#B9C1CC', w:'?' },
+    }[t];
+    const unknown = (label, icon) => ({ label: '? ' + label, icon, border:'1.5px dashed #5B6573', bg:'transparent', fg:'#B9C1CC' });
+    const known = (label, icon) => ({ label, icon, border:'1.5px solid #2E353E', bg:'#1C2128', fg:'#F1F3F6' });
+    const danger = (label) => ({ label, icon:'warning', border:'1.5px solid #F1F3F6', bg:'#F1F3F6', fg:'#000' });
+    const chips = [];
+    chips.push(p.people ? known(p.people + (p.people == 1 ? ' person' : ' people'), 'group') : unknown('How many', 'group'));
+    if (p.trapped === true) chips.push(known('Trapped', 'lock'));
+    else if (p.trapped === false) chips.push(known('Not trapped', 'lock_open'));
+    else chips.push(unknown('Trapped', 'lock'));
+    const vuln = p.vuln;
+    if (vuln && vuln.length) vuln.forEach(v => chips.push(known(v, 'favorite')));
+    else if (vuln === undefined || vuln === null) chips.push(unknown('Child or elderly', 'favorite'));
+    (p.danger || []).forEach(d => chips.push(danger(d)));
+    const b = p.beacon ?? 'sending';
+    const beacons = {
+      queued: { dot:'transparent', border:'2px solid #B9C1CC', c:'#F1F3F6', t:'Beacon starting…' },
+      sending: { dot:'#9CC2FF', border:'none', c:'#F1F3F6', t:'Beacon: sending · no answer yet' },
+      ack: { dot:'#9CC2FF', border:'none', c:'#9CC2FF', t:'Answered · help is coming' },
+      stopped: { dot:'transparent', border:'2px solid #5B6573', c:'#B9C1CC', t:'Beacon: stopped' },
+      lowbat: { dot:'#9CC2FF', border:'none', c:'#F1F3F6', t:'Beacon: sending · saver mode' },
+    }[b];
+    return {
+      tBg: tri.bg, tFg: tri.fg, tWord: tri.w, tBorder: t === 'UNKNOWN' ? '1.5px dashed #5B6573' : 'none',
+      isRed: t==='RED', isYellow: t==='YELLOW', isGreen: t==='GREEN', isUnknown: t==='UNKNOWN',
+      whatLabel: p.what || '? What happened', whatColor: p.what ? '#F1F3F6' : '#B9C1CC',
+      whatEn: p.whatAlt || '', showWhatEn: !!(p.alt && p.whatAlt),
+      rev: p.rev ?? 1, chips, showChips: !p.compact,
+      bDot: beacons.dot, bDotBorder: beacons.border, bColor: beacons.c, bText: beacons.t, bTime: p.time ?? '2 s',
+    };
+  }
+}
+</script>
+</body>
+</html>
