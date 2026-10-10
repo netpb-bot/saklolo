@@ -8,6 +8,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import org.tensorflow.lite.Interpreter
 import java.io.File
+import java.io.FileInputStream
+import java.nio.channels.FileChannel
 import kotlin.concurrent.thread
 
 // One loaded model, three closed-list tasks. EmbeddingGemma 300M (~180 MB, CPU) turns text into a meaning vector.
@@ -17,7 +19,7 @@ import kotlin.concurrent.thread
 object Llm {
     enum class State { LOADING, READY, MISSING }
 
-    // Copied to /sdcard/Android/data/ph.saklolo/files/ (see README steps; run-as so the app owns them).
+    // Bundled in the APK from ../models, or sideloaded to /sdcard/Android/data/ph.saklolo/files/ (wins if present).
     const val MODEL_FILE = "embeddinggemma-300M_seq256_mixed-precision.tflite"
     const val TOKENIZER_FILE = "sentencepiece.model"
     private const val SEQ = 256
@@ -53,8 +55,15 @@ object Llm {
         val dir = ctx.getExternalFilesDir(null)
         thread {
             runCatching {
-                spm = Spm(File(dir, TOKENIZER_FILE).readBytes())
-                interp = Interpreter(File(dir, MODEL_FILE), Interpreter.Options().setNumThreads(4))
+                // Sideloaded files win; else the copy bundled in the APK (stored uncompressed, so it maps in place).
+                val tok = File(dir, TOKENIZER_FILE)
+                spm = Spm(if (tok.exists()) tok.readBytes() else ctx.assets.open(TOKENIZER_FILE).use { it.readBytes() })
+                val opts = Interpreter.Options().setNumThreads(4)
+                val model = File(dir, MODEL_FILE)
+                interp = if (model.exists()) Interpreter(model, opts)
+                else ctx.assets.openFd(MODEL_FILE).use { fd ->
+                    FileInputStream(fd.fileDescriptor).channel.use { Interpreter(it.map(FileChannel.MapMode.READ_ONLY, fd.startOffset, fd.declaredLength), opts) }
+                }
             }.onFailure { Log.w("Saklolo", "model not loaded: $it") }
             state = if (interp != null && spm != null) State.READY else State.MISSING
             if (state == State.READY) {

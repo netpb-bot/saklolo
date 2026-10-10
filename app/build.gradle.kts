@@ -15,6 +15,9 @@ android {
         versionName = "0.1"
     }
     buildFeatures { compose = true }
+    // The AI files (git-ignored ../models) ship inside the APK, so one install is enough. Stored, not deflated.
+    sourceSets["main"].assets.srcDir("../models")
+    androidResources { noCompress += listOf("tflite", "onnx", "model") }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

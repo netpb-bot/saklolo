@@ -112,7 +112,7 @@ The eval sets live in `app/src/main/assets/eval/` so they can be re-run on devic
 - **Model:** ~~path A Gemma 3n E2B / path B Gemma 3 1B~~ (1B failed the Eval set on the S24). **EmbeddingGemma 300M** (180 MB, LiteRT, CPU, runs on 3–4 GB phones) + small classifier heads trained on ~4,400 labeled English/Filipino/Taglish reports (`train/`). Never generates text; rules first, AI adds what the word lists miss.
 - **Content:** `assets/protocols.json` (4 protocols, safer branches, entry steps, follow-up questions, FAQs; every string in English, the default, and Filipino)
 - **Beacon:** a 22-byte BLE service-data record
-- **Install:** APK and model sideloaded with adb
+- **Install:** one APK with the models bundled (`models/` → assets); share the APK file, no adb needed
 
 | File | Role |
 |---|---|

@@ -21,7 +21,6 @@ import android.os.SystemClock
 import android.provider.Settings
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.provider.OpenableColumns
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -599,7 +598,6 @@ fun DemoPanel(menu: @Composable () -> Unit) {
             )
         }
         menu()
-        if (Llm.state == Llm.State.MISSING) ImportModels()
         Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Pipeline()
         if (Demo.said.isNotEmpty()) Text("“${Demo.said}”", fontSize = 15.sp, lineHeight = 20.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -1367,44 +1365,6 @@ fun ModelRow() {
         else -> return
     }
     Text(line, fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-}
-
-// Installing without a PC: the AI files arrive by Quick Share, Drive or a USB stick, and the user picks them here.
-// Only the known file names are copied into the app's folder; then the app restarts and loads them as usual.
-val MODEL_FILES = setOf(Llm.MODEL_FILE, Llm.TOKENIZER_FILE, Voice.VAD_FILE,
-    "${Voice.WHISPER}-encoder.int8.onnx", "${Voice.WHISPER}-decoder.int8.onnx", "${Voice.WHISPER}-tokens.txt")
-
-@Composable
-fun ImportModels() {
-    val ctx = LocalContext.current
-    val scope = rememberCoroutineScope()
-    var copying by remember { mutableStateOf(false) }
-    val pick = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
-        if (uris.isEmpty()) return@rememberLauncherForActivityResult
-        copying = true
-        scope.launch {
-            withContext(Dispatchers.IO) {
-                val dir = ctx.getExternalFilesDir(null)
-                for (uri in uris) {
-                    val name = ctx.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
-                        ?.use { if (it.moveToFirst()) it.getString(0) else null }
-                    if (name !in MODEL_FILES) continue
-                    val tmp = File(dir, "$name.part") // a half-copied model must never be loaded
-                    runCatching {
-                        ctx.contentResolver.openInputStream(uri)!!.use { i -> tmp.outputStream().use { i.copyTo(it) } }
-                        tmp.renameTo(File(dir, name!!))
-                    }.onFailure { tmp.delete(); Log.w("Saklolo", "import $name failed: $it") }
-                }
-            }
-            // ponytail: restart instead of re-running every loader in place
-            ctx.startActivity(Intent.makeRestartActivityTask(Intent(ctx, MainActivity::class.java).component))
-            Runtime.getRuntime().exit(0)
-        }
-    }
-    if (copying) Text(t("Copying AI files…", "Kinokopya ang AI files…"), fontSize = 16.sp)
-    else OutlinedButton(onClick = { pick.launch(arrayOf("*/*")) }, modifier = Modifier.fillMaxWidth()) {
-        Text(t("Load AI files", "I-load ang AI files"), fontSize = 16.sp)
-    }
 }
 
 // ---- Rescuer: dispatch board (mock R1/R4) and record detail (R2/R3) ----

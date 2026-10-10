@@ -202,15 +202,19 @@ object Voice {
     fun loadWhisper(ctx: Context) {
         val dir = ctx.getExternalFilesDir(null)
         thread {
+            // Sideloaded files win (no reinstall to swap a model); else the copy bundled in the APK (built with ../models).
+            val bundled = ctx.assets.list("").orEmpty().toSet()
+            fun sideloaded(name: String) = File(dir, name).takeIf { it.exists() }?.path
+            fun am(name: String) = ctx.assets.takeIf { sideloaded(name) == null && name in bundled }
+            fun src(name: String) = sideloaded(name) ?: name.also { require(it in bundled) { "missing $it" } }
             vad = runCatching {
-                val f = File(dir, VAD_FILE).also { require(it.exists()) { "missing $it" } }
-                Vad(config = VadModelConfig(sileroVadModelConfig = SileroVadModelConfig(model = f.path, threshold = vadThreshold,
+                Vad(am(VAD_FILE), VadModelConfig(sileroVadModelConfig = SileroVadModelConfig(model = src(VAD_FILE), threshold = vadThreshold,
                     minSilenceDuration = 0.25f, minSpeechDuration = 0.25f, windowSize = VAD_WINDOW, maxSpeechDuration = 30f), sampleRate = 16_000, numThreads = 1))
             }.onFailure { Log.w("Saklolo", "vad not loaded (energy endpointing instead): $it") }.getOrNull()
             val t0 = SystemClock.uptimeMillis()
-            fun f(s: String) = File(dir, "$WHISPER-$s").also { require(it.exists()) { "missing $it" } }.path
+            fun f(s: String) = src("$WHISPER-$s")
             whisper = runCatching {
-                OfflineRecognizer(config = OfflineRecognizerConfig(modelConfig = OfflineModelConfig(
+                OfflineRecognizer(am("$WHISPER-encoder.int8.onnx"), OfflineRecognizerConfig(modelConfig = OfflineModelConfig(
                     // language "" = detect per utterance (en, tl), so English, Filipino and Taglish all work
                     whisper = OfflineWhisperModelConfig(encoder = f("encoder.int8.onnx"), decoder = f("decoder.int8.onnx"), language = ""),
                     tokens = f("tokens.txt"), numThreads = 4, modelType = "whisper",
