@@ -393,8 +393,8 @@
     {
       "id": "ROOF",
       "title": {
-        "en": "On a roof, water rising",
-        "fil": "Nasa bubong, tumataas ang tubig"
+        "en": "Flood: water rising",
+        "fil": "Baha: tumataas ang tubig"
       },
       "nodes": [
         {
@@ -411,20 +411,33 @@
         {
           "id": "rf_high",
           "text": {
-            "en": "Go to the highest point that still has a way out.",
-            "fil": "Pumunta sa pinakamataas na lugar na may labasan pa."
+            "en": "Go to the highest point that still has a way out, like the roof.",
+            "fil": "Pumunta sa pinakamataas na lugar na may labasan pa, tulad ng bubong."
           },
           "detail": {
             "en": "Don't climb into an attic or ceiling with no exit.",
             "fil": "Huwag umakyat sa kisame o attic na walang labasan."
+          },
+          "next": "rf_swim",
+          "roof": "rf_roof"
+        },
+        {
+          "id": "rf_roof",
+          "text": {
+            "en": "Stay on the highest part of the roof. Don't go back inside.",
+            "fil": "Manatili sa pinakamataas na bahagi ng bubong. Huwag nang bumalik sa loob."
+          },
+          "detail": {
+            "en": "Keep away from the edge and hold on to something solid.",
+            "fil": "Lumayo sa gilid at kumapit sa matibay na bagay."
           },
           "next": "rf_swim"
         },
         {
           "id": "rf_stay",
           "text": {
-            "en": "Stay on the roof where rescuers can see you.",
-            "fil": "Manatili sa bubong kung saan ka makikita ng rescuer."
+            "en": "Stay up high, where rescuers can see you.",
+            "fil": "Manatili sa mataas, kung saan ka makikita ng rescuer."
           },
           "detail": {
             "en": "Watch the water. If it rises, move higher.",

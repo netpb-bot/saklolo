@@ -47,9 +47,17 @@ python simulate.py         # tries confidence bars for "rules first, AI fills ga
 ## Results (Samsung S24 Ultra, 2026-10-10, whole record correct)
 | Set | Rules only | Rules + AI |
 |---|---|---|
-| Hard cases (29) | 28% | 45% |
-| Real #RescuePH tweets (58) | 52% | 53% |
-| Reports by others (10; rules were tuned on these) | 100% | 80% |
-| Tuning set (10; rules were tuned on these) | 100% | 90% |
+| Hard cases (29) | 28% | 41% |
+| Real #RescuePH tweets (58) | 52% | 55% |
+| Reports by others (10; rules were tuned on these) | 100% | 100% |
+| Tuning set (10; rules were tuned on these) | 100% | 100% |
+
+Heads v3 (with the "my wife" / "nanay" / "crack" fixes). v2 measured 45% / 53% / 80% / 90% on the same sets.
 
 No wrong NOT_BREATHING / UNCONSCIOUS / HEAVY_BLEEDING in any final record.
+
+**v4 tried, not shipped (2026-10-10):** +948 Gemini-written reports (`gen_llm.py` → `llm_reports.jsonl`, aimed at
+keyword-less hazards, signs-only breathing, negation, trapped without "trapped", self-corrections). AI alone on hard:
+hazard 79→90%, trapped 59→76%, cond 72→76%, vuln 86→93%. But whole record at the app's bars (PC simulation, `simulate.py`)
+stayed 41% hard, 55→57% real, and a new UNCONSCIOUS appeared on "lips turning blue, chest isn't moving" (want
+NOT_BREATHING). Kept v3; v4 is in `model/heads_v4.json`. Most remaining hard misses are rule-only fields (people, floor, spot).

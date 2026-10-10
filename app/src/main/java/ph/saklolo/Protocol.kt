@@ -11,9 +11,10 @@ enum class Hazard { COLLAPSE, FLOOD, LANDSLIDE, OTHER }
 enum class Cond { NOT_BREATHING, UNCONSCIOUS, HEAVY_BLEEDING, PINNED, INJURED, WATER_RISING }
 
 // fact: a question step whose YES (or UNSURE, the safer reading) is also a fact for rescuers ("Is the water still rising?").
+// roof: the step shown instead when the victim is already on the roof ("go higher" makes no sense there).
 data class Node(
     val id: String, val text: Txt, val detail: Txt?,
-    val next: String?, val yes: String?, val no: String?, val safer: String?, val fact: Cond? = null,
+    val next: String?, val yes: String?, val no: String?, val safer: String?, val fact: Cond? = null, val roof: String? = null,
 ) {
     val isQuestion get() = yes != null
     fun after(a: Ans): String? = when (a) { Ans.YES -> yes; Ans.NO -> no; Ans.UNSURE -> safer }
@@ -24,6 +25,17 @@ data class Faq(val id: String, val examples: List<String>, val answer: Txt)
 
 data class Protocol(val id: String, val title: Txt, val nodes: List<Node>, val faqs: List<Faq> = emptyList()) {
     fun node(id: String) = nodes.first { it.id == id }
+
+    // The step to show given what's already known: the roof version on a roof, and a question whose fact was
+    // already reported is answered YES instead of asked again.
+    fun resolve(id: String, f: Facts): String {
+        var n = node(id)
+        while (true) n = when {
+            n.roof != null && f.floor == ROOF -> node(n.roof)
+            n.isQuestion && n.fact != null && n.fact in f.cond -> node(n.yes!!)
+            else -> return n.id
+        }
+    }
 }
 
 class Protocols(json: String) {
@@ -48,7 +60,7 @@ class Protocols(json: String) {
             val nodes = p.getJSONArray("nodes")
             p.getString("id") to Protocol(p.getString("id"), p.txt("title")!!, (0 until nodes.length()).map {
                 val n = nodes.getJSONObject(it)
-                Node(n.getString("id"), n.txt("text")!!, n.txt("detail"), n.str("next"), n.str("yes"), n.str("no"), n.str("safer"), n.str("fact")?.let(Cond::valueOf))
+                Node(n.getString("id"), n.txt("text")!!, n.txt("detail"), n.str("next"), n.str("yes"), n.str("no"), n.str("safer"), n.str("fact")?.let(Cond::valueOf), n.str("roof"))
             }, p.objects("faqs").map { f ->
                 Faq(f.getString("id"), f.getJSONArray("q_examples").let { a -> (0 until a.length()).map { a.getString(it) } }, f.txt("answer")!!)
             })

@@ -44,15 +44,17 @@ fun worse(old: Facts, new: Facts): Boolean =
 fun missing(f: Facts): List<String> = buildList {
     if (f.hazard == null) add("what")
     if (f.cond.none { it in injuries }) add("hurt") // "the water is rising" doesn't say whether anyone is hurt
+    // Flood: ask where first; "on the roof" already answers "can you get higher?" (see inferred()).
+    if (f.hazard == Hazard.FLOOD && f.floor == 0) add("place")
     if (f.trapped == null) add("exit")
     if (f.people == 0) add("count")
-    // Where rescuers look: the roof or floor in a flood, the spot in rubble. The texts differ per hazard.
-    when (f.hazard) {
-        Hazard.FLOOD -> if (f.floor == 0) add("place")
-        Hazard.COLLAPSE, Hazard.LANDSLIDE -> if (f.floor == 0 && f.spot == Spot.UNKNOWN) add("place")
-        else -> {}
-    }
+    // Where rescuers look in rubble: the floor or the spot. The texts differ per hazard.
+    if ((f.hazard == Hazard.COLLAPSE || f.hazard == Hazard.LANDSLIDE) && f.floor == 0 && f.spot == Spot.UNKNOWN) add("place")
 }
+
+// On a roof in a flood there's nowhere higher to go: stranded until a boat comes, so trapped (the safer reading).
+// An explicit "not trapped" stays.
+fun Facts.inferred() = if (hazard == Hazard.FLOOD && floor == ROOF && trapped == null) copy(trapped = true) else this
 
 val injuries = setOf(Cond.NOT_BREATHING, Cond.UNCONSCIOUS, Cond.HEAVY_BLEEDING, Cond.PINNED, Cond.INJURED)
 

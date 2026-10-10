@@ -86,7 +86,8 @@ def threshold(p, y, min_precision):
 def main():
     emb = Embedder()
     cache = load_cache()
-    data = [json.loads(l) for l in (HERE / "reports.jsonl").read_text(encoding="utf-8").splitlines()]
+    data = [json.loads(l) for f in ("reports.jsonl", "llm_reports.jsonl") if (HERE / f).exists()
+            for l in (HERE / f).read_text(encoding="utf-8").splitlines()]
     todo = [d["text"] for d in data if d["text"] not in cache]
     for i, t in enumerate(todo):
         cache[t] = emb(t)

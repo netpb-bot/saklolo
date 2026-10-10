@@ -36,8 +36,23 @@ class TriageTest {
         assertEquals(listOf("hurt", "exit", "count", "place"), followUps(Facts(Hazard.COLLAPSE)))
         assertEquals(listOf("hurt", "exit", "place"), followUps(Facts(Hazard.COLLAPSE, 4)))
         // Rising water says nothing about injuries; a flood needs the floor or roof, not the spot.
-        assertEquals(listOf("hurt", "exit", "place"), followUps(Facts(Hazard.FLOOD, 4, cond = setOf(Cond.WATER_RISING))))
-        assertEquals(listOf("exit"), followUps(Facts(Hazard.FLOOD, 4, floor = ROOF, cond = setOf(Cond.INJURED))))
+        // Flood asks where before "can you get higher?", since "on the roof" answers both.
+        assertEquals(listOf("hurt", "place", "exit"), followUps(Facts(Hazard.FLOOD, 4, cond = setOf(Cond.WATER_RISING))))
+        assertEquals(emptyList<String>(), followUps(Facts(Hazard.FLOOD, 4, floor = ROOF, cond = setOf(Cond.INJURED)).inferred()))
+        assertEquals(listOf("exit"), followUps(Facts(Hazard.FLOOD, 4, floor = 2, cond = setOf(Cond.INJURED)).inferred()))
+    }
+
+    @Test fun roofInFloodIsTrapped() {
+        val roof = Facts(Hazard.FLOOD, floor = ROOF, cond = setOf(Cond.WATER_RISING)).inferred()
+        assertEquals(true, roof.trapped)
+        assertEquals(Tri.RED, triage(roof))
+        assertFalse(worse(Facts(Hazard.FLOOD, cond = setOf(Cond.WATER_RISING)), roof)) // filling an unknown
+        assertEquals(false, Facts(Hazard.FLOOD, trapped = false, floor = ROOF).inferred().trapped) // they said so
+        assertNull(Facts(Hazard.COLLAPSE, floor = ROOF).inferred().trapped)
+        // "Yes, we're on the roof" to a yes/no question: still an answer, and the roof is read from it.
+        assertEquals(Route.ANSWER, Dictionary.route("yes, we're on the roof", yesNoWaiting = true))
+        assertEquals(ROOF, Dictionary.extract("yes, we're on the roof").floor)
+        assertEquals(ROOF, Dictionary.extract("hindi, nasa bubong na kami").floor)
         assertEquals(listOf("place"), followUps(Facts(Hazard.LANDSLIDE, 2, true, cond = setOf(Cond.PINNED))))
         assertEquals(emptyList<String>(), followUps(Facts(Hazard.OTHER, 2, false, cond = setOf(Cond.INJURED))))
         assertEquals(listOf("hurt"), followUps(Facts(Hazard.COLLAPSE, 4, true, spot = Spot.BATHROOM)))
@@ -99,6 +114,10 @@ class TriageTest {
         assertEquals(Spot.BATHROOM, r.spot)
         assertEquals(true, r.trapped)
         assertEquals(6, Dictionary.peopleOf("There are five of us, no, six, on the 2nd floor"))
+        assertEquals(3, Dictionary.peopleOf("apat kami, ay hindi, tatlo lang pala"))
+        assertEquals(3, Dictionary.peopleOf("4 of us, sorry, 3, with 2 kids"))
+        assertEquals(4, Dictionary.peopleOf("3 kami, no wait 4, kasama ang 2 bata"))
+        assertEquals(3, Dictionary.peopleOf("tatlo kami sa 2nd floor"))
         assertEquals(1, Dictionary.peopleOf("I'm alone on the third floor"))
         assertEquals(3, Dictionary.floorOf("I'm alone on the third floor"))
         assertEquals(ROOF, Dictionary.floorOf("nasa bubong kami"))

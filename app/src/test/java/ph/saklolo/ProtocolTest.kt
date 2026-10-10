@@ -33,6 +33,20 @@ class ProtocolTest {
         assertEquals("nb_push", p.plan(null, setOf(Cond.NOT_BREATHING)).first().second)
     }
 
+    @Test fun stepsUseWhatIsKnown() {
+        val flood = p.all.getValue("ROOF")
+        val roof = Facts(Hazard.FLOOD, floor = ROOF)
+        val rising = setOf(Cond.WATER_RISING)
+        // Never "go higher" to someone already on the roof.
+        assertEquals("rf_roof", flood.resolve("rf_high", roof))
+        assertEquals("rf_high", flood.resolve("rf_high", Facts(Hazard.FLOOD, floor = 2)))
+        // Already said the water is rising: don't ask again.
+        assertEquals("rf_high", flood.resolve("rf_rising", Facts(Hazard.FLOOD, cond = rising)))
+        assertEquals("rf_roof", flood.resolve("rf_rising", roof.copy(cond = rising)))
+        assertEquals("rf_rising", flood.resolve("rf_rising", roof))
+        assertEquals("rf_swim", flood.resolve("rf_swim", roof))
+    }
+
     @Test fun faqsAreApprovedAndMatchedSafely() {
         val faqs = p.all.values.flatMap { it.faqs }
         assertTrue(faqs.size >= 16)
@@ -64,7 +78,7 @@ class ProtocolTest {
                 assertTrue("${proto.id}: $it", it.en.isNotBlank() && it.fil.isNotBlank())
             }
             proto.nodes.forEach { n ->
-                listOfNotNull(n.next, n.yes, n.no, n.safer).forEach { assertTrue("${n.id} -> $it", it in known) }
+                listOfNotNull(n.next, n.yes, n.no, n.safer, n.roof).forEach { assertTrue("${n.id} -> $it", it in known) }
             }
         }
     }

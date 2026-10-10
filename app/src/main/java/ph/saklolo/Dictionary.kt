@@ -89,7 +89,8 @@ object Dictionary {
     private val roofWords = listOf("bubong", "roof", "rooftop", "atop")
     private val companions = listOf("wife", "husband", "asawa", "nanay", "tatay", "mother", "father", "mom", "dad", "lola", "lolo",
         "grandma", "grandmother", "grandpa", "grandfather", "son", "daughter", "kapatid", "brother", "sister", "friend", "kaibigan", "baby", "sanggol")
-    private val corrections = listOf("ay hindi", "hindi pala", "pala", "no wait", "no,", "i mean", "actually", "mali,", "este")
+    private val corrections = listOf("ay hindi", "hindi pala", "pala", "no wait", "no,", "i mean", "actually", "mali,", "este",
+        "teka", "wait", "sorry", "ay mali", "mali pala", "lang pala", "scratch that", "correction", "i meant", "oops")
 
     private val spots = listOf(
         Spot.UNDER_TABLE to listOf("ilalim ng mesa", "ilalim ng lamesa", "under the table", "under the dining table", "under a table", "sa ilalim ng mesa"),
@@ -204,8 +205,12 @@ object Dictionary {
             else -> 0
         }
         if (singular && with) return 1 + others + found.sumOf { it.first } // "I'm with my wife and two children"
-        val corrected = found.size > 1 && corrections.any { c -> s.indexOf(" ${norm(c).trim()} ").let { it > found.first().second } }
-        return if (corrected) found.last().first else found.first().first
+        if (found.size == 1) return found.first().first
+        // The first number after the last correction that has one ("3 kami, no wait 4, with 2 kids" → 4).
+        val marks = corrections.flatMap { c -> Regex(" ${Regex.escape(norm(c).trim())} ").findAll(s).map { it.range.first }.toList() }
+            .filter { it > found.first().second }
+        if (marks.isEmpty()) return found.first().first
+        return (marks.sortedDescending().firstNotNullOfOrNull { m -> found.firstOrNull { it.second > m } } ?: found.last()).first
     }
 
     fun spotOf(text: String): Spot = hits(norm(text), spots).firstOrNull() ?: Spot.UNKNOWN

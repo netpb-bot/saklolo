@@ -169,7 +169,7 @@ object Voice {
             }
             override fun onReadyForSpeech(p: Bundle?) {}
             override fun onBeginningOfSpeech() {}
-            override fun onRmsChanged(v: Float) {}
+            override fun onRmsChanged(v: Float) { level = ((v - 2) / 10).coerceIn(0f, 1f) * 0.12f } // ponytail: dB-ish, ~2 quiet → 12 loud; the waveform knob
             override fun onBufferReceived(b: ByteArray?) {}
             override fun onEndOfSpeech() {}
             override fun onPartialResults(b: Bundle?) {}
@@ -185,7 +185,9 @@ object Voice {
     @Volatile private var session = 0 // bumped by cancel(): a stale recording stops and its result is dropped
 
     // Calibration knobs. maxMs counts from the first speech, so a standby wait can be any length.
+    @Volatile var level = 0f // mic loudness (rms) for the waveform; 0 when the mic is closed
     var speechRms = 0.02f; var endSilenceMs = 1200; var maxMs = 15_000; var noSpeechMs = 6_000
+    var standbyMs = 60_000 // a hands-free wait gives up after this much silence; the mic button then shows "Mic off"
 
     // Silero VAD (sherpa-onnx, silero_vad.onnx sideloaded next to Whisper) tells speech from rain, wind and rubble, so
     // an always-open mic doesn't wake Whisper on noise. Missing file → energy endpointing (speechRms), as before.
@@ -194,6 +196,7 @@ object Voice {
     @Volatile private var vad: Vad? = null
     val vadReady get() = vad != null
     val whisperReady get() = whisper != null
+    @Volatile var sttMs = 0L // last Whisper decode, for the judge view
 
     // App start, never on mic tap. Missing files → the system recogniser path, as before.
     fun loadWhisper(ctx: Context) {
@@ -232,8 +235,14 @@ object Voice {
                     synchronized(w) {
                         val s = w.createStream()
                         try { s.acceptWaveform(pcm, 16_000); w.decode(s); w.getResult(s) } finally { s.release() }
-                    }.also { Log.d("Saklolo", "stt (whisper ${it.lang}, ${pcm.size / 16} ms audio, ${SystemClock.uptimeMillis() - t0} ms): ${it.text}") }
-                        .text.trim()
+                    }.also { sttMs = SystemClock.uptimeMillis() - t0; Log.d("Saklolo", "stt (whisper ${it.lang}, ${pcm.size / 16} ms audio, $sttMs ms): ${it.text}") }
+                        .let { r ->
+                            // Room noise comes back as a few words in a random language ("Seguiu, Pô?" = pt). Real reports
+                            // are long, so a mislabelled Taglish report still gets through. ponytail: 4 words is the knob.
+                            val lang = r.lang.trim('<', '|', '>', ' ')
+                            val text = r.text.trim()
+                            if (lang !in setOf("en", "tl", "") && text.split(' ').size < 4) "".also { Log.d("Saklolo", "stt: dropped short $lang: $text") } else text
+                        }
                 }
             }.onFailure { failed = it is MicFailed; Log.w("Saklolo", "whisper failed: $it") }.getOrNull()
                 ?.takeUnless { it.isBlank() || Dictionary.noise(it).also { n -> if (n) Log.d("Saklolo", "stt: dropped as noise: $it") } }
@@ -267,20 +276,20 @@ object Voice {
                 while (n < buf.size) { val r = ar.read(buf, n, buf.size - n); if (r < 0) throw MicFailed("mic read $r"); if (r == 0) break; n += r }
                 if (n == 0) throw MicFailed("mic gave no audio")
                 // Our own voice or the ring: drop everything so far (can't separate it from the victim's).
-                if (ownSound()) { if (chunks.isNotEmpty()) reset(); continue }
+                if (ownSound()) { level = 0f; if (chunks.isNotEmpty()) reset(); continue }
                 val c = FloatArray(n) { buf[it] / 32768f }
                 chunks.addLast(c)
-                val rms = kotlin.math.sqrt(c.fold(0f) { a, x -> a + x * x } / n).also { peak = maxOf(peak, it) }
+                val rms = kotlin.math.sqrt(c.fold(0f) { a, x -> a + x * x } / n).also { peak = maxOf(peak, it); level = it }
                 val speech = if (v != null) synchronized(v) { v.acceptWaveform(c); v.isSpeechDetected().also { v.clear() } } else rms > speechRms
                 if (speech) { heard = true; quiet = 0 } else if (heard) quiet += step
                 if (heard) spoke += step else {
                     while (chunks.size > PRE_ROLL) chunks.removeFirst() // waiting: keep only the pre-roll
                     waited += step
-                    if (!standby && waited >= noSpeechMs) break
+                    if (waited >= if (standby) standbyMs else noSpeechMs) break
                 }
                 if (heard && quiet >= endSilenceMs) break
             }
-        } finally { runCatching { ar.stop() }; ar.release() }
+        } finally { runCatching { ar.stop() }; ar.release(); level = 0f }
         Log.d("Saklolo", "mic: waited $waited ms, spoke $spoke ms, heard=$heard, peak rms=$peak (${if (v != null) "vad" else "energy $speechRms"})")
         if (session != me || !heard) return null
         val pcm = FloatArray(chunks.sumOf { it.size }); var i = 0

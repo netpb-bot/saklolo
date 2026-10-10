@@ -20,28 +20,45 @@ html,body{background:#000;height:100%;overflow:hidden}
 .h1{font-weight:800;font-size:76px;line-height:1.02;letter-spacing:-.02em;font-variation-settings:"wdth" 88}
 .h2{font-weight:700;font-size:52px;line-height:1.08;letter-spacing:-.015em;font-variation-settings:"wdth" 92}
 .sub{font-size:28px;line-height:1.35;color:var(--mute);font-weight:400}
+.src{font:600 15px 'JetBrains Mono',monospace;color:var(--dim);letter-spacing:.04em}
 #grain{position:absolute;inset:-50%;opacity:.07;pointer-events:none;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
 #vign{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 85% 75% at 50% 50%,transparent 55%,rgba(0,0,0,.55) 100%)}
 #gridbg{position:absolute;inset:0;opacity:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:60px 60px;
   -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 20%,transparent 75%)}
-
-/* scene 1 */
-#bars{left:810px;top:300px;width:300px;height:220px}
-#bars i{position:absolute;bottom:0;width:52px;border-radius:8px;background:var(--ice)}
-#nosvc{left:0;top:560px;width:1920px;text-align:center;font:600 24px 'JetBrains Mono',monospace;letter-spacing:.3em;color:var(--red)}
-#s1a,#s1b{left:0;width:1920px;text-align:center}
-#s1a{top:650px;color:var(--mute);font-size:44px;font-weight:500}
-#s1b{top:712px}
-
-/* logo */
-#logo{left:810px;top:270px;width:300px;height:300px}
-#word{left:0;top:600px;width:1920px;text-align:center;font-weight:800;font-size:120px;letter-spacing:-.03em;font-variation-settings:"wdth" 110}
-#word span{display:inline-block}
-#tag{left:0;top:752px;width:1920px;text-align:center;font-size:34px;color:var(--ice);font-weight:400}
-#chips1{left:0;top:830px;width:1920px;display:flex;justify-content:center;gap:16px}
-.chip{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;border:1.5px solid var(--line);font:600 20px 'JetBrains Mono',monospace;color:var(--ice);background:rgba(217,230,255,.04);white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;border:1.5px solid var(--line);font:600 20px 'JetBrains Mono',monospace;color:var(--ice);background:#0A1428;white-space:nowrap}
 .chip svg{width:22px;height:22px;fill:currentColor}
+.oc{display:inline-block;padding:8px 14px;border-radius:10px;font:700 22px 'JetBrains Mono';background:rgba(217,230,255,.08);color:var(--ice)}
+.oc.r{background:rgba(232,51,61,.18);color:#FF8A90}.oc.v{background:rgba(255,197,61,.15);color:var(--amber)}
+
+/* A: today, split */
+#bars{left:910px;top:70px;width:100px;height:56px}
+#bars i{position:absolute;bottom:0;width:18px;border-radius:4px;background:var(--ice);transform-origin:50% 100%}
+#nosvc{left:0;top:140px;width:1920px;text-align:center;font:600 18px 'JetBrains Mono',monospace;letter-spacing:.3em;color:var(--red)}
+#divide{left:959px;top:230px;width:2px;height:680px;background:var(--line)}
+#aV{left:140px;top:240px;width:740px}
+#aR{left:1040px;top:240px;width:760px}
+#call{margin-top:34px;width:440px;padding:26px 28px;border-radius:28px;background:#0A1222;border:1.5px solid var(--line)}
+#call .n{font:800 46px Archivo;letter-spacing:.02em}
+#call .s{font:600 20px 'JetBrains Mono';color:var(--mute);margin-top:8px}
+#call .s.f{color:var(--red)}
+#call .end{margin-top:24px;width:76px;height:76px;border-radius:50%;background:var(--red);display:grid;place-items:center}
+#call .end svg{width:40px;height:40px;fill:#fff;transform:rotate(135deg)}
+#hood{margin-top:34px;display:grid;grid-template-columns:repeat(8,72px);gap:14px}
+#hood div{height:62px;border-radius:10px;background:rgba(217,230,255,.05);border:1.5px solid rgba(217,230,255,.1);display:grid;place-items:center;font:700 26px 'JetBrains Mono';color:var(--dim)}
+.ah{margin-top:36px}
+#stat{left:0;top:300px;width:1920px;text-align:center}
+#stat .big{font-weight:900;font-size:190px;letter-spacing:-.04em;line-height:1;font-variation-settings:"wdth" 96}
+#stat .l1{font-size:40px;font-weight:600;margin-top:10px}
+#stat .l2{font-size:30px;color:var(--mute);margin-top:18px}
+#stat .src{margin-top:26px}
+
+/* B logo */
+#logo{left:885px;top:250px;width:150px;height:150px}
+#word{left:0;top:430px;width:1920px;text-align:center;font-weight:800;font-size:120px;letter-spacing:-.03em;font-variation-settings:"wdth" 110}
+#word span{display:inline-block}
+#tag{left:0;top:600px;width:1920px;text-align:center;font-size:40px;color:var(--ice);font-weight:500}
+#chips1{left:0;top:700px;width:1920px;display:flex;justify-content:center;gap:16px}
 
 /* phones */
 .phone{width:420px;height:860px;border-radius:60px;background:#05080d;padding:13px;
@@ -67,7 +84,7 @@ html,body{background:#000;height:100%;overflow:hidden}
 .pill i{width:9px;height:9px;border-radius:50%;background:var(--teal)}
 .tri{padding:5px 10px;border-radius:8px;font:800 14px 'JetBrains Mono';letter-spacing:.05em}
 .tri.y{background:var(--amber);color:#2a1d00}.tri.r{background:var(--red);color:#fff}.tri.g{background:var(--green);color:#03150b}
-.mic{position:absolute;left:50%;top:270px;width:150px;height:150px;margin-left:-75px;border-radius:50%;background:rgba(217,230,255,.08);display:grid;place-items:center}
+.mic{position:absolute;left:50%;top:275px;width:150px;height:150px;margin-left:-75px;border-radius:50%;background:rgba(217,230,255,.08);display:grid;place-items:center}
 .mic svg{width:64px;height:64px;fill:var(--ice)}
 .wave{position:absolute;left:30px;right:30px;top:470px;height:90px;display:flex;align-items:center;justify-content:space-between}
 .wave i{width:8px;border-radius:4px;background:var(--ice)}
@@ -87,11 +104,6 @@ html,body{background:#000;height:100%;overflow:hidden}
 .help{position:absolute;inset:0;background:linear-gradient(170deg,#0f5b36,#07311f);z-index:4;padding:120px 30px 0}
 .help h3{font-size:62px;line-height:1;font-weight:900;letter-spacing:-.02em;margin-top:30px}
 .help p{font-size:22px;line-height:1.4;color:#c9f0da;margin-top:20px}
-/* rescuer */
-.row{margin-top:12px;padding:14px 14px 14px 18px;border-radius:18px;background:rgba(217,230,255,.06);border-left:6px solid}
-.row .t{display:flex;justify-content:space-between;align-items:center;font:800 21px Archivo}
-.row .d{font-size:16px;color:var(--mute);margin-top:6px;line-height:1.4}
-.row .m{font:600 13px 'JetBrains Mono';color:var(--dim);margin-top:6px}
 .meter{display:flex;gap:8px;margin-top:16px}
 .meter i{flex:1;height:58px;border-radius:12px;background:rgba(217,230,255,.07)}
 
@@ -103,80 +115,81 @@ html,body{background:#000;height:100%;overflow:hidden}
 #txk{left:900px;top:190px}
 #txen{left:900px;top:740px;width:880px;font-size:27px;line-height:1.4;color:var(--mute);font-style:italic}
 
-/* AI scene */
+/* AI */
 #s4k{left:120px;top:150px}
-#model{left:760px;top:330px;width:400px;height:420px;border-radius:28px;border:1.5px solid rgba(185,166,255,.45);background:linear-gradient(180deg,rgba(185,166,255,.10),rgba(185,166,255,.02));padding:28px}
+#model{left:760px;top:355px;width:400px;height:370px;border-radius:28px;border:1.5px solid rgba(185,166,255,.45);background:linear-gradient(180deg,rgba(185,166,255,.10),rgba(185,166,255,.02));padding:28px}
 #model h4{font-size:34px;font-weight:800;letter-spacing:-.01em}
 #model .m1{font:600 17px 'JetBrains Mono';color:var(--ai);margin-top:6px}
 #vec{position:relative;margin-top:28px;height:170px;display:flex;align-items:center;gap:2px}
 #vec i{flex:1;border-radius:2px}
 #model .m2{font:600 15px 'JetBrains Mono';color:var(--mute);margin-top:22px;display:flex;justify-content:space-between}
-#outs{left:1240px;top:300px;width:600px}
+#outs{left:1220px;top:300px;width:660px}
 .orow{display:flex;align-items:center;gap:14px;height:68px;border-bottom:1px solid var(--line)}
 .orow label{width:150px;font:600 15px 'JetBrains Mono';color:var(--mute);text-transform:uppercase;letter-spacing:.1em}
-.oc{display:inline-block;padding:8px 14px;border-radius:10px;font:700 22px 'JetBrains Mono';background:rgba(217,230,255,.08);color:var(--ice)}
-.oc.r{background:rgba(232,51,61,.18);color:#FF8A90}.oc.v{background:rgba(255,197,61,.15);color:var(--amber)}
 #stamp{left:1240px;top:760px;display:flex;align-items:center;gap:22px}
 #stamp .rb{font:900 92px Archivo;letter-spacing:.04em;color:#fff;background:var(--red);padding:4px 30px;border-radius:16px;font-variation-settings:"wdth" 112}
 #stamp .rl{font:600 17px 'JetBrains Mono';color:var(--mute);line-height:1.6}
-#kw{left:120px;top:690px;width:545px;padding:22px 24px;border-radius:20px;border:1.5px solid rgba(232,51,61,.45);background:rgba(232,51,61,.06)}
-#kw .l{font:600 15px 'JetBrains Mono';color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
-#kw .v{font-size:32px;font-weight:700;margin-top:10px;color:#FF8A90}
-#kw .v s{text-decoration-thickness:3px}
-#cap4,#cap4b{left:0;top:940px;width:1920px;text-align:center;font-size:30px;color:var(--ice)}
+#cap4,#cap4b{left:0;top:930px;width:1920px;text-align:center;font-size:30px;color:var(--ice);line-height:1.4}
 #cap4 b,#cap4b b{color:var(--ai);font-weight:700}
 #flow{left:0;top:0;width:1920px;height:1080px;overflow:visible}
+.sg{margin-left:auto;padding:4px 8px;border-radius:6px;font:700 13px 'JetBrains Mono';letter-spacing:.06em;white-space:nowrap;color:var(--mute);border:1px solid #5B6573}
+.sg.ai{color:var(--ai);border-color:rgba(185,166,255,.5)}
 
-/* training */
-#snips{left:0;top:0;width:1920px;height:1080px;display:flex;gap:30px;padding:0 40px;opacity:0}
-#snips .col{flex:1;position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent);mask-image:linear-gradient(transparent,#000 20%,#000 80%,transparent)}
-#snips .col div{position:absolute;left:0;right:0;font:400 17px/1.35 'JetBrains Mono';color:var(--mute)}
-#snips .col div em{font-style:normal;color:var(--teal);font-size:13px;display:block;margin-top:2px}
-#s5k{left:0;top:250px;width:1920px;text-align:center}
-#count{left:0;top:300px;width:1920px;text-align:center;font-weight:900;font-size:220px;letter-spacing:-.04em;font-variation-settings:"wdth" 100;font-feature-settings:"tnum"}
-#count5{left:0;top:560px;width:1920px;text-align:center}
-#pipe{left:0;top:700px;width:1920px;display:flex;justify-content:center;align-items:center;gap:18px}
-#pipe .chip{font-size:19px}
-#pipe .ar{color:var(--dim);font:700 26px 'JetBrains Mono'}
-#morphk{left:0;top:300px;width:1920px;text-align:center}
-#morph{left:0;top:400px;width:1920px;text-align:center;font:700 66px 'JetBrains Mono';letter-spacing:-.01em;white-space:nowrap}
-#morphtag{left:0;top:510px;width:1920px;display:flex;justify-content:center;gap:12px}
-#morphtag .chip.on{background:var(--teal);color:#05211f;border-color:var(--teal)}
-#morphlab{left:0;top:640px;width:1920px;text-align:center}
-#morphlab .oc{margin:0 6px}
-#morphnote{left:0;top:740px;width:1920px;text-align:center}
-#res{left:160px;top:250px;width:1600px}
-#res .rk{margin-bottom:18px}
-#bars2{margin-top:56px;width:860px}
-.br{margin-bottom:34px}
-.br .bl{display:flex;justify-content:space-between;font-size:24px;color:var(--mute);margin-bottom:10px}
-.br .bl b{font:800 40px Archivo;color:var(--ink)}
-.br .tr{height:34px;border-radius:10px;background:rgba(217,230,255,.07);overflow:hidden}
-.br .tr i{display:block;height:100%;border-radius:10px;transform-origin:0 50%}
-#stats{position:absolute;left:1000px;top:120px;width:600px}
-.st{padding:22px 0;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:24px}
-.st b{font-weight:900;font-size:84px;width:210px;letter-spacing:-.03em;color:var(--teal);font-variation-settings:"wdth" 90}
-.st span{font-size:26px;line-height:1.3;color:var(--ice)}
-#resnote{position:absolute;left:0;top:640px;font:600 16px 'JetBrains Mono';color:var(--dim);letter-spacing:.04em}
+/* D2: the AI proof */
+#pfk{left:0;top:220px;width:1920px;text-align:center;color:var(--ai)}
+#pft{left:210px;top:285px;width:1500px;text-align:center;font-size:52px;line-height:1.18;font-weight:700;letter-spacing:-.01em}
+#pfe{left:210px;top:450px;width:1500px;text-align:center;font-size:27px;color:var(--mute);font-style:italic}
+#pfa,#pfb{top:560px;width:600px;padding:24px 28px;border-radius:20px;border:1.5px solid}
+#pfa{left:340px;border-color:rgba(232,51,61,.45);background:rgba(232,51,61,.06)}
+#pfb{left:980px;border-color:rgba(185,166,255,.6);background:rgba(185,166,255,.08)}
+#pfa .l,#pfb .l{font:600 15px 'JetBrains Mono';color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
+#pfa .v,#pfb .v{font-size:38px;font-weight:800;margin-top:12px}
+#pfa .v{color:#FF8A90}#pfb .v{color:var(--ink)}
+#pfb small{display:block;margin-top:8px;font:600 17px 'JetBrains Mono';color:var(--ai)}
+#pfn{left:0;top:800px;width:1920px;text-align:center;font-size:30px;color:var(--ice)}
+#pfn b{color:var(--ai)}
+#pfm{left:0;top:862px;width:1920px;text-align:center;font-size:24px;color:var(--mute)}
+#pfm b{color:var(--ink)}
+#pfs{left:0;top:918px;width:1920px;text-align:center}
 
-/* instruct / bytes */
-#s6k,#s6h,#s6s,#s6k2,#s6h2,#s6s2{left:900px;width:900px}
-#s6k,#s6k2{top:330px}#s6h,#s6h2{top:380px}#s6s,#s6s2{top:560px}
-#bytes{left:0;top:330px;width:1920px;display:flex;justify-content:center;gap:8px}
-.by{width:64px;height:88px;border-radius:12px;display:grid;place-items:center;font:700 27px 'JetBrains Mono';color:var(--ice);background:rgba(217,230,255,.07);border:1.5px solid var(--line)}
-#bylab{left:0;top:440px;width:1920px;height:200px}
-#bylab div{position:absolute;top:0;border-top:2px solid;padding-top:12px;font:600 15px/1.35 'JetBrains Mono';text-align:center}
-#s6bh{left:0;top:150px;width:1920px;text-align:center}
-#s6bs{left:0;top:700px;width:1920px;text-align:center}
+
+/* F: for the person trapped */
+#vik{left:900px;top:200px}
+#vih{left:900px;top:250px;width:900px}
+.vi{left:900px;width:900px;display:flex;gap:26px;align-items:flex-start}
+.vi .ix{flex:none;width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font:800 30px Archivo}
+.vi b{display:block;font-size:34px;font-weight:700;line-height:1.15;letter-spacing:-.01em}
+.vi span{display:block;font-size:22px;color:var(--mute);margin-top:6px;line-height:1.35}
+
+/* bytes */
+#bytes{left:0;top:420px;width:1920px;display:flex;justify-content:center;gap:8px}
+.by{width:70px;height:88px;border-radius:12px;display:grid;place-items:center;font:700 27px 'JetBrains Mono';color:var(--ice);background:rgba(217,230,255,.07);border:1.5px solid var(--line)}
+#s6bh{left:0;top:190px;width:1920px;text-align:center}
+#s6bs{left:0;top:570px;width:1920px;text-align:center}
 #dot{left:0;top:0;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;background:var(--teal);box-shadow:0 0 40px 10px rgba(127,214,208,.6)}
 .ring{position:absolute;left:0;top:0;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:3px solid var(--teal)}
 
-/* rescuer scene */
-#s7k,#s7h,#s7s{left:900px;width:900px}
-#s7k{top:250px}#s7h{top:300px}#s7s{top:480px}
-#brief{left:900px;top:300px;width:900px}
-#brief .q{font-size:46px;font-weight:700;line-height:1.22;letter-spacing:-.01em}
-#brief .q span{display:inline-block;margin-right:.24em}
+/* H: rescuer map */
+#mk{left:120px;top:200px}
+#mh1,#mh2{left:120px;top:250px;width:540px}
+#ms1{left:120px;top:520px;width:520px}
+#rank{left:120px;top:470px;width:520px}
+.rk2{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:rgba(217,230,255,.05);margin-bottom:10px;border-left:6px solid}
+.rk2 .n{font:800 22px Archivo;flex:1}.rk2 .d{display:block;font:500 16px Archivo;color:var(--mute);margin-top:4px}
+#map{left:720px;top:250px;width:1100px;height:600px}
+#map .hs{position:absolute;width:64px;height:64px}
+#map .hs svg{width:64px;height:64px}
+#map .hs .q{position:absolute;left:0;right:0;top:20px;text-align:center;font:700 22px 'JetBrains Mono';color:var(--dim)}
+#map .hs .tg{position:absolute;left:50%;top:-34px;transform:translateX(-50%);padding:3px 8px;border-radius:6px;font:800 13px 'JetBrains Mono';white-space:nowrap}
+#map .halo{position:absolute;left:32px;top:32px;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;border:3px solid}
+#mapsvg{position:absolute;left:0;top:0;width:1100px;height:600px;overflow:visible}
+#maptag{left:720px;top:200px;font:700 18px 'JetBrains Mono';letter-spacing:.2em}
+#mapcnt{left:720px;top:870px;width:1100px;display:flex;justify-content:space-between;font:600 20px 'JetBrains Mono';color:var(--mute)}
+#walker{left:0;top:0;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:#fff;box-shadow:0 0 24px 6px rgba(255,255,255,.45)}
+#bcap{left:0;top:940px;width:1920px;text-align:center;font-size:30px;color:var(--ice)}
+#bcap span{display:inline-block;margin-right:.24em}
+
+/* I: find */
 #hc{left:900px;top:300px;width:900px}
 #hcm{display:flex;gap:12px;margin-top:40px}
 #hcm div{flex:1}
@@ -185,16 +198,14 @@ html,body{background:#000;height:100%;overflow:hidden}
 #tap{left:0;top:0;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:4px solid #fff;background:rgba(255,255,255,.25)}
 
 /* end */
-#e1{left:0;top:330px;width:1920px;text-align:center}
-#e2{left:0;top:430px;width:1920px;text-align:center;font-size:40px;color:var(--teal);font-weight:600}
-#elogo{left:885px;top:590px;width:150px;height:150px}
-#eword{left:0;top:760px;width:1920px;text-align:center;font-weight:800;font-size:64px;letter-spacing:-.02em;font-variation-settings:"wdth" 110}
-#efoot{left:0;top:860px;width:1920px;display:flex;justify-content:center;gap:14px}
+#elogo{left:885px;top:250px;width:150px;height:150px}
+#eword{left:0;top:420px;width:1920px;text-align:center;font-weight:800;font-size:110px;letter-spacing:-.03em;font-variation-settings:"wdth" 110}
+#e2{left:0;top:590px;width:1920px;text-align:center;font-size:44px;color:var(--ink);font-weight:700}
+#e3{left:0;top:670px;width:1920px;text-align:center;font-size:32px;color:var(--teal);font-weight:600}
 #edisc{left:0;top:1010px;width:1920px;text-align:center;font:600 15px 'JetBrains Mono';color:var(--dim);letter-spacing:.08em}
 #fade{position:absolute;inset:0;background:#000;pointer-events:none}
 #flash{position:absolute;inset:0;background:#fff;pointer-events:none;opacity:0}
 
-/* preview chrome */
 #ui{position:fixed;left:0;right:0;bottom:0;height:46px;display:flex;align-items:center;gap:12px;padding:0 16px;background:rgba(0,0,0,.7);font:600 13px 'JetBrains Mono',monospace;color:#ccd;z-index:9}
 #ui button{background:#D9E6FF;color:#001233;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
 #ui input{flex:1}
@@ -204,15 +215,29 @@ body.render #ui{display:none}
 <body>
 <div id="stage">
   <div id="gridbg"></div>
-  <div id="snips"></div>
 
-  <!-- S1 dead air -->
-  <div id="bars" class="a"><i style="left:0;height:30%"></i><i style="left:82px;height:53%"></i><i style="left:164px;height:76%"></i><i style="left:246px;height:100%"></i></div>
-  <div id="nosvc" class="a">NO SERVICE · 911 UNREACHABLE</div>
-  <div id="s1a" class="a">When the Big One hits,</div>
-  <div id="s1b" class="a h1">the network is the first thing to go.</div>
+  <!-- A: today -->
+  <div id="bars" class="a"><i style="left:0;height:30%"></i><i style="left:27px;height:53%"></i><i style="left:54px;height:76%"></i><i style="left:81px;height:100%"></i></div>
+  <div id="nosvc" class="a">NO SERVICE</div>
+  <div id="divide" class="a"></div>
+  <div id="aV" class="a">
+    <div class="kick" style="color:var(--red)">Today · the person trapped</div>
+    <div id="call"><div class="n">911</div><div class="s" id="calls">Calling…</div><div class="end"><svg viewBox="0 0 24 24"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.07 15.07 0 0 1-6.59-6.59l2.2-2.21a.96.96 0 0 0 .25-1A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/></svg></div></div>
+    <div class="h2 ah">Pinned. Bleeding.<br>No one picks up.</div>
+  </div>
+  <div id="aR" class="a">
+    <div class="kick" style="color:var(--amber)">Today · the rescuer</div>
+    <div id="hood"></div>
+    <div class="h2 ah">Who's alive? Who's critical?<br>Which house? Which floor?</div>
+  </div>
+  <div id="stat" class="a">
+    <div class="big" id="statn">170,000</div>
+    <div class="l1">homes could collapse if a M7.2 quake hits Metro Manila.</div>
+    <div class="l2">An estimated 34,000 lives lost, and the network is the first thing to go.</div>
+    <div class="src">MMEIRS study, 2004 · West Valley Fault scenario</div>
+  </div>
 
-  <!-- S2 logo -->
+  <!-- B: logo -->
   <svg id="logo" class="a" viewBox="0 0 108 108">
     <rect id="lgbg" width="108" height="108" rx="24" fill="#002D72"/>
     <g fill="none" stroke="#D9E6FF" stroke-linecap="round" stroke-linejoin="round">
@@ -223,21 +248,20 @@ body.render #ui{display:none}
     <circle id="lgdot" cx="54" cy="62" r="4.5" fill="#D9E6FF"/>
   </svg>
   <div id="word" class="a"></div>
-  <div id="tag" class="a">The offline 911 dispatcher, in your pocket.</div>
+  <div id="tag" class="a">The 911 dispatcher that lives on your phone.</div>
   <div id="chips1" class="a">
-    <span class="chip"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>Airplane mode</span>
-    <span class="chip"><svg viewBox="0 0 24 24"><path d="M17.71 7.71 12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/></svg>Bluetooth on</span>
-    <span class="chip">AI on the phone</span>
-    <span class="chip">No towers needed</span>
+    <span class="chip"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>Works in airplane mode</span>
+    <span class="chip" style="color:var(--ai);border-color:rgba(185,166,255,.5)">Local AI, no cloud</span>
+    <span class="chip"><svg viewBox="0 0 24 24"><path d="M17.71 7.71 12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/></svg>Bluetooth beacon</span>
   </div>
 
-  <!-- transcript (S3 → S4) -->
-  <div id="txk" class="a kick">A panicked report · in Taglish</div>
+  <!-- C: report -->
+  <div id="txk" class="a kick">Just talk · panic, Taglish, corrections and all</div>
   <div id="tx" class="a"></div>
   <div id="txen" class="a">"Help! The house collapsed, we're trapped on the second floor, by the bathroom. Three of us, no wait, four, grandma too. I can't move my leg… so much blood on my child's head!"</div>
 
-  <!-- S4 AI -->
-  <div id="s4k" class="a kick" style="color:var(--ai)">Inside the phone · zero internet</div>
+  <!-- D: AI -->
+  <div id="s4k" class="a kick" style="color:var(--ai)">Inside the phone · offline Whisper → EmbeddingGemma · zero internet</div>
   <svg id="flow" class="a" viewBox="0 0 1920 1080"></svg>
   <div id="model" class="a">
     <h4>EmbeddingGemma</h4>
@@ -246,67 +270,59 @@ body.render #ui{display:none}
     <div class="m2"><span>768-dim meaning vector</span><span id="ms">0 ms</span></div>
   </div>
   <div id="outs" class="a">
-    <div class="orow"><label>hazard</label><span class="oc">COLLAPSE</span></div>
-    <div class="orow"><label>trapped</label><span class="oc">YES</span></div>
-    <div class="orow"><label>place</label><span class="oc">FLOOR 2</span><span class="oc">BATHROOM</span></div>
-    <div class="orow"><label>people</label><span class="oc">4</span></div>
-    <div class="orow"><label>condition</label><span class="oc r">PINNED</span><span class="oc r">HEAVY BLEEDING</span></div>
-    <div class="orow"><label>vulnerable</label><span class="oc v">CHILD</span><span class="oc v">ELDERLY</span></div>
+    <!-- sources as measured on the S24 (train/model/eval_log.txt, report #0): rules got every field; the AI heads alone got these four -->
+    <div class="orow"><label>hazard</label><span class="oc">COLLAPSE</span><span class="sg ai">RULES + AI</span></div>
+    <div class="orow"><label>trapped</label><span class="oc">YES</span><span class="sg ai">RULES + AI</span></div>
+    <div class="orow"><label>place</label><span class="oc">FLOOR 2</span><span class="oc">BATHROOM</span><span class="sg">RULES</span></div>
+    <div class="orow"><label>people</label><span class="oc">4</span><span class="sg">RULES</span></div>
+    <div class="orow"><label>condition</label><span class="oc r">PINNED</span><span class="oc r">HEAVY BLEEDING</span><span class="sg ai">RULES + AI</span></div>
+    <div class="orow"><label>vulnerable</label><span class="oc v">CHILD</span><span class="oc v">ELDERLY</span><span class="sg ai">RULES + AI</span></div>
   </div>
   <div id="stamp" class="a"><span class="rb">RED</span><span class="rl">triage rule, not AI<br>life threat → top of<br>every rescuer's list</span></div>
-  <div id="kw" class="a"><div class="l">Keyword list alone</div><div class="v">3 people · no injuries ✗</div></div>
-  <div id="cap4" class="a">Rules decide first. <b>On-device AI catches what word lists miss.</b> It only picks from closed lists.</div>
-  <div id="cap4b" class="a">Why local? <b>When the towers fall, there is no cloud.</b></div>
+  <div id="cap4" class="a">Rules read the exact facts: headcount, floor, room. <b>The on-device AI reads meaning</b>, and only picks from closed lists.</div>
+  <div id="cap4b" class="a">Why local? After Typhoon Odette, Siargao's first word out took <b>nearly 24 hours, by satellite phone.</b><br><span style="color:var(--mute);font-size:24px">Cloud AI needs the signal that just died. Saklolo doesn't.</span></div>
 
-  <!-- S5 training -->
-  <div id="s5k" class="a kick">How Saklolo's local AI was trained</div>
-  <div id="count" class="a">0</div>
-  <div id="count5" class="a sub">labeled emergency reports · English · Filipino · Taglish</div>
-  <div id="pipe" class="a">
-    <span class="chip">phrase banks</span><span class="ar">→</span>
-    <span class="chip">labeled reports</span><span class="ar">→</span>
-    <span class="chip" style="color:var(--ai);border-color:rgba(185,166,255,.5)">EmbeddingGemma vectors</span><span class="ar">→</span>
-    <span class="chip" style="color:var(--teal);border-color:rgba(127,214,208,.5)">110 KB classifier heads</span>
-  </div>
-  <div id="morphk" class="a kick">Taught to read how people actually type in a crisis</div>
-  <div id="morph" class="a"></div>
-  <div id="morphtag" class="a"><span class="chip">original</span><span class="chip">text-speak</span><span class="chip">typos</span><span class="chip">all caps</span><span class="chip">no punctuation</span></div>
-  <div id="morphlab" class="a"><span class="oc">TRAPPED</span><span class="oc">FLOOR 2</span><span class="oc r">HEAVY BLEEDING</span></div>
-  <div id="morphnote" class="a sub">Same meaning, same labels, every time.</div>
-  <div id="res" class="a">
-    <div class="kick rk">Graded on reports it never trained on</div>
-    <div class="h2">Hard cases, whole record correct</div>
-    <div id="bars2">
-      <div class="br"><div class="bl"><span>Keyword rules only</span><b id="pA">0%</b></div><div class="tr"><i id="bA" style="background:#5B6573"></i></div></div>
-      <div class="br"><div class="bl"><span>Rules + on-device AI</span><b id="pB">0%</b></div><div class="tr"><i id="bB" style="background:linear-gradient(90deg,var(--ai),var(--teal))"></i></div></div>
-    </div>
-    <div id="stats">
-      <div class="st"><b>0</b><span>wrong life-threat labels<br>(not breathing, unconscious, bleeding)</span></div>
-      <div class="st"><b>8/8</b><span>unclear answers took<br>the safer branch</span></div>
-      <div class="st"><b>~1 s</b><span>per report, phone CPU,<br>180 MB model</span></div>
-    </div>
-    <div id="resnote">29 hard cases written apart from training · Samsung S24 Ultra · measured 2026-10-10</div>
-  </div>
+  <!-- D2: the AI proof (hard-case set #4, rules=false ai=true on the S24) -->
+  <div id="pfk" class="a kick">But people under stress don't say the keyword</div>
+  <div id="pft" class="a">"Ang dami pong lumalabas na dugo sa hita ni kuya, basang&#8209;basa na yung tuwalya."</div>
+  <div id="pfe" class="a">"So much blood is coming out of my brother's thigh, the towel is soaked."</div>
+  <div id="pfa" class="a"><div class="l">Saklolo's rules</div><div class="v">No life threat found ✗</div></div>
+  <div id="pfb" class="a"><div class="l">On-device AI · EmbeddingGemma</div><div class="v">HEAVY BLEEDING ✓</div><small>→ RED · bleeding control starts first</small></div>
+  <div id="pfn" class="a">Rules first. <b>The AI catches what the rules can't</b>, and has never overridden a correct rule.</div>
+  <div id="pfm" class="a">Hard cases: rules alone 28% → <b>41%</b> with on-device AI · <b>0</b> wrong life-threat labels</div>
+  <div id="pfs" class="a src">Real result on the phone · hard-case set, never trained on · Samsung S24 Ultra · 2026-10-10</div>
 
-  <!-- S6 instruct + bytes -->
-  <div id="s6k" class="a kick" style="color:var(--red)">Instant first aid · it never waits for the AI</div>
-  <div id="s6h" class="a h2">Life-threat first.<br>Spoken out loud.</div>
-  <div id="s6s" class="a sub">Approved, step-by-step protocols in English, with Filipino one tap away.</div>
-  <div id="s6k2" class="a kick" style="color:var(--amber)">Myth-buster</div>
-  <div id="s6h2" class="a h2">Dangerous instincts,<br>stopped.</div>
-  <div id="s6s2" class="a sub">The AI matches the question to a reviewed answer, or says nothing. Never a made-up one.</div>
-  <div id="s6bh" class="a h1">Everything a rescuer needs.<br><span style="color:var(--teal)">22 bytes.</span></div>
+  <!-- F: for the person trapped -->
+  <div id="vik" class="a kick" style="color:var(--red)">For the person trapped</div>
+  <div id="vih" class="a h2">Not alone, even with zero bars.</div>
+  <div id="vi1" class="a vi" style="top:390px"><div class="ix" style="background:rgba(232,51,61,.16);color:#FF8A90">+</div><div><b>First aid spoken aloud, in seconds</b><span>Life threats first. Hours before any rescuer can arrive.</span></div></div>
+  <div id="vi2" class="a vi" style="top:530px"><div class="ix" style="background:rgba(255,197,61,.16);color:var(--amber)">!</div><div><b>Deadly instincts, stopped</b><span>"Light a lighter to see?" No. There may be gas.</span></div></div>
+
+  <!-- G: bytes -->
+  <div id="s6bh" class="a h1">Their whole emergency.<br><span style="color:var(--teal)">22 bytes.</span></div>
   <div id="bytes" class="a"></div>
-  <div id="bylab" class="a"></div>
-  <div id="s6bs" class="a sub">Broadcast over Bluetooth, phone in airplane mode, duty-cycled to last the golden 72 hours.</div>
+  <div id="s6bs" class="a sub">22 bytes over Bluetooth. No towers, no internet.</div>
   <div id="rings" class="a"></div>
   <div id="dot" class="a"></div>
 
-  <!-- S7 rescuer copy -->
-  <div id="s7k" class="a kick">Every safe phone becomes a rescuer</div>
-  <div id="s7h" class="a h1">RED goes<br>to the top.</div>
-  <div id="s7s" class="a sub">Ranked by triage, vulnerable people and time waiting. Battery shows whose beacon dies first.</div>
-  <div id="brief" class="a"><div class="kick" style="margin-bottom:24px">Spoken briefing</div><div class="q"></div></div>
+  <!-- H: rescuer map -->
+  <div id="mk" class="a kick" style="color:var(--amber)">For a neighbour or a rescuer</div>
+  <div id="mh1" class="a h2">Today:<br>search blind.</div>
+  <div id="ms1" class="a sub">House by house. Shouting, listening, hoping someone inside is still alive.</div>
+  <div id="mh2" class="a h2" style="font-size:46px">With Saklolo: straight to who needs help most.</div>
+  <div id="rank" class="a">
+    <div class="rk2" style="border-color:var(--red)"><span class="n">4 people · Floor 2, bathroom<span class="d">pinned · heavy bleeding · child · elderly</span></span><span class="tri r">RED</span></div>
+    <div class="rk2" style="border-color:var(--amber)"><span class="n">2 people · Roof<span class="d">water rising · infant · battery 23%</span></span><span class="tri y">YELLOW</span></div>
+    <div class="rk2" style="border-color:var(--amber)"><span class="n">1 person · Floor 1<span class="d">trapped · no injuries reported</span></span><span class="tri y">YELLOW</span></div>
+    <div class="rk2" style="border-color:var(--green)"><span class="n">2 households safe<span class="d">skip, and they can help search</span></span><span class="tri g">SAFE</span></div>
+  </div>
+  <div id="maptag" class="a"></div>
+  <div id="map" class="a"><svg id="mapsvg"></svg></div>
+  <div id="walker" class="a"></div>
+  <div id="mapcnt" class="a"><span id="mc1"></span><span id="mc2"></span></div>
+  <div id="bcap" class="a"></div>
+
+  <!-- I: find -->
   <div id="hc" class="a"><div class="kick">No GPS indoors</div><div class="h2" style="margin-top:20px">Follow the signal.<br>Then make it ring.</div>
     <div id="hcm"><div><i></i><span>COLD</span></div><div><i></i><span>COOL</span></div><div><i></i><span>WARM</span></div><div><i></i><span>HOT</span></div></div></div>
 
@@ -314,13 +330,12 @@ body.render #ui{display:none}
   <div id="rp" class="a phone"></div>
   <div id="tap" class="a"></div>
 
-  <!-- end -->
-  <div id="e1" class="a h1">Every safe phone becomes a rescuer.</div>
-  <div id="e2" class="a">Bayanihan, with no towers.</div>
+  <!-- K: end -->
   <svg id="elogo" class="a" viewBox="0 0 108 108"><use href="#lgbg"/><g fill="none" stroke="#D9E6FF" stroke-linecap="round" stroke-linejoin="round"><path d="M28,56 L54,32 L80,56 M36,50 L36,76 L72,76 L72,50" stroke-width="5"/><path d="M44.1,52.1 A14,14 0 0,1 63.9,52.1 M48.34,56.34 A8,8 0 0,1 59.66,56.34" stroke-width="4"/></g><circle cx="54" cy="62" r="4.5" fill="#D9E6FF"/></svg>
   <div id="eword" class="a">Saklolo</div>
-  <div id="efoot" class="a"><span class="chip">Offline</span><span class="chip">On-device AI</span><span class="chip">Bluetooth beacon</span><span class="chip">English · Filipino · Taglish</span></div>
-  <div id="edisc" class="a">Hackathon prototype · demo, not medically reviewed</div>
+  <div id="e2" class="a">The 911 dispatcher that still works when 911 can't.</div>
+  <div id="e3" class="a">Any phone nearby, a neighbour's or a rescuer's, can find you.</div>
+  <div id="edisc" class="a">Hackathon prototype · demo, not medically reviewed · sources: MMEIRS 2004, Inquirer (Odette, Dec 2021)</div>
 
   <div id="grain"></div><div id="vign"></div><div id="flash"></div><div id="fade"></div>
 </div>
@@ -335,10 +350,8 @@ const E = {
   out: x => 1 - Math.pow(1 - x, 3),
   io: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
   back: x => { const c = 1.9, c3 = c + 1; return 1 + c3 * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); },
-  expo: x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x),
 };
 const P = (t, a, b, e = E.lin) => e(cl((t - a) / (b - a)));
-// keyframes: [[time, value, ease?], ...]
 function kf(t, k, e = E.io) {
   if (t <= k[0][0]) return k[0][1];
   for (let i = 1; i < k.length; i++) if (t <= k[i][0]) {
@@ -347,18 +360,17 @@ function kf(t, k, e = E.io) {
   }
   return k[k.length - 1][1];
 }
-function set(el, { o = 1, x = 0, y = 0, s = 1, r = 0, blur = 0 } = {}) {
+function set(el, { o = 1, x = 0, y = 0, s = 1, blur = 0 } = {}) {
   el.style.opacity = o;
   el.style.visibility = o < .002 ? 'hidden' : 'visible';
-  el.style.transform = `translate(${x}px,${y}px) scale(${s}) rotate(${r}deg)`;
+  el.style.transform = `translate(${x}px,${y}px) scale(${s})`;
   el.style.filter = blur > .05 ? `blur(${blur}px)` : 'none';
 }
 // enter at a, leave at b: lift + de-blur in, soft blur out
-function rise(el, t, a, b, { dy = 36, dur = .6, out = .4, x = 0, s = 1 } = {}) {
+function rise(el, t, a, b, { dy = 36, dur = .55, out = .35, x = 0, s = 1 } = {}) {
   const i = E.out(cl((t - a) / dur)), o = b == null ? 0 : E.io(cl((t - b) / out));
   set(el, { o: i * (1 - o), x, y: (1 - i) * dy - o * 20, blur: (1 - i) * 12 + o * 10, s });
 }
-// deterministic pseudo-random
 const rnd = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 
 /* ---------- build DOM ---------- */
@@ -377,39 +389,41 @@ $('vp').innerHTML = `<div class="scr">${SB('78%')}
   <div class="pane" id="vB">${HD}
     <div style="display:flex;gap:10px;margin-top:22px;align-items:center"><span class="pill"><i></i>BEACON ON</span><span class="tri y" id="vtri">YELLOW</span></div>
     <div style="margin-top:34px;font-size:30px;font-weight:800">Tell me what happened.</div>
-    <div style="margin-top:6px;font-size:19px;color:var(--mute)">Any language. Just talk.</div>
-    <div class="mic" style="top:250px"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg></div>
+    <div style="margin-top:6px;font-size:19px;color:var(--mute)">Any language. Just talk.<br><span style="font:600 14px JetBrains Mono;color:var(--teal)">OFFLINE WHISPER · NO SIGNAL NEEDED</span></div>
+    <div class="mic"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg></div>
     <div class="wave" id="vwave"></div>
     <div class="mtx" id="vmtx"></div></div>
   <div class="pane" id="vC" style="padding-top:0">
     <div class="band">Heavy bleeding<small>STEP 1 / 4</small></div>
-    <div class="step">Press hard on the wound with a cloth.</div>
+    <div id="vstep"><div class="step">Press hard on the wound with a cloth.</div>
     <div class="spk">${ICON_SPK}<span>SPEAKING…</span></div>
-    <div class="next">Next: Use both hands and your body weight.</div>
+    <div class="next">Next: Use both hands and your body weight.</div></div>
     <div class="bub" id="vq">Pwede bang sindihan ang lighter para makakita?</div>
     <div class="ans" id="va"><b>No.</b><p>Never light a lighter, match or candle. Gas may be leaking and one spark can explode. Use your phone's light.</p><small>APPROVED ANSWER · MATCHED ON DEVICE</small></div>
+    <div class="btnrow"><div class="btn">Ask a question</div><div class="btn r">Call 911</div></div>
   </div>
   <div class="help" id="vH"><span class="pill" style="background:rgba(255,255,255,.14);color:#fff"><i style="background:#fff"></i>BEACON ON · AIRPLANE MODE</span>
-    <h3>Help is on the way.</h3><p>A rescuer heard your beacon and is coming to you. Keep your phone on. Stay where you are.</p></div>
+    <h3>Help is on the way.</h3><p>A rescuer heard your beacon and is coming to you. Keep your phone on. Stay where you are.</p>
+    <div id="vok" style="position:absolute;left:50%;top:600px;width:150px;height:150px;margin-left:-75px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;font:900 76px Archivo;color:#fff">✓</div></div>
   <div class="strobe" id="vS">RINGING</div>
 </div>`;
 
 $('rp').innerHTML = `<div class="scr">${SB('91%')}
-  <div class="pane" id="rA">${HD}
-    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:20px"><span style="font-size:28px;font-weight:800">Nearby beacons</span><span style="font:600 15px 'JetBrains Mono';color:var(--green)">SAFE · 12</span></div>
-    <div class="row" id="rr1" style="border-color:var(--red)"><div class="t"><span>4 people · Floor 2</span><span class="tri r">RED</span></div><div class="d">Bathroom · pinned · heavy bleeding<br>child · elderly · trapped</div><div class="m">COLLAPSE · 🔋78% · HEARD 4 S AGO</div></div>
-    <div class="row" id="rr2" style="border-color:var(--amber)"><div class="t"><span>2 people · Roof</span><span class="tri y">YELLOW</span></div><div class="d">Water rising · infant</div><div class="m">FLOOD · 🔋23% · HEARD 1 MIN AGO</div></div>
-    <div class="row" id="rr3" style="border-color:var(--amber)"><div class="t"><span>1 person · Floor 1</span><span class="tri y">YELLOW</span></div><div class="d">Trapped · no injuries reported</div><div class="m">COLLAPSE · 🔋54% · HEARD 2 MIN AGO</div></div>
-  </div>
-  <div class="pane" id="rB">${HD}
+  <div class="pane">${HD}
     <div style="display:flex;gap:10px;align-items:center;margin-top:20px"><span class="tri r">RED</span><span style="font-size:26px;font-weight:800">4 people · Floor 2</span></div>
     <div style="font-size:19px;color:var(--mute);margin-top:8px">Bathroom · pinned · heavy bleeding · child · elderly</div>
     <div style="margin-top:26px;font:600 15px 'JetBrains Mono';color:var(--mute);letter-spacing:.1em">SIGNAL · NO GPS FIX</div>
     <div class="meter" id="rmeter"><i></i><i></i><i></i><i></i></div>
     <div style="display:flex;justify-content:space-between;font:700 13px 'JetBrains Mono';color:var(--dim);margin-top:8px"><span>COLD</span><span>HOT</span></div>
+    <div style="margin-top:34px;font-size:22px;line-height:1.4;color:var(--ice)">Walk slowly. The meter warms as you get closer.</div>
+    <div style="margin-top:10px;font:600 14px 'JetBrains Mono';color:var(--dim)">SMOOTHED BLUETOOTH SIGNAL · 4 BANDS</div>
     <div class="btnrow"><div class="btn" id="rring" style="border-color:var(--amber);color:var(--amber)">Ring phone</div><div class="btn s" id="romw">On my way</div></div>
   </div>
 </div>`;
+
+// neighbourhood for "today" split
+$('hood').innerHTML = '<div>?</div>'.repeat(32);
+const hoodEls = [...$('hood').children];
 
 // transcript words; k = keyword (highlight), x = struck (self-correction)
 const TX = [['Tulong!'], ['Gumuho', 'k'], ['ang'], ['bahay,', 'k'], ['naipit', 'k'], ['kami'], ['sa'], ['ikalawang', 'k'], ['palapag,', 'k'], ['sa'], ['may'], ['banyo.', 'k'],
@@ -417,294 +431,317 @@ const TX = [['Tulong!'], ['Gumuho', 'k'], ['ang'], ['bahay,', 'k'], ['naipit', '
   ['ang'], ['daming', 'k'], ['dugo', 'k'], ['sa'], ['ulo'], ['ng'], ['anak', 'k'], ['ko!']];
 $('tx').innerHTML = TX.map(([w, c]) => `<span class="${c === 'k' ? 'k' : c === 'x' ? 'k x' : ''}">${w}</span>`).join('');
 const txw = [...$('tx').children];
-$('vmtx').textContent = TX.map(w => w[0]).join(' ');
-
 $('vwave').innerHTML = '<i></i>'.repeat(28);
 const waveBars = [...$('vwave').children];
-
 $('word').innerHTML = [...'Saklolo'].map(c => `<span>${c}</span>`).join('');
 const wordL = [...$('word').children];
-
-// vector: 96 bars standing in for 768 dims
 $('vec').innerHTML = '<i></i>'.repeat(96);
 const vecB = [...$('vec').children];
 
 // training snippets: real lines from train/reports.jsonl
-const SN = [["hindi sumasagot si nanay pag tinatawag", "UNCONSCIOUS"], ["saklolo, tapos earthquake, everything fell", "COLLAPSE"], ["Tulong po!, abot dibdib na ang baha", "FLOOD"], ["lumindol nang malakas at in the bedroom", "COLLAPSE"], ["nadaganan ng aparador buntis kong asawa", "PINNED"], ["God help us pero mud came down the hill", "LANDSLIDE"], ["hindi gumagalaw ang dibdib ni tatay kong naka-wheelchair", "NOT_BREATHING"], ["GUMUHO ANG BUNDOK SA LIKOD NAMIN", "LANDSLIDE"], ["sa kwarto the door is blocked we are six pls hurry", "TRAPPED"], ["MY COWORKER IS BLEEDING BADLY", "HEAVY_BLEEDING"], ["kasama namin my wife pero umapaw ang ilog", "FLOOD"], ["stuck kmi dito at aq lang mag-isa", "TRAPPED"], ["yung bulag naming kasama passed out", "UNCONSCIOUS"], ["malalim ang sugat ni my husband at dumudugo", "HEAVY_BLEEDING"], ["hindi maigalaw ni si tito ang paa", "PINNED"], ["PAKI-RESCUE PO. NAIPIT ANG KAMAY KO", "PINNED"], ["paki-rescue po, natabunan ng lupa ang bahay", "LANDSLIDE"], ["storm surge hit our village pero god help us", "FLOOD"], ["HINDI TUMITIGIL ANG DUGO NI KAPATID KONG PWD", "HEAVY_BLEEDING"], ["DALUYONG SA TABING DAGAT UNDER THE TABLE", "FLOOD"], ["HELP, WITH MY 80 YEAR OLD DAD, TWO OF US", "ELDERLY"], ["si ate na buntis won't wake up", "UNCONSCIOUS"], ["TULONG PO TRAPPED INSIDE LUMINDOL AT BUMIGAY ANG PADER", "COLLAPSE"], ["MUD CAME DOWN THE HILL PERO DI NA KAMI MAKABABA", "LANDSLIDE"], ["okay lang kami. sa ilalim ng mesa. please send a boat", "FLOOD"], ["natabunan ng lupa ang bahay. rescue needd", "LANDSLIDE"], ["hnd namin maais ung nakaharang", "TRAPPED"], ["my husband's leg is pinned under the wall", "PINNED"], ["bumagsak ang pader pagkatapos ng lindol. saklolo", "COLLAPSE"], ["nag-crack at bumagsak ang dingding", "COLLAPSE"], ["pls rt putik ang pumasok sa kusina", "LANDSLIDE"], ["hnd kmi makalabas, si tito got burned", "INJURED"], ["ang daming dugo my deaf brother", "HEAVY_BLEEDING"], ["basang-basa ng dugo ang damit ni ang pamangkin ko", "HEAVY_BLEEDING"], ["Please help sa attic pataas nang pataas ang baha", "WATER_RISING"], ["tatlo kami dito sa ilalim ng mesa", "TRAPPED"], ["mudslide sa barangay namin pero [address]", "LANDSLIDE"], ["my newborn is awake and talking", "INFANT"], ["send help asap pero sa ikalawang palapag", "TRAPPED"], ["nagkaroon ng landslide, tapos please po", "LANDSLIDE"]];
-const NCOL = 5;
-$('snips').innerHTML = Array.from({ length: NCOL }, (_, c) => '<div class="col">' +
-  Array.from({ length: 16 }, (_, i) => { const s = SN[(c * 7 + i * 3) % SN.length]; return `<div>${s[0]}<em>→ ${s[1]}</em></div>`; }).join('') + '</div>').join('');
-const cols = [...$('snips').children].map(c => [...c.children]);
-
-const MORPH = ['Naipit kami sa 2nd floor, may dugo.', 'naipit kmi s 2nd flr my dugo', 'naipt kami sa 2nd flor may dugoo', 'NAIPIT KAMI SA 2ND FLOOR MAY DUGO!!!', 'naipit kami sa 2nd floor may dugo'];
-const mtags = [...$('morphtag').children];
 
 // the real record, Record.encode(): v1 · id · lat/lon NO_FIX (indoors) · kind · people · vuln · cond · place · battery · rev · age
 const BY = ['10', '5A', '4B', '1C', '07', '80', '00', '00', '00', '80', '00', '00', '00', '0A', '04', '06', '0C', '21', '4E', '02', '00', 'B4'];
-const BYC = i => i === 0 ? '#5B6573' : i < 5 ? '#5B6573' : i < 13 ? '#7FD6D0' : i === 13 ? '#E8333D' : i === 14 ? '#D9E6FF' : i === 15 ? '#FFC53D' : i === 16 ? '#E8333D' : i === 17 ? '#B9A6FF' : i === 18 ? '#2FB36A' : '#5B6573';
+const BYC = i => i < 5 ? '#5B6573' : i < 13 ? '#7FD6D0' : i === 13 ? '#E8333D' : i === 14 ? '#D9E6FF' : i === 15 ? '#FFC53D' : i === 16 ? '#E8333D' : i === 17 ? '#B9A6FF' : i === 18 ? '#2FB36A' : '#5B6573';
 $('bytes').innerHTML = BY.map((b, i) => `<div class="by" style="border-color:${BYC(i)}55">${b}</div>`).join('');
 const byEls = [...$('bytes').children];
-const X0 = (1920 - (22 * 64 + 21 * 8)) / 2, cellX = i => X0 + i * 72;
-const LABS = [[1, 4, 'phone id'], [5, 12, 'no GPS fix: indoors'], [13, 13, 'collapse\nRED\ntrapped'], [14, 14, '4\npeople'], [15, 15, 'child\nelderly'], [16, 16, 'pinned\nbleeding'], [17, 17, 'floor 2\nbathroom'], [18, 18, 'battery\n78%'], [19, 21, 'rev · age']];
-$('bylab').innerHTML = LABS.map(([a, b, l]) => `<div style="left:${cellX(a)}px;width:${(b - a) * 72 + 64}px;border-color:${BYC(a)};color:${BYC(a) === '#5B6573' ? '#8C9BB5' : BYC(a)}">${l.replace(/\n/g, '<br>')}</div>`).join('');
-const labEls = [...$('bylab').children];
-
+const X0 = (1920 - (22 * 70 + 21 * 8)) / 2, cellX = i => X0 + i * 78;
 $('rings').innerHTML = '<div class="ring"></div>'.repeat(5);
 const ringEls = [...$('rings').children];
 
-const BRIEF = 'RED. Four people, second floor, bathroom. One pinned, heavy bleeding. A child and an elderly person.'.split(' ');
-$('brief').querySelector('.q').innerHTML = BRIEF.map(w => `<span>${w}</span>`).join('');
-const briefW = [...$('brief').querySelectorAll('.q span')];
+// map: 10 × 5 neighbourhood. Beacons: RED (3,7), YELLOW (1,4) and (4,2), SAFE (0,8) and (2,1)
+const MC = 10, MR = 5, hx = c => c * 108 + 22, hy = r => r * 116 + 30;
+const HOUSE = '<svg viewBox="0 0 64 64"><path d="M6 30 L32 8 L58 30 V58 H6 Z" fill="rgba(217,230,255,.05)" stroke="rgba(217,230,255,.22)" stroke-width="2.5" stroke-linejoin="round"/></svg>';
+const BEA = { '3,7': ['RED', '#E8333D', '4 · FLOOR 2'], '1,4': ['YELLOW', '#FFC53D', '2 · ROOF'], '4,2': ['YELLOW', '#FFC53D', '1 · FLOOR 1'], '0,8': ['SAFE', '#2FB36A', 'SAFE'], '2,1': ['SAFE', '#2FB36A', 'SAFE'] };
+let mh = '';
+for (let r = 0; r < MR; r++) for (let c = 0; c < MC; c++) mh += `<div class="hs" data-k="${r},${c}" style="left:${hx(c)}px;top:${hy(r)}px">${BEA[r + ',' + c] ? `<div class="halo" style="border-color:${BEA[r + ',' + c][1]}"></div>` : ''}${HOUSE}<div class="q">?</div>${BEA[r + ',' + c] ? `<div class="tg" style="background:${BEA[r + ',' + c][1]};color:${BEA[r + ',' + c][0] === 'RED' ? '#fff' : '#111'}">${BEA[r + ',' + c][2]}</div>` : ''}</div>`;
+$('map').insertAdjacentHTML('beforeend', mh);
+const houses = [...$('map').querySelectorAll('.hs')];
+const house = (r, c) => houses[r * MC + c];
+// blind search: serpentine, row by row, one house every 0.19 s
+const SERP = [];
+for (let r = 0; r < MR; r++) for (let i = 0; i < MC; i++) SERP.push([r, r % 2 ? MC - 1 - i : i]);
+const MAPX = 720, MAPY = 250, hcx = c => MAPX + hx(c) + 32, hcy = r => MAPY + hy(r) + 32;
+const START = [MAPX - 20, hcy(0)];
+$('mapsvg').innerHTML = `<path id="direct" d="M ${START[0] - MAPX} ${START[1] - MAPY} C ${hx(0) - 10} ${hy(3) + 62}, ${hx(3)} ${hy(3) + 62}, ${hx(7) + 32} ${hy(3) + 32}" fill="none" stroke="#E8333D" stroke-width="5" stroke-linecap="round" pathLength="1" stroke-dasharray="1"/>
+  <path id="next1" d="M ${hx(7) + 32} ${hy(3) + 32} Q ${hx(6) + 32} ${hy(1) + 32}, ${hx(4) + 32} ${hy(1) + 32}" fill="none" stroke="#FFC53D" stroke-width="3" stroke-dasharray="8 10" opacity="0"/>`;
+
+const BRIEF = '🔊 "RED. Four people, second floor, bathroom. One pinned, heavy bleeding. A child and an elderly person."'.split(' ');
+$('bcap').innerHTML = BRIEF.map(w => `<span>${w}</span>`).join('');
+const briefW = [...$('bcap').children];
 
 // flow lines for the AI scene
-const OUT_Y = [334, 402, 470, 538, 606, 674];
+const OUT_Y = [334, 402, 606, 674]; // hazard, trapped, condition, vulnerable: the rows the AI heads output (place and people are rules)
 $('flow').innerHTML =
   [0, 1, 2, 3, 4].map(i => `<path class="fin" d="M 690 ${360 + i * 60} C 720 ${360 + i * 60}, 730 540, 760 540" fill="none" stroke="#B9A6FF" stroke-width="2" pathLength="1" stroke-dasharray="1"/>`).join('') +
-  OUT_Y.map(y => `<path class="fout" d="M 1160 540 C 1200 540, 1200 ${y}, 1240 ${y}" fill="none" stroke="#7FD6D0" stroke-width="2" pathLength="1" stroke-dasharray="1"/>`).join('') +
+  OUT_Y.map(y => `<path class="fout" d="M 1160 540 C 1195 540, 1195 ${y}, 1228 ${y}" fill="none" stroke="#7FD6D0" stroke-width="2" pathLength="1" stroke-dasharray="1"/>`).join('') +
   [0, 1, 2, 3, 4, 5, 6, 7].map(() => '<circle class="pt" r="5" fill="#fff"/>').join('');
 const fin = [...document.querySelectorAll('.fin')], fout = [...document.querySelectorAll('.fout')], pts = [...document.querySelectorAll('.pt')];
 const orows = [...document.querySelectorAll('.orow')], ochips = orows.map(r => [...r.querySelectorAll('.oc')]);
-
-const el = id => $(id);
 const ALL = [...document.querySelectorAll('#stage .a')];
 
 /* ---------- render(t): every frame is a pure function of time ---------- */
 function render(t) {
   ALL.forEach(e => { e.style.opacity = 0; e.style.visibility = 'hidden'; });
-
-  // background texture
   $('grain').style.transform = `translate(${(rnd(Math.floor(t * 24)) - .5) * 200}px,${(rnd(Math.floor(t * 24) + 9) - .5) * 200}px)`;
-  $('gridbg').style.opacity = 0.5 * P(t, 19, 20) * (1 - P(t, 30.6, 31.2)) + 0.25 * P(t, 31, 32) * (1 - P(t, 39.6, 40.2));
-  $('fade').style.opacity = 1 - P(t, 0, .6) + P(t, 59.3, 60);
+  $('gridbg').style.opacity = 0.5 * P(t, 17, 18) * (1 - P(t, 26, 26.6)) + 0.3 * P(t, 41.2, 42) * (1 - P(t, 49.2, 49.8));
+  $('fade').style.opacity = 1 - P(t, 0, .5) + P(t, 59.4, 60);
+  $('flash').style.opacity = 0;
 
-  /* S1 dead air 0–6 */
-  if (t < 6.2) {
-    const bars = [...$('bars').children];
-    bars.forEach((b, i) => {
-      const d = 0.7 + (3 - i) * 0.42;            // highest bar dies first
-      const dead = P(t, d, d + .25, E.out);
-      b.style.background = dead > .5 ? '#2a3448' : '#D9E6FF';
-      b.style.transform = `scaleY(${1 - dead * .82})`; b.style.transformOrigin = '50% 100%';
+  /* A: today 0–7.6 */
+  if (t < 7.8) {
+    [...$('bars').children].forEach((b, i) => {
+      const d = 0.4 + (3 - i) * .28, dead = P(t, d, d + .2, E.out);
+      b.style.background = dead > .5 ? '#2a3448' : '#D9E6FF'; b.style.transform = `scaleY(${1 - dead * .8})`;
     });
-    set($('bars'), { o: 1 - P(t, 5.0, 5.6), s: 1 - P(t, 5.0, 5.8, E.io) * .3, y: -40 });
-    const flick = t > 2.4 && t < 3.1 ? (Math.floor(t * 14) % 2 ? .3 : 1) : 1;
-    set($('nosvc'), { o: P(t, 2.4, 2.5) * flick * (1 - P(t, 5, 5.5)) });
-    rise($('s1a'), t, 2.8, 5.1);
-    rise($('s1b'), t, 3.4, 5.2, { dy: 50 });
+    set($('bars'), { o: 1 - P(t, 4.1, 4.5) });
+    set($('nosvc'), { o: P(t, 1.5, 1.6) * (t < 2.1 ? (Math.floor(t * 14) % 2 ? .3 : 1) : 1) * (1 - P(t, 4.1, 4.5)) });
+    set($('divide'), { o: P(t, .9, 1.4) * (1 - P(t, 4.1, 4.5)) * .9 });
+    rise($('aV'), t, 0.9, 4.2);
+    rise($('aR'), t, 1.2, 4.2);
+    $('calls').textContent = t < 2.1 ? 'Calling…' : 'Call failed · No service';
+    $('calls').className = 's' + (t < 2.1 ? '' : ' f');
+    hoodEls.forEach((h, i) => { const p = P(t, 1.4 + rnd(i) * .9, 1.8 + rnd(i) * .9); h.style.opacity = p; h.style.color = (Math.sin(t * 3 + i) > .6) ? '#8C9BB5' : ''; });
+    rise($('stat'), t, 4.5, 7.3, { dy: 30 });
+    $('statn').textContent = Math.round(170000 * P(t, 4.6, 5.6, E.out)).toLocaleString('en-US');
   }
 
-  /* S2 logo 5.6–10.2 */
-  if (t > 5.4 && t < 10.6) {
-    const lt = t - 5.8;
-    const s = kf(t, [[5.8, .2], [6.5, 1, E.back], [9.4, 1.04, E.lin], [10.1, .4]]);
-    set($('logo'), { o: P(t, 5.8, 6.1) * (1 - P(t, 9.8, 10.2)), s, y: kf(t, [[9.4, 0], [10.1, -180]]) });
-    $('lghouse').style.strokeDashoffset = 1 - P(t, 6.0, 7.0, E.io);
-    $('lgdot').style.opacity = P(t, 7.0, 7.2);
-    const pulse = k => { const c = ((lt - 1.3 - k * .18) % 1.2 + 1.2) % 1.2; return lt < 1.3 + k * .18 ? 0 : (c < .25 ? 1 : 1 - (c - .25) / .95 * .7); };
+  /* B: logo 7.4–10.2 */
+  if (t > 7.3 && t < 10.4) {
+    set($('logo'), { o: P(t, 7.5, 7.8) * (1 - P(t, 9.7, 10.1)), s: kf(t, [[7.5, .3], [8.1, 1, E.back]]) });
+    $('lghouse').style.strokeDashoffset = 1 - P(t, 7.6, 8.4, E.io);
+    $('lgdot').style.opacity = P(t, 8.3, 8.45);
+    const pulse = k => { const lt = t - 8.4 - k * .18, c = ((lt % 1.1) + 1.1) % 1.1; return lt < 0 ? 0 : (c < .25 ? 1 : 1 - (c - .25) / .85 * .7); };
     $('lgarc1').style.opacity = pulse(0); $('lgarc2').style.opacity = pulse(1);
-    wordL.forEach((w, i) => {
-      const p = P(t, 7.0 + i * .05, 7.6 + i * .05, E.out);
-      w.style.transform = `translateY(${(1 - p) * 60}px)`; w.style.opacity = p;
-    });
-    set($('word'), { o: 1 - P(t, 9.6, 10.0), blur: P(t, 9.6, 10) * 10 });
-    rise($('tag'), t, 7.7, 9.6);
-    rise($('chips1'), t, 8.2, 9.7, { dy: 24 });
+    wordL.forEach((w, i) => { const p = P(t, 7.9 + i * .04, 8.4 + i * .04, E.out); w.style.transform = `translateY(${(1 - p) * 50}px)`; w.style.opacity = p; });
+    set($('word'), { o: 1 - P(t, 9.7, 10.1), blur: P(t, 9.7, 10.1) * 10 });
+    rise($('tag'), t, 8.4, 9.75);
+    rise($('chips1'), t, 8.8, 9.8, { dy: 20 });
   }
 
   /* victim phone */
   const vp = $('vp');
-  if (t > 9.6 && t < 19.8) {
-    set(vp, { o: P(t, 9.8, 10.4), x: 330, y: kf(t, [[9.8, 300], [10.6, 110, E.out]]) + kf(t, [[18.8, 0], [19.6, 0]]), s: 1 });
-    if (t > 18.9) set(vp, { o: 1 - P(t, 18.9, 19.6), x: 330 - P(t, 18.9, 19.6, E.io) * 400, y: 110, blur: P(t, 18.9, 19.6) * 8 });
+  if (t > 9.6 && t < 17.6) {
+    set(vp, { o: P(t, 9.8, 10.2), x: 330, y: kf(t, [[9.8, 260], [10.4, 110, E.out]]) });
+    if (t > 16.4) set(vp, { o: 1 - P(t, 16.4, 17.0), x: 330 - P(t, 16.4, 17.0, E.io) * 400, y: 110, blur: P(t, 16.4, 17) * 8 });
   }
-  if (t > 39.6 && t < 44.6) set(vp, { o: P(t, 39.8, 40.3) * (1 - P(t, 44.0, 44.5)), x: 330 + (1 - P(t, 39.8, 40.5, E.out)) * -300 - P(t, 44, 44.5, E.io) * 300, y: 110 });
-  if (t > 52.6 && t < 59.9) {
-    const toC = P(t, 55.3, 56.1, E.io);
-    set(vp, { o: P(t, 52.7, 53.1) * (1 - P(t, 57.5, 58.0)), x: 1380 + (750 - 1380) * toC + (1 - P(t, 52.7, 53.2, E.out)) * 300, y: 110, s: .86 + .14 * toC });
+  if (t > 32.3 && t < 38.9) set(vp, { o: P(t, 32.5, 33.0) * (1 - P(t, 38.3, 38.8)), x: 330 + (1 - P(t, 32.5, 33.2, E.out)) * -300 - P(t, 38.3, 38.8, E.io) * 300, y: 110 });
+  if (t > 52.0 && t < 59.0) {
+    const toC = P(t, 55.3, 56.0, E.io);
+    set(vp, { o: P(t, 52.1, 52.5) * (1 - P(t, 56.9, 57.3)), x: 1380 + (750 - 1380) * toC + (1 - P(t, 52.1, 52.6, E.out)) * 300, y: 110, s: .86 + .14 * toC });
   }
-  // victim screens
-  const sA = $('vA'), sB = $('vB'), sC = $('vC');
-  sA.style.opacity = 1 - P(t, 12.3, 12.5);
-  sB.style.opacity = P(t, 12.3, 12.5) * (t < 30 ? 1 : 0);
-  sC.style.opacity = t > 30 ? 1 : 0;
-  const hold = P(t, 10.8, 12.1, E.lin);
+  $('vA').style.opacity = 1 - P(t, 11.3, 11.5);
+  $('vB').style.opacity = P(t, 11.3, 11.5) * (t < 25 ? 1 : 0);
+  $('vC').style.opacity = t > 25 && t < 55.3 ? 1 : 0;
+  const hold = P(t, 10.2, 11.2);
   $('sosp').style.strokeDashoffset = 1 - hold;
-  $('sosb').style.transform = `scale(${1 - hold * .06 + (t > 12.1 && t < 12.3 ? .08 : 0)})`;
-  $('sosl').textContent = t < 10.8 ? 'HOLD 3 SEC' : t < 12.1 ? `SENDING IN ${Math.max(1, 3 - Math.floor(hold * 3))}` : 'SENT';
+  $('sosb').style.transform = `scale(${1 - hold * .06 + (t > 11.2 && t < 11.35 ? .08 : 0)})`;
+  $('sosl').textContent = t < 10.2 ? 'HOLD 3 SEC' : t < 11.2 ? `SENDING IN ${Math.max(1, 3 - Math.floor(hold * 3))}` : 'SENT';
   waveBars.forEach((b, i) => {
-    const talk = P(t, 12.6, 12.9) * (1 - P(t, 17.6, 18));
-    const h = 8 + talk * 80 * Math.abs(Math.sin(t * 9 + i * .7) * Math.sin(t * 3.1 + i * 1.3)) * (0.5 + rnd(i + Math.floor(t * 12)) * .5);
-    b.style.height = h + 'px'; b.style.opacity = .4 + talk * .6;
+    const talk = P(t, 11.5, 11.8) * (1 - P(t, 15.4, 15.8));
+    b.style.height = 8 + talk * 80 * Math.abs(Math.sin(t * 9 + i * .7) * Math.sin(t * 3.1 + i * 1.3)) * (0.5 + rnd(i + Math.floor(t * 12)) * .5) + 'px';
+    b.style.opacity = .4 + talk * .6;
   });
-  $('vmtx').style.opacity = P(t, 13, 13.5) * .9;
-  $('vtri').textContent = t > 17.8 ? 'RED' : 'YELLOW'; $('vtri').className = 'tri ' + (t > 17.8 ? 'r' : 'y');
-  $('vq').style.opacity = P(t, 42.0, 42.3); $('vq').style.transform = `translateY(${(1 - P(t, 42, 42.4, E.out)) * 20}px)`;
-  $('va').style.opacity = P(t, 42.8, 43.1); $('va').style.transform = `translateY(${(1 - P(t, 42.8, 43.2, E.out)) * 20}px)`;
-  sC.querySelector('.step').style.display = sC.querySelector('.next').style.display = sC.querySelector('.spk').style.display = t > 41.9 ? 'none' : '';
-  sC.querySelector('.spk svg').style.opacity = .5 + .5 * Math.abs(Math.sin(t * 6));
-  const ringing = t > 53.2 && t < 55.4;
-  $('vS').style.opacity = ringing ? (Math.floor(t * 8) % 2 ? 1 : 0) : 0;
+  $('vmtx').textContent = TX.slice(0, Math.floor(P(t, 11.6, 15.4) * TX.length + .5)).map(w => w[0]).join(' ');
+  $('vtri').textContent = t > 15.6 ? 'RED' : 'YELLOW'; $('vtri').className = 'tri ' + (t > 15.6 ? 'r' : 'y');
+  $('vstep').style.display = t > 35.0 ? 'none' : '';
+  $('vq').style.opacity = P(t, 35.1, 35.4); $('vq').style.transform = `translateY(${(1 - P(t, 35.1, 35.5, E.out)) * 20}px)`;
+  $('va').style.opacity = P(t, 35.8, 36.1); $('va').style.transform = `translateY(${(1 - P(t, 35.8, 36.2, E.out)) * 20}px)`;
+  $('vS').style.opacity = t > 52.7 && t < 55.3 ? (Math.floor(t * 8) % 2 ? 1 : 0) : 0;
   $('vH').style.opacity = P(t, 55.3, 55.6);
-  // SOS beacon rings off victim phone
-  if (t > 12.1 && t < 19) rings(t, 330 + 210, 110 + 430, 12.1, 1.6, 1 - P(t, 18.4, 19));
-  if (t > 53.2 && t < 55.4) rings(t, 1380 + 210, 110 + 430, 53.2, .5, 1, '#FFFFFF');
+  $('vok').style.transform = `scale(${P(t, 55.7, 56.2, E.back)})`;
+  $('vok').style.boxShadow = `0 0 0 ${18 + 14 * Math.sin(t * 4)}px rgba(255,255,255,.06)`;
+  if (t > 11.2 && t < 17) rings(t, 540, 540, 11.2, 1.6, 1 - P(t, 16.3, 16.9));
+  if (t > 52.7 && t < 55.3) rings(t, 1590, 540, 52.7, .5, 1, '#FFFFFF');
 
-  /* S3 transcript */
-  if (t > 12.3 && t < 31) {
-    rise($('txk'), t, 12.4, 18.8);
-    const n = txw.length, a = 12.7, b = 17.3;
+  /* C: transcript */
+  if (t > 11.3 && t < 26.4) {
+    rise($('txk'), t, 11.4, 16.4);
+    const n = txw.length, a = 11.6, b = 15.4;
     txw.forEach((w, i) => {
-      const ti = a + i * (b - a) / n, p = P(t, ti, ti + .25, E.out);
+      const ti = a + i * (b - a) / n, p = P(t, ti, ti + .22, E.out);
       w.style.opacity = .12 + .88 * p; w.style.filter = p < 1 ? `blur(${(1 - p) * 6}px)` : 'none';
-      const k = w.classList.contains('k'), hi = P(t, 21.0 + i * .03, 21.4 + i * .03);
-      w.style.setProperty('--ho', k ? hi : 0);
-      w.style.setProperty('--hl', w.classList.contains('x') ? 'rgba(232,51,61,.18)' : 'rgba(185,166,255,.28)');
-      w.style.setProperty('--sx', P(t, 22.0, 22.5, E.out));
-      w.style.color = w.classList.contains('x') && t > 22 ? '#8C9BB5' : '';
+      const x = w.classList.contains('x');
+      w.style.setProperty('--ho', w.classList.contains('k') ? P(t, 18.6 + i * .025, 19.0 + i * .025) : 0);
+      w.style.setProperty('--hl', x ? 'rgba(232,51,61,.18)' : 'rgba(185,166,255,.28)');
+      w.style.setProperty('--sx', P(t, 19.4, 19.9, E.out));
+      w.style.color = x && t > 19.4 ? '#8C9BB5' : '';
     });
-    const mv = P(t, 19.0, 20.2, E.io);
+    const mv = P(t, 16.9, 18.0, E.io);
     set($('tx'), { o: 1, x: -780 * mv, y: 40 * mv, s: 1 - .38 * mv });
-    rise($('txen'), t, 15.2, 18.8, { dy: 20 });
-    if (t > 30.2) set($('tx'), { o: 1 - P(t, 30.2, 30.8), x: -780, y: 40, s: .62, blur: P(t, 30.2, 30.8) * 10 });
+    rise($('txen'), t, 13.4, 16.4, { dy: 20 });
+    if (t > 25.6) set($('tx'), { o: 1 - P(t, 25.6, 26.2), x: -780, y: 40, s: .62, blur: P(t, 25.6, 26.2) * 10 });
   }
 
-  /* S4 AI 19–31 */
-  if (t > 19 && t < 31.2) {
-    const out = 30.4;
-    rise($('s4k'), t, 19.6, out);
-    rise($('model'), t, 20.0, out, { dy: 0, s: 1 });
-    $('model').style.transform += ` scale(${kf(t, [[20, .9], [20.8, 1, E.back]])})`;
-    $('model').style.boxShadow = `0 0 ${40 + 60 * P(t, 21.2, 22.6) * (1 - P(t, 23, 24))}px rgba(185,166,255,${.15 + .35 * P(t, 21.2, 22.6) * (1 - P(t, 23, 24))})`;
+  /* D: AI 17–26.5 */
+  if (t > 17 && t < 26.6) {
+    const out = 25.8;
+    rise($('s4k'), t, 17.3, out);
+    rise($('model'), t, 17.6, out, { dy: 0 });
+    $('model').style.transform += ` scale(${kf(t, [[17.6, .9], [18.3, 1, E.back]])})`;
+    const glow = P(t, 18.6, 19.8) * (1 - P(t, 20.2, 21));
+    $('model').style.boxShadow = `0 0 ${40 + 60 * glow}px rgba(185,166,255,${.15 + .35 * glow})`;
     vecB.forEach((b, i) => {
-      const p = P(t, 21.2 + i * .012, 21.6 + i * .012, E.out);
-      const v = (rnd(i * 3.7) - .5) * 2, live = Math.sin(t * 2 + i) * .08;
+      const p = P(t, 18.6 + i * .01, 19.0 + i * .01, E.out), v = (rnd(i * 3.7) - .5) * 2, live = Math.sin(t * 2 + i) * .08;
       b.style.height = (6 + Math.abs(v + live) * 76 * p) * 2 + 'px';
       b.style.background = v > 0 ? `rgba(185,166,255,${.35 + .65 * Math.abs(v)})` : `rgba(127,214,208,${.35 + .65 * Math.abs(v)})`;
       b.style.opacity = .15 + .85 * p;
     });
-    $('ms').textContent = t < 21.2 ? '—' : t < 22.6 ? Math.round(P(t, 21.2, 22.6) * 640) + ' ms' : '640 ms';
-    fin.forEach((p, i) => { p.style.strokeDashoffset = 1 - P(t, 20.4 + i * .08, 21.3 + i * .08, E.io); p.style.opacity = .5 * (1 - P(t, out, out + .4)); });
-    fout.forEach((p, i) => { p.style.strokeDashoffset = 1 - P(t, 22.6 + i * .1, 23.3 + i * .1, E.io); p.style.opacity = .55 * (1 - P(t, out, out + .4)); });
+    $('ms').textContent = t < 18.6 ? '—' : t < 19.8 ? Math.round(P(t, 18.6, 19.8) * 640) + ' ms' : '640 ms';
     set($('flow'), { o: 1 });
+    fin.forEach((p, i) => { p.style.strokeDashoffset = 1 - P(t, 17.9 + i * .07, 18.7 + i * .07, E.io); p.style.opacity = .5 * (1 - P(t, out, out + .4)); });
+    fout.forEach((p, i) => { p.style.strokeDashoffset = 1 - P(t, 19.8 + i * .08, 20.4 + i * .08, E.io); p.style.opacity = .55 * (1 - P(t, out, out + .4)); });
     pts.forEach((c, j) => {
       const inPhase = j < 4, path = inPhase ? fin[j % fin.length] : fout[j % fout.length];
-      const st = inPhase ? 20.8 + j * .22 : 23.0 + (j - 4) * .3, ph = ((t - st) / .9);
-      const L = path.getTotalLength(), pos = path.getPointAtLength(L * (ph - Math.floor(ph)));
-      c.setAttribute('cx', pos.x); c.setAttribute('cy', pos.y);
-      c.style.opacity = t > st && t < out ? .9 : 0;
+      const st = inPhase ? 18.2 + j * .2 : 20.1 + (j - 4) * .25, ph = (t - st) / .8;
+      const pos = path.getPointAtLength(path.getTotalLength() * (ph - Math.floor(ph)));
+      c.setAttribute('cx', pos.x); c.setAttribute('cy', pos.y); c.style.opacity = t > st && t < out ? .9 : 0;
     });
-    set($('outs'), { o: 1 - P(t, out, out + .4) });
+    set($('outs'), { o: P(t, 18.2, 18.7) * (1 - P(t, out, out + .4)) });
     orows.forEach((r, i) => {
-      const a = 22.9 + i * .32;
+      const a = 20.0 + i * .28;
       r.style.opacity = .25 + .75 * P(t, a, a + .2);
-      ochips[i].forEach((c, j) => { const p = P(t, a + j * .12, a + j * .12 + .35, E.back); c.style.transform = `scale(${.4 + .6 * p})`; c.style.opacity = p; });
+      ochips[i].forEach((c, j) => { const p = P(t, a + j * .1, a + j * .1 + .3, E.back); c.style.transform = `scale(${.4 + .6 * p})`; c.style.opacity = p; });
     });
-    rise($('kw'), t, 25.6, out, { dy: 20 });
-    const sp = P(t, 26.7, 27.05, E.out);
+    const sp = P(t, 22.85, 23.2, E.out);
     set($('stamp'), { o: sp * (1 - P(t, out, out + .4)), s: 1.6 - .6 * sp });
-    if (t > 27.05 && t < 27.25) $('flash').style.opacity = .14 * (1 - P(t, 27.05, 27.25)); else $('flash').style.opacity = 0;
-    rise($('cap4'), t, 23.6, 28.2, { dy: 16 });
-    rise($('cap4b'), t, 28.5, out, { dy: 16 });
+    if (t > 23.2 && t < 23.4) $('flash').style.opacity = .14 * (1 - P(t, 23.2, 23.4));
+    rise($('cap4'), t, 20.6, 23.7, { dy: 16 });
+    rise($('cap4b'), t, 23.9, out, { dy: 16 });
   }
 
-  /* S5 training 31–40 */
-  if (t > 30.8 && t < 40.3) {
-    const snipO = P(t, 30.9, 31.6) * (1 - P(t, 34.0, 34.6)) * .55 + P(t, 34.0, 34.6) * (1 - P(t, 36.4, 36.9)) * .14;
-    $('snips').style.opacity = snipO;
-    cols.forEach((c, ci) => c.forEach((d, i) => {
-      const sp = 40 + ci * 9, H = 16 * 70;
-      const y = ((i * 70 - (t - 30) * sp * (ci % 2 ? 1 : 1.3)) % H + H) % H - 70;
-      d.style.top = y + 'px';
-    }));
-    rise($('s5k'), t, 31.1, 34.0);
-    rise($('count'), t, 31.2, 34.0, { dy: 30 });
-    $('count').textContent = Math.round(4371 * P(t, 31.3, 33.0, E.out)).toLocaleString('en-US');
-    rise($('count5'), t, 31.6, 34.0, { dy: 16 });
-    rise($('pipe'), t, 32.3, 34.0, { dy: 16 });
-    [...$('pipe').children].forEach((c, i) => { c.style.opacity = P(t, 32.3 + i * .12, 32.6 + i * .12); });
-    // morph
-    rise($('morphk'), t, 34.2, 36.6);
-    rise($('morph'), t, 34.3, 36.6, { dy: 20 });
-    const mi = Math.min(MORPH.length - 1, Math.floor(P(t, 34.4, 36.4) * MORPH.length));
-    $('morph').textContent = MORPH[mi];
-    mtags.forEach((m, i) => m.classList.toggle('on', i === mi));
-    rise($('morphtag'), t, 34.4, 36.6, { dy: 16 });
-    rise($('morphlab'), t, 34.7, 36.6, { dy: 16 });
-    rise($('morphnote'), t, 35.0, 36.6, { dy: 16 });
-    // results
-    rise($('res'), t, 36.8, 39.8, { dy: 24 });
-    const A = 28 * P(t, 37.3, 38.0, E.out), B = 45 * P(t, 37.7, 38.7, E.out);
-    $('bA').style.transform = `scaleX(${A / 100})`; $('bB').style.transform = `scaleX(${B / 100})`;
-    $('pA').textContent = Math.round(A) + '%'; $('pB').textContent = Math.round(B) + '%';
-    [...$('stats').children].forEach((s, i) => { const p = P(t, 37.6 + i * .3, 38.1 + i * .3, E.out); s.style.opacity = p; s.style.transform = `translateX(${(1 - p) * 40}px)`; });
-  } else $('snips').style.opacity = 0;
+  /* F: for the person trapped 32.5–38.6 */
+  if (t > 32.4 && t < 38.9) {
+    rise($('vik'), t, 32.8, 38.3); rise($('vih'), t, 32.9, 38.3, { dy: 40 });
+    rise($('vi1'), t, 33.5, 38.3, { dy: 24 }); rise($('vi2'), t, 35.1, 38.3, { dy: 24 });
+    $('vi1').style.opacity *= t > 35.1 ? .45 : 1;
+  }
 
-  /* S6 instruct 40–44, bytes 44–46.8 */
-  if (t > 40 && t < 47.6) {
-    rise($('s6k'), t, 40.3, 41.8); rise($('s6h'), t, 40.4, 41.8, { dy: 40 }); rise($('s6s'), t, 40.6, 41.8, { dy: 20 });
-    rise($('s6k2'), t, 42.0, 43.9); rise($('s6h2'), t, 42.1, 43.9, { dy: 40 }); rise($('s6s2'), t, 42.3, 43.9, { dy: 20 });
-    rise($('s6bh'), t, 44.2, 46.4, { dy: 30 });
-    set($('bytes'), { o: 1 }); set($('bylab'), { o: 1 - P(t, 46.2, 46.5) });
-    const conv = P(t, 46.3, 46.8, E.io);
+  /* G: bytes 38.6–41.2 */
+  if (t > 38.5 && t < 41.9) {
+    rise($('s6bh'), t, 38.7, 40.5, { dy: 30 });
+    set($('bytes'), { o: 1 });
+    const conv = P(t, 40.5, 41.0, E.io);
     byEls.forEach((b, i) => {
-      const p = P(t, 44.3 + i * .05, 44.6 + i * .05, E.back);
-      const dx = (960 - (cellX(i) + 32)) * conv;
-      b.style.opacity = p * (1 - P(t, 46.6, 46.8));
-      b.style.transform = `translate(${dx}px,${(1 - p) * -40}px) scale(${(.5 + .5 * p) * (1 - conv * .7)})`;
+      const p = P(t, 38.8 + i * .035, 39.1 + i * .035, E.back);
+      b.style.opacity = p * (1 - P(t, 40.8, 41.0));
+      b.style.transform = `translate(${(960 - (cellX(i) + 35)) * conv}px,${(1 - p) * -40}px) scale(${(.5 + .5 * p) * (1 - conv * .7)})`;
     });
-    labEls.forEach((l, i) => { const p = P(t, 45.0 + i * .08, 45.3 + i * .08, E.out); l.style.opacity = p; l.style.transform = `translateY(${(1 - p) * 14}px)`; });
-    rise($('s6bs'), t, 45.4, 46.4, { dy: 16 });
-    // the 22 bytes become one beacon dot that travels to the rescuer phone
-    if (t > 46.6) {
-      const tr = P(t, 46.8, 47.5, E.io);
-      set($('dot'), { o: 1 - P(t, 47.3, 47.5), x: 960 + (540 - 960) * tr, y: 370 + (540 - 370) * tr, s: 1 + Math.sin(t * 20) * .1 });
-    }
+    rise($('s6bs'), t, 39.6, 40.5, { dy: 16 });
+    if (t > 40.8) { const tr = P(t, 41.0, 41.7, E.io); set($('dot'), { o: 1 - P(t, 41.6, 41.8), x: 960 + (hcx(7) - 960) * tr, y: 464 + (hcy(3) - 464) * tr }); }
   }
 
-  /* S7 rescuer 46.8–55.6 */
+  /* H: rescuer map 41.2–49.6 */
+  if (t > 41.1 && t < 50) {
+    const out = 49.2, WITH = 45.2;
+    rise($('mk'), t, 41.3, out);
+    rise($('mh1'), t, 41.4, 44.9, { dy: 30 }); rise($('ms1'), t, 41.7, 44.9, { dy: 16 });
+    rise($('mh2'), t, 45.3, out, { dy: 30 });
+    rise($('rank'), t, 45.9, out, { dy: 16 });
+    [...$('rank').children].forEach((r, i) => { const p = P(t, 45.9 + i * .18, 46.3 + i * .18, E.out); r.style.opacity = p; r.style.transform = `translateX(${(1 - p) * -30}px)`; });
+    set($('map'), { o: P(t, 41.3, 41.9) * (1 - P(t, out, out + .4)) });
+    set($('maptag'), { o: P(t, 41.5, 41.8) * (1 - P(t, out, out + .4)) * (t > 44.9 && t < 45.3 ? 0 : 1) });
+    $('maptag').textContent = t < WITH ? '● TODAY · NO SIGNAL, NO INFORMATION' : '● WITH SAKLOLO · BEACONS HEARD OVER BLUETOOTH';
+    $('maptag').style.color = t < WITH ? '#FF8A90' : '#7FD6D0';
+    houses.forEach((h, i) => { const p = P(t, 41.4 + rnd(i) * .5, 41.8 + rnd(i) * .5); h.style.opacity = p; });
+    // blind phase
+    const visited = t < WITH ? Math.floor(cl((t - 42.0) / .19, 0, 17)) : 0;
+    houses.forEach(h => { const q = h.querySelector('.q'); q.textContent = '?'; q.style.color = ''; h.style.filter = ''; });
+    SERP.slice(0, visited).forEach(([r, c]) => { const q = house(r, c).querySelector('.q'); q.textContent = '✕'; q.style.color = '#5B6573'; });
+    if (t > 42.0 && t < 45.0) {
+      const k = cl((t - 42.0) / .19, 0, 16.99), i0 = Math.floor(k), f = E.io(k - i0);
+      const [r0, c0] = SERP[i0], [r1, c1] = SERP[Math.min(i0 + 1, SERP.length - 1)];
+      set($('walker'), { o: P(t, 42.0, 42.2) * (1 - P(t, 44.7, 45.0)), x: hcx(c0) + (hcx(c1) - hcx(c0)) * f, y: hcy(r0) + 20 + (hcy(r1) - hcy(r0)) * f });
+    }
+    set($('mapcnt'), { o: P(t, 42.0, 42.3) * (1 - P(t, out, out + .4)) });
+    if (t < WITH) {
+      $('mc1').textContent = `houses checked: ${visited} of 50`;
+      $('mc2').textContent = t > 44.3 ? 'the RED family: not found yet' : 'the RED family: ?';
+      $('mc2').style.color = t > 44.3 ? '#FF8A90' : '';
+    } else {
+      $('mc1').textContent = '5 beacons heard · ranked by triage';
+      $('mc2').textContent = 'first stop: the RED family'; $('mc2').style.color = '#FF8A90';
+    }
+    // with Saklolo: beacons light up, RED first
+    Object.entries(BEA).forEach(([k, [lvl, col]], j) => {
+      const [r, c] = k.split(',').map(Number), h = house(r, c), a = WITH + .25 + (lvl === 'RED' ? 0 : .2 + j * .15);
+      const on = P(t, a, a + .3, E.back);
+      const halo = h.querySelector('.halo'), tg = h.querySelector('.tg');
+      const cyc = ((t - a) % 1.1 + 1.1) % 1.1 / 1.1;
+      halo.style.opacity = t > a ? (1 - cyc) * .9 : 0; halo.style.transform = `scale(${1 + cyc * 2})`;
+      tg.style.opacity = on; tg.style.transform = `translateX(-50%) scale(${.5 + .5 * on})`;
+      if (t > a) { h.querySelector('.q').textContent = ''; h.querySelector('svg path').setAttribute('fill', col + '55'); h.querySelector('svg path').setAttribute('stroke', col); }
+      else { h.querySelector('svg path').setAttribute('fill', 'rgba(217,230,255,.05)'); h.querySelector('svg path').setAttribute('stroke', 'rgba(217,230,255,.22)'); }
+    });
+    if (t > WITH) houses.forEach(h => { if (!BEA[h.dataset.k]) h.style.opacity = .35 + .65 * (1 - P(t, WITH, WITH + .4)); });
+    $('direct').style.strokeDashoffset = 1 - P(t, 46.5, 47.5, E.io);
+    $('next1').setAttribute('opacity', P(t, 47.6, 48.0) * .8);
+    if (t > 46.4) {
+      const d = $('direct'), pt = d.getPointAtLength(d.getTotalLength() * P(t, 46.5, 47.5, E.io));
+      set($('walker'), { o: P(t, 46.4, 46.6) * (1 - P(t, out, out + .4)), x: MAPX + pt.x, y: MAPY + pt.y });
+    }
+    set($('bcap'), { o: P(t, 47.4, 47.6) * (1 - P(t, out, out + .4)) });
+    briefW.forEach((w, i) => { const ti = 47.5 + i * .1; w.style.opacity = .15 + .85 * P(t, ti, ti + .15); w.style.color = i === 1 ? '#FF6B72' : ''; });
+  }
+
+  /* I: find 49.6–55.3 */
   const rp = $('rp');
-  if (t > 46.8 && t < 56.2) {
-    set(rp, { o: P(t, 47.0, 47.5) * (1 - P(t, 55.3, 55.8)), x: 330 - P(t, 55.3, 55.8, E.io) * 300, y: kf(t, [[47.0, 260], [47.7, 110, E.out]]) });
-    if (t > 47.3 && t < 50.4) rings(t, 540, 540, 47.3, 1.1, 1 - P(t, 49.8, 50.4));
-    $('rA').style.opacity = 1 - P(t, 50.3, 50.5); $('rB').style.opacity = P(t, 50.3, 50.5);
-    ['rr1', 'rr2', 'rr3'].forEach((id, i) => { const p = P(t, 47.6 + i * .18, 48.0 + i * .18, E.out); $(id).style.opacity = p; $(id).style.transform = `translateY(${(1 - p) * 30}px)`; });
-    $('rr1').style.boxShadow = `0 0 0 ${2 * P(t, 48.4, 48.6)}px rgba(232,51,61,${.6 * (.5 + .5 * Math.sin(t * 6))})`;
-    rise($('s7k'), t, 47.6, 48.8); rise($('s7h'), t, 47.7, 48.8, { dy: 40 }); rise($('s7s'), t, 47.9, 48.8, { dy: 20 });
-    // spoken briefing
-    rise($('brief'), t, 48.9, 50.4, { dy: 20 });
-    briefW.forEach((w, i) => { const ti = 49.0 + i * .085; const p = P(t, ti, ti + .15); w.style.opacity = .15 + .85 * p; w.style.color = i === 0 ? '#FF6B72' : ''; });
-    // hot/cold walk
-    rise($('hc'), t, 50.5, 55.2, { dy: 20 });
-    const heat = kf(t, [[50.8, .3], [51.4, 1.4], [51.8, 1.1], [52.4, 2.6], [52.7, 2.3], [53.1, 4]]);
+  if (t > 49.4 && t < 56) {
+    set(rp, { o: P(t, 49.6, 50.0) * (1 - P(t, 55.2, 55.7)), x: 330 - P(t, 55.2, 55.7, E.io) * 300, y: kf(t, [[49.6, 260], [50.2, 110, E.out]]) });
+    rise($('hc'), t, 49.8, 55.1, { dy: 20 });
+    const heat = kf(t, [[50.1, .3], [50.7, 1.4], [51.1, 1.1], [51.7, 2.6], [52.0, 2.3], [52.4, 4]]);
     const bandC = ['#5B8DEF', '#7FD6D0', '#FFC53D', '#E8333D'];
     const big = [...$('hcm').querySelectorAll('i')], bigL = [...$('hcm').querySelectorAll('span')], small = [...$('rmeter').children];
     [big, small].forEach(arr => arr.forEach((b, i) => { const on = heat > i + .2; b.style.background = on ? bandC[i] : 'rgba(217,230,255,.07)'; b.style.boxShadow = on && i === Math.floor(heat - .2) ? `0 0 30px ${bandC[i]}` : 'none'; }));
     bigL.forEach((l, i) => { l.style.color = heat > i + .2 ? bandC[i] : ''; });
-    // finger taps
+    $('hcm').style.opacity = 1 - P(t, 51.9, 52.2);
     const tapAt = (a, x, y) => { if (t > a - .35 && t < a + .45) { const p = P(t, a - .35, a); set($('tap'), { o: p * (1 - P(t, a + .1, a + .45)), x, y, s: 1.4 - .4 * p + P(t, a, a + .45) * .5 }); } };
-    tapAt(48.3, 540, 380); tapAt(53.1, 540, 870); tapAt(54.7, 540, 950);
-    $('rring').style.background = t > 53.1 && t < 55.4 ? 'rgba(255,197,61,.18)' : '';
-    $('rring').textContent = t > 53.1 ? 'Ringing… 30 s' : 'Ring phone';
-    $('romw').textContent = t > 54.7 ? '✓ Sent' : 'On my way';
+    tapAt(52.6, 540, 870); tapAt(54.4, 540, 950);
+    $('rring').style.background = t > 52.6 && t < 55.3 ? 'rgba(255,197,61,.18)' : '';
+    $('rring').textContent = t > 52.6 ? 'Ringing… 30 s' : 'Ring phone';
+    $('romw').textContent = t > 54.4 ? '✓ Sent' : 'On my way';
   }
 
-  /* S8 payoff 55.3–60 */
-  if (t > 57.6) {
-    rise($('e1'), t, 57.7, null, { dy: 30 });
-    rise($('e2'), t, 58.0, null, { dy: 20 });
-    rise($('elogo'), t, 58.2, null, { dy: 20 });
-    rise($('eword'), t, 58.3, null, { dy: 20 });
-    rise($('efoot'), t, 58.5, null, { dy: 14 });
-    rise($('edisc'), t, 58.6, null, { dy: 0 });
+  /* K: end 57–60 */
+  if (t > 56.9) {
+    rise($('elogo'), t, 57.1, null, { dy: 16 });
+    rise($('eword'), t, 57.2, null, { dy: 16 });
+    rise($('e2'), t, 57.5, null, { dy: 12 });
+    rise($('e3'), t, 57.9, null, { dy: 12 });
+    rise($('edisc'), t, 58.0, null, { dy: 0 });
   }
+}
+
+// Film time → render() time. Each row: [render from, render to, film seconds]; null = the D2 proof scene.
+// Scene E (render 26.4–32.5) is cut; the blind search plays at 2×; the end card plays slower.
+const SEG = [[0, 26.4, 26.4], null, [32.5, 42.0, 9.5], [42.0, 45.0, 1.5], [45.0, 57.0, 12.0], [57.0, 60, 4.6]];
+const PFL = 6; // D2 length: 60 minus the other rows
+function film(u) {
+  for (const row of SEG) {
+    const d = row ? row[2] : PFL;
+    if (u < d || row === SEG[SEG.length - 1]) return row ? render(row[0] + (row[1] - row[0]) * Math.min(u / d, 1)) : proof(u);
+    u -= d;
+  }
+}
+function proof(t) {
+  render(26.38); // between scenes D and E: nothing on screen but the grid
+  const out = PFL - .4;
+  rise($('pfk'), t, 0, out);
+  rise($('pft'), t, .1, out, { dy: 30 });
+  rise($('pfe'), t, .6, out, { dy: 16 });
+  rise($('pfa'), t, 1.4, out, { dy: 20 });
+  rise($('pfb'), t, 2.1, out, { dy: 20 });
+  $('pfb').style.boxShadow = `0 0 ${30 + 50 * P(t, 2.3, 2.7) * (1 - P(t, 2.7, 3.6))}px rgba(185,166,255,.35)`;
+  rise($('pfn'), t, 2.9, out, { dy: 16 });
+  rise($('pfm'), t, 3.6, out, { dy: 12 });
+  rise($('pfs'), t, 3.9, out, { dy: 0 });
 }
 
 // expanding beacon rings at (x, y), starting at t0, one every `gap` seconds
 function rings(t, x, y, t0, gap, k = 1, color = '#7FD6D0') {
   set($('rings'), { o: 1 });
   ringEls.forEach((r, i) => {
-    const age = ((t - t0 - i * gap * .2) % gap + gap) % gap / gap;
-    const live = t - t0 - i * gap * .2 > 0;
+    const age = ((t - t0 - i * gap * .2) % gap + gap) % gap / gap, live = t - t0 - i * gap * .2 > 0;
     r.style.left = x + 'px'; r.style.top = y + 'px'; r.style.borderColor = color;
     r.style.opacity = live ? (1 - age) * .7 * k : 0;
     r.style.transform = `scale(${.4 + age * 4})`;
@@ -722,12 +759,12 @@ function fit() {
 }
 addEventListener('resize', fit); fit();
 let T = +(new URLSearchParams(location.search).get('t') || 0), playing = false, last = 0;
-const draw = () => { render(T); $('tc').textContent = T.toFixed(2) + ' / 60.00'; $('sk').value = T; };
+const draw = () => { film(T); $('tc').textContent = T.toFixed(2) + ' / 60.00'; $('sk').value = T; };
 $('pp').onclick = () => { playing = !playing; $('pp').textContent = playing ? 'Pause' : 'Play'; if (playing && T >= DUR) T = 0; last = performance.now(); };
 $('sk').oninput = e => { T = +e.target.value; draw(); };
 addEventListener('keydown', e => { if (e.code === 'Space') { e.preventDefault(); $('pp').click(); } });
 (function loop(now) { if (playing) { T += (now - last) / 1000; last = now; if (T >= DUR) { T = DUR; playing = false; $('pp').textContent = 'Play'; } draw(); } requestAnimationFrame(loop); })(0);
-window.seek = t => render(t);
+window.seek = t => film(t);
 window.ready = document.fonts.ready.then(() => { draw(); return true; });
 </script>
 </body>

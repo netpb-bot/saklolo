@@ -149,7 +149,7 @@ Ready for Q&A: the flood scenario (backup video), the Eval screen, survival mode
 ## Q&A prep
 | Question | Answer |
 |---|---|
-| "Couldn't a keyword list do this?" | Show the Eval screen. Hand-written rules only cover phrasings someone already saw: each fresh batch of real reports scored 0–1/5 until rules were patched. On reports nobody tuned for (hard set, 29), rules + trained AI went from 28% to 45% fully correct, with zero wrong life-threat labels (S24, 2026-10-10). On 58 real #RescuePH tweets (CrisisLexT26, anonymized) they tie (52% → 53%). |
+| "Couldn't a keyword list do this?" | Show the Eval screen. Hand-written rules only cover phrasings someone already saw: each fresh batch of real reports scored 0–1/5 until rules were patched. On reports nobody tuned rules for (hard set, 29), rules + trained AI went from 28% to 41% fully correct, and on 58 real #RescuePH tweets (CrisisLexT26, anonymized) from 52% to 55%, with zero wrong life-threat labels (S24, 2026-10-10). |
 | "BLE only reaches ~30 m." | Collapse search happens at short range: rescuers are already on the building, and the problem is which void. Ring phone adds sound. On a flood, boats pass within range, and bayanihan phones and relays extend reach. The same bytes fit LoRa next. |
 | "Who has this app installed when disaster hits?" | Drills in schools and barangays, the PAGASA Signal No. 1 prompt, and bayanihan: every safe user is also a rescuer. The beacon works even without the model. |
 | "Will the battery last?" | Show the measured drain and projected hours. The duty cycle stretches as the battery drops, and the record carries the battery level so rescuers prioritise phones that are about to die. |
